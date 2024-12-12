@@ -1,8 +1,8 @@
 import React from 'react'
-
+import {SignupFormDemo} from '../Components/form'
 const Login = () => {
   return (
-    <div>Login</div>
+    <SignupFormDemo/>
   )
 }
 
