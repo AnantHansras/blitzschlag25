@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import { app } from '../firebase';
-import { TextField, Button, Typography, Container, Box } from '@mui/material';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState({ email: '', password: '', general: '' }); // Store error messages for inputs
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // Loading state to check auth status
+  const navigate = useNavigate(); // Hook moved inside the component
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
@@ -41,37 +39,18 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError({ email: '', password: '', general: '' }); // Reset error messages before submitting
-
     if (!email.includes('@')) {
-      setError((prev) => ({ ...prev, email: 'Please enter a valid email address' }));
+      alert('Please enter a valid email address');
       return;
     }
-
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        alert('Login Successful');
+        alert("Login Successful");
         console.log(userCredential.user);
         navigate('/profile'); // Redirect on successful login
       })
       .catch((error) => {
-        const errorCode = error.code;
-        let errorMessage = '';
-
-        // Handling specific Firebase errors
-        if (errorCode === 'auth/user-not-found') {
-          errorMessage = 'No user found with this email address';
-          setError((prev) => ({ ...prev, email: errorMessage }));
-        } else if (errorCode === 'auth/wrong-password') {
-          errorMessage = 'Incorrect password';
-          setError((prev) => ({ ...prev, password: errorMessage }));
-        } else if (errorCode === 'auth/invalid-email') {
-          errorMessage = 'Invalid email address';
-          setError((prev) => ({ ...prev, email: errorMessage }));
-        } else {
-          errorMessage = 'Login failed. Please try again later.';
-          setError((prev) => ({ ...prev, general: errorMessage }));
-        }
+        alert(`Login Error: ${error.message}`);
       });
   };
 
@@ -81,72 +60,41 @@ const Login = () => {
   }
 
   return (
-    <Container maxWidth="xs">
-      <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-        <Typography variant="h5" gutterBottom>
-          Login
-        </Typography>
-        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            error={!!error.email} // Highlight input field if error exists
-            helperText={error.email} // Show error message below input field
-          />
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            error={!!error.password} // Highlight input field if error exists
-            helperText={error.password} // Show error message below input field
-          />
-          {error.general && (
-            <Typography color="error" variant="body2" align="center" sx={{ mt: 2 }}>
-              {error.general}
-            </Typography>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            type="submit"
-            sx={{ mt: 2 }}
-          >
-            Sign In
-          </Button>
-        </form>
-
-        <Box mt={2}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            fullWidth
-            onClick={signWithGoogle}
-            sx={{ mb: 2 }}
-          >
-            Sign in with Google
-          </Button>
-        </Box>
-
-        <Box>
-          <Link to="/signup" style={{ textDecoration: 'none' }}>
-            <Typography variant="body2" color="textSecondary">
-              Don't have an account? Sign up
-            </Typography>
-          </Link>
-        </Box>
-      </Box>
-    </Container>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
+        <br />
+        <input
+          required
+          id="email"
+          placeholder="example@mail.com"
+          type="email"
+          className="mt-2 border-2 border-black"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <label htmlFor="pwd">Password</label>
+        <br />
+        <input
+          required
+          id="pwd"
+          placeholder="********"
+          type="password"
+          className="mt-2 border-2 border-black"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br />
+        <button type="submit" className="border-2 p-2 border-black mt-1">
+          Sign In
+        </button>
+        <br />
+      </form>
+      <button onClick={signWithGoogle} className="border-2 p-2 border-black mt-1">Sign in with Google</button>
+      <br />
+      <Link to="/signup">Sign up</Link>
+    </div>
   );
 };
 

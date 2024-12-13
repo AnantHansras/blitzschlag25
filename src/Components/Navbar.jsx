@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { auth } from '../firebase';
+import {auth} from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
-import { AppBar, Toolbar, Typography, Button, Box, Menu, MenuItem, IconButton } from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
 
 const Navbar = () => {
   const [NavComponents, setNavComponents] = useState(false);
-  const [user, setUser] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null); // For Menu anchor element
+  const [user, setUser] = useState(null); // Tracks the authenticated user
 
   useEffect(() => {
+    // Monitor authentication state
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      setUser(currentUser); // Update the user state when auth state changes
     });
 
+    // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
@@ -27,107 +26,45 @@ const Navbar = () => {
     }
   };
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
-    <AppBar position="sticky" color="primary">
-      <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Logo</Link>
-        </Typography>
-        
-        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <Button color="inherit" component={Link} to="/" sx={{ marginRight: 2 }}>
-            Home
-          </Button>
-          <Button color="inherit" component={Link} to="/about" sx={{ marginRight: 2 }}>
-            About
-          </Button>
-          <Button color="inherit" component={Link} to="/event" sx={{ marginRight: 2 }}>
-            Events
-          </Button>
-          <Button color="inherit" component={Link} to="/sponsor" sx={{ marginRight: 2 }}>
-            Sponsors
-          </Button>
-          <Button color="inherit" component={Link} to="/our_team" sx={{ marginRight: 2 }}>
-            Our Team
-          </Button>
-          <Button color="inherit" component={Link} to="/schedule" sx={{ marginRight: 2 }}>
-            Schedule
-          </Button>
-          
-          {/* Conditional rendering for Login and Logout */}
-          {!user ? (
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-          ) : (
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-          )}
-          {user && (
-            <Button color="inherit" component={Link} to="/profile">
-              Profile
-            </Button>
-          )}
-        </Box>
+    <div>
+      {NavComponents ? (
+        <div className="flex flex-col justify-center items-center">
+          <Link to="/" onClick={() => setNavComponents(false)}>Home</Link>
+          <Link to="/about" onClick={() => setNavComponents(false)}>About</Link>
+          <Link to="/event" onClick={() => setNavComponents(false)}>Events</Link>
+          <Link to="/sponsor" onClick={() => setNavComponents(false)}>Sponsors</Link>
+          <Link to="/our_team" onClick={() => setNavComponents(false)}>Our Team</Link>
+          <Link to="/schedule" onClick={() => setNavComponents(false)}>Schedule</Link>
+          <Link to="/campus_embassador" onClick={() => setNavComponents(false)}>Campus Ambassador</Link>
+        </div>
+      ) : (
+        <div className="flex justify-between">
+          <div>
+            <Link to="/">Logo</Link>
+          </div>
 
-        {/* Hamburger Menu for smaller screens */}
-        <IconButton
-          edge="end"
-          color="inherit"
-          aria-label="menu"
-          sx={{ display: { xs: 'block', md: 'none' } }}
-          onClick={handleMenuOpen}
-        >
-          <MenuIcon />
-        </IconButton>
+          <div className="flex justify-between gap-x-3">
+            <Link to="/sponsor">Sponsor</Link>
+            <Link to="/event">Events</Link>
+            {/* Conditional rendering for Login and Logout */}
+            {!user ? (
+              <Link to="/login">Login</Link>
+            ) : (
+              <Link to='/' onClick={handleLogout}>
+                Logout
+              </Link>
+            )}
+            {user ? <Link to="/profile" onClick={() => setNavComponents(false)}>Profile</Link> : null}
+            <Link to="/schedule">Schedule</Link>
+          </div>
 
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-        >
-          <MenuItem onClick={() => setNavComponents(false)}>
-            <Link to="/" style={{ textDecoration: 'none' }}>Home</Link>
-          </MenuItem>
-          <MenuItem onClick={() => setNavComponents(false)}>
-            <Link to="/about" style={{ textDecoration: 'none' }}>About</Link>
-          </MenuItem>
-          <MenuItem onClick={() => setNavComponents(false)}>
-            <Link to="/event" style={{ textDecoration: 'none' }}>Events</Link>
-          </MenuItem>
-          <MenuItem onClick={() => setNavComponents(false)}>
-            <Link to="/sponsor" style={{ textDecoration: 'none' }}>Sponsors</Link>
-          </MenuItem>
-          <MenuItem onClick={() => setNavComponents(false)}>
-            <Link to="/our_team" style={{ textDecoration: 'none' }}>Our Team</Link>
-          </MenuItem>
-          <MenuItem onClick={() => setNavComponents(false)}>
-            <Link to="/schedule" style={{ textDecoration: 'none' }}>Schedule</Link>
-          </MenuItem>
-          {!user ? (
-            <MenuItem onClick={handleMenuClose}>
-              <Link to="/login" style={{ textDecoration: 'none' }}>Login</Link>
-            </MenuItem>
-          ) : (
-            <>
-              <MenuItem onClick={handleMenuClose}>
-                <Link to="/profile" style={{ textDecoration: 'none' }}>Profile</Link>
-              </MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </>
-          )}
-        </Menu>
-      </Toolbar>
-    </AppBar>
+          <div onClick={() => setNavComponents(true)} className="cursor-pointer">
+            Hamburger
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

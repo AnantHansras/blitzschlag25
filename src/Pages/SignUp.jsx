@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import { app, auth } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged } from 'firebase/auth';
-import { TextField, Button, Typography, Container, Box, Snackbar, Alert } from '@mui/material';
+import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged } from "firebase/auth";
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [confirmPwd, setConfirmPwd] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [pwdError, setPwdError] = useState('');
-  const [confirmPwdError, setConfirmPwdError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // Loading state to check auth status
+  const navigate = useNavigate(); // Correct placement inside the component
 
   useEffect(() => {
     // Check if the user is already logged in
@@ -34,26 +28,14 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form from refreshing the page
 
-    // Reset error states before validation
-    setEmailError('');
-    setPwdError('');
-    setConfirmPwdError('');
-
-    // Validate email format
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email.match(emailRegex)) {
-      setEmailError('Please enter a valid email address');
-      return;
-    }
-
     // Validate password and confirmation
     if (pwd !== confirmPwd) {
-      setConfirmPwdError('Passwords do not match');
-      return;
+      alert("Password and Confirm Password are not the same");
+      return; // Stop execution if passwords do not match
     }
     if (pwd.length < 8) {
-      setPwdError('Password must be at least 8 characters long');
-      return;
+      alert("Password must be at least 8 characters long");
+      return; // Stop execution if password is too short
     }
 
     try {
@@ -62,21 +44,17 @@ const SignUp = () => {
     
       if (methods.length > 0) {
         // Email is already associated with an account
-        setEmailError('An account with this email already exists.');
-        setOpenSnackbar(true);
-        setSnackbarMessage('An account with this email already exists.');
+        alert("An account with this email already exists.");
       } else {
         // No account exists, create a new account
         const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
         const user = userCredential.user;
-        setOpenSnackbar(true);
-        setSnackbarMessage('Account Created Successfully!');
-        navigate('/'); // Redirect to home page after account creation
+        alert("Account Created Successfully!");
+        navigate("/"); // Redirect to home page after account creation
       }
     } catch (error) {
       console.error(error);
-      setOpenSnackbar(true);
-      setSnackbarMessage('Error creating account: ' + error.message); // Handle errors gracefully
+      alert("Error creating account: " + error.message); // Handle errors gracefully
     }
   };
 
@@ -86,70 +64,45 @@ const SignUp = () => {
   }
 
   return (
-    <Container maxWidth="xs">
-      <Box display="flex" flexDirection="column" alignItems="center" mt={5}>
-        <Typography variant="h5" gutterBottom>
-          Create Account
-        </Typography>
-        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={!!emailError}
-            helperText={emailError}
-            required
-          />
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={pwd}
-            onChange={(e) => setPwd(e.target.value)}
-            error={!!pwdError}
-            helperText={pwdError}
-            required
-          />
-          <TextField
-            label="Confirm Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={confirmPwd}
-            onChange={(e) => setConfirmPwd(e.target.value)}
-            error={!!confirmPwdError}
-            helperText={confirmPwdError}
-            required
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            type="submit"
-            sx={{ mt: 2 }}
-          >
-            Create Account
-          </Button>
-        </form>
-      </Box>
-
-      {/* Snackbar for custom alerts */}
-      <Snackbar 
-        open={openSnackbar} 
-        autoHideDuration={6000} 
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert onClose={() => setOpenSnackbar(false)} severity="error" sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </Container>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
+        <br />
+        <input
+          required
+          id="email"
+          placeholder="example@mail.com"
+          type="email"
+          className="mt-2 border-2 border-black"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <label htmlFor="pwd">Password</label>
+        <br />
+        <input
+          type="password"
+          required
+          id="pwd"
+          placeholder="********"
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
+        />
+        <br />
+        <label htmlFor="confirmpwd">Confirm Password</label>
+        <br />
+        <input
+          type="password"
+          required
+          id="confirmpwd"
+          placeholder="********"
+          value={confirmPwd}
+          onChange={(e) => setConfirmPwd(e.target.value)}
+        />
+        <br />
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
   );
 };
 
