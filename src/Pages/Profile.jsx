@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, updateProfile, sendEmailVerification } from 'firebase/auth';
+import { getAuth, updateProfile, sendEmailVerification, signOut } from 'firebase/auth';
+import { TextField, Button, Typography, Box, CircularProgress, Alert } from '@mui/material';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
   const auth = getAuth();
 
   // Fetch current user info when the component mounts
@@ -22,20 +23,37 @@ const Profile = () => {
     } else {
       navigate('/login');
     }
+
+    // Listen for sign-out event in other tabs
+    const handleStorageChange = (e) => {
+      if (e.key === 'authState' && e.newValue === 'loggedOut') {
+        signOut(auth).then(() => {
+          console.log('User logged out from another tab');
+          navigate('/login');
+        }).catch((error) => {
+          console.error('Error logging out: ', error);
+        });
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [auth, navigate]);
 
   const handleUpdateProfile = async () => {
     if (!name) {
-      alert('Name is required!');
+      setError('Name is required!');
       return;
     }
 
     try {
-      // Update display name
       await updateProfile(auth.currentUser, { displayName: name });
       alert('Profile updated successfully');
     } catch (error) {
-      alert('Error updating profile: ' + error.message);
+      setError('Error updating profile: ' + error.message);
     }
   };
 
@@ -44,48 +62,91 @@ const Profile = () => {
       await sendEmailVerification(auth.currentUser);
       alert('Verification email sent!');
     } catch (error) {
-      alert('Error sending verification email: ' + error.message);
+      setError('Error sending verification email: ' + error.message);
     }
   };
 
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      localStorage.setItem('authState', 'loggedOut');
+      console.log('User logged out');
+      navigate('/login');
+    }).catch((error) => {
+      setError('Error logging out: ' + error.message);
+    });
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+    <Box sx={{ width: '80%', maxWidth: 600, margin: '0 auto', paddingTop: 2 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Profile Page
+      </Typography>
 
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={user.email}
-            disabled // Make email field read-only
-            readOnly
-          />
-        </div>
-        <div>
-          <button onClick={handleUpdateProfile}>Update Profile</button>
-        </div>
+      {error && <Alert severity="error">{error}</Alert>}
+
+      <form onSubmit={(e) => e.preventDefault()}>
+        <TextField
+          label="Name"
+          variant="outlined"
+          fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          margin="normal"
+        />
+
+        <TextField
+          label="Email"
+          variant="outlined"
+          fullWidth
+          value={user.email}
+          disabled
+          margin="normal"
+        />
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleUpdateProfile}
+          fullWidth
+          sx={{ marginTop: 2 }}
+        >
+          Update Profile
+        </Button>
       </form>
 
-      <div>
-        <p>Email Verified: {emailVerified ? 'Yes' : 'No'}</p>
+      <Box sx={{ marginTop: 2, textAlign: 'center' }}>
+        <Typography variant="body1">Email Verified: {emailVerified ? 'Yes' : 'No'}</Typography>
         {!emailVerified && (
-          <button onClick={handleVerifyEmail}>Verify Email</button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleVerifyEmail}
+            sx={{ marginTop: 1 }}
+          >
+            Verify Email
+          </Button>
         )}
-      </div>
-    </div>
+      </Box>
+
+      <Box sx={{ marginTop: 3, textAlign: 'center' }}>
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={handleLogout}
+          fullWidth
+        >
+          Logout
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
