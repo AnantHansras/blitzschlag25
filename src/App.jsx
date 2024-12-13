@@ -12,7 +12,6 @@ import CampusEmbassador from './Pages/CampusEmbassador'
 import Login from './Pages/Login'
 import SignUp from './Pages/SignUp'
 import Error from './Pages/Error'
-
 function App() {
 
   return (
