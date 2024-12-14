@@ -1,36 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
-import { app } from '../firebase';
+import { app,write } from '../scripts/firebase';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(true); // Loading state to check auth status
-  const navigate = useNavigate(); // Hook moved inside the component
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); 
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  // Check if the user is already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/profile'); // Redirect to profile page if user is already logged in
+        navigate('/profile'); 
       } else {
-        setLoading(false); // Set loading to false once the user state is checked
+        setLoading(false);
       }
     });
 
-    // Clean up the listener
     return () => unsubscribe();
   }, [auth, navigate]);
 
   const signWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
-        console.log(user);
-        navigate('/profile'); // Redirect on successful login
+
+        await write(`users/${user.uid}`, {
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName || "",
+          joinedSingleEvent: {}, 
+          joinedTeamsEvent: {}, 
+        });
+        navigate('/profile');
       })
       .catch((error) => {
         alert(`Google Sign-In Error: ${error.message}`);
@@ -47,14 +52,13 @@ const Login = () => {
       .then((userCredential) => {
         alert("Login Successful");
         console.log(userCredential.user);
-        navigate('/profile'); // Redirect on successful login
+        navigate('/profile'); 
       })
       .catch((error) => {
         alert(`Login Error: ${error.message}`);
       });
   };
 
-  // If still loading (checking auth), show a loading message
   if (loading) {
     return <div>Loading...</div>;
   }

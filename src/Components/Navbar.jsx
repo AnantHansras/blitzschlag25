@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {auth} from '../firebase';
+import {auth} from '../scripts/firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 
 const Navbar = () => {
   const [NavComponents, setNavComponents] = useState(false);
-  const [user, setUser] = useState(null); // Tracks the authenticated user
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Monitor authentication state
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser); // Update the user state when auth state changes
+      setUser(currentUser); 
     });
-
-    // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
@@ -47,7 +44,6 @@ const Navbar = () => {
           <div className="flex justify-between gap-x-3">
             <Link to="/sponsor">Sponsor</Link>
             <Link to="/event">Events</Link>
-            {/* Conditional rendering for Login and Logout */}
             {!user ? (
               <Link to="/login">Login</Link>
             ) : (

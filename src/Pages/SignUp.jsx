@@ -1,64 +1,76 @@
 import { React, useState, useEffect } from 'react';
-import { app, auth } from '../firebase';
+import { app, auth, write } from '../scripts/firebase';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, updateProfile } from "firebase/auth";
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [confirmPwd, setConfirmPwd] = useState('');
-  const [loading, setLoading] = useState(true); // Loading state to check auth status
-  const navigate = useNavigate(); // Correct placement inside the component
+  const [name, setName] = useState(''); 
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the user is already logged in
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Redirect to the profile page if already logged in
         navigate('/profile');
       } else {
-        setLoading(false); // Set loading to false once the user state is checked
+        setLoading(false);
       }
     });
 
-    // Clean up the listener
     return () => unsubscribe();
   }, [navigate]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form from refreshing the page
+    e.preventDefault();
 
-    // Validate password and confirmation
     if (pwd !== confirmPwd) {
       alert("Password and Confirm Password are not the same");
-      return; // Stop execution if passwords do not match
+      return;
     }
     if (pwd.length < 8) {
       alert("Password must be at least 8 characters long");
-      return; // Stop execution if password is too short
+      return;
     }
 
     try {
-      // Check if an account already exists with the email
       const methods = await fetchSignInMethodsForEmail(auth, email);
     
       if (methods.length > 0) {
-        // Email is already associated with an account
         alert("An account with this email already exists.");
       } else {
-        // No account exists, create a new account
         const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
         const user = userCredential.user;
+    
+        // Update user profile with name
+        await updateProfile(user, { displayName: name });
+    
         alert("Account Created Successfully!");
-        navigate("/"); // Redirect to home page after account creation
+    
+        // Write user data to the database
+        await write(`users/${user.uid}`, {
+          email: user.email,
+          name: name,
+          joinedSingleEvent: {}, 
+          joinedTeamsEvent: {},
+        });
+    
+        navigate("/");
       }
     } catch (error) {
       console.error(error);
-      alert("Error creating account: " + error.message); // Handle errors gracefully
-    }
+      if (error.code === 'auth/email-already-in-use') {
+        alert("This email is already in use.");
+      } else if (error.code === 'auth/weak-password') {
+        alert("Password is too weak.");
+      } else {
+        alert("Error creating account: " + error.message);
+      }
+    }    
   };
 
-  // If still loading (checking auth), show a loading message
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -66,6 +78,17 @@ const SignUp = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name</label>
+        <br />
+        <input
+          type="text"
+          required
+          id="name"
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
         <label htmlFor="email">Email</label>
         <br />
         <input
