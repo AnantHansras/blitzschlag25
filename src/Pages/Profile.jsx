@@ -1,50 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getAuth, updateProfile, sendEmailVerification } from 'firebase/auth';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAuth, updateProfile, sendEmailVerification } from "firebase/auth";
+import { write } from "../scripts/firebase";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(true);
   const [emailVerified, setEmailVerified] = useState(false);
   const navigate = useNavigate();
 
   const auth = getAuth();
 
-  // Fetch current user info when the component mounts
   useEffect(() => {
     const currentUser = auth.currentUser;
     if (currentUser) {
       setUser(currentUser);
-      setName(currentUser.displayName || '');
+      setName(currentUser.displayName || "");
       setEmailVerified(currentUser.emailVerified);
       setLoading(false);
     } else {
-      navigate('/login');
+      navigate("/login");
     }
-  }, [auth, navigate]);
+  }, [navigate]);
 
   const handleUpdateProfile = async () => {
     if (!name) {
-      alert('Name is required!');
+      alert("Name is required!");
       return;
     }
 
     try {
-      // Update display name
+
       await updateProfile(auth.currentUser, { displayName: name });
-      alert('Profile updated successfully');
+
+      await write(`users/${auth.currentUser.uid}`, {
+        email: auth.currentUser.email,
+        name: name, // Updated name
+      });
+
+      alert("Profile updated successfully");
     } catch (error) {
-      alert('Error updating profile: ' + error.message);
+      alert("Error updating profile: " + error.message);
     }
   };
 
   const handleVerifyEmail = async () => {
     try {
       await sendEmailVerification(auth.currentUser);
-      alert('Verification email sent!');
+      alert("Verification email sent!");
     } catch (error) {
-      alert('Error sending verification email: ' + error.message);
+      alert("Error sending verification email: " + error.message);
     }
   };
 
@@ -69,8 +75,8 @@ const Profile = () => {
           <label>Email</label>
           <input
             type="email"
-            value={user.email}
-            disabled // Make email field read-only
+            value={user ? user.email : ""}
+            disabled
             readOnly
           />
         </div>
@@ -80,7 +86,7 @@ const Profile = () => {
       </form>
 
       <div>
-        <p>Email Verified: {emailVerified ? 'Yes' : 'No'}</p>
+        <p>Email Verified: {emailVerified ? "Yes" : "No"}</p>
         {!emailVerified && (
           <button onClick={handleVerifyEmail}>Verify Email</button>
         )}

@@ -1,9 +1,11 @@
 import React from 'react'
-
+import TeamComponent from '../Components/team'
 const Events = () => {
   return (
-    <div>Events</div>
-  )
+    <> 
+      <TeamComponent eventpath={"battleofbands"}/>
+    </>
+  ) 
 }
 
 export default Events
