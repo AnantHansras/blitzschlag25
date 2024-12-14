@@ -3,7 +3,7 @@ import { read, auth, write } from '../scripts/firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
-const TeamComponent = ({ eventpath }) => {
+const TeamComponent = ({ eventpath, eventName, eventDescription }) => {
   const user = auth.currentUser;
   const navigate = useNavigate(); // Use useNavigate hook for navigation
   const [teamName, setTeamName] = useState("");
@@ -30,7 +30,7 @@ const TeamComponent = ({ eventpath }) => {
     const registeredEvents = Array.isArray(userDoc?.joinedTeamsEvent) ? userDoc.joinedTeamsEvent : [];
 
     // Check if the user is already registered for the event
-    if (registeredEvents.includes(eventpath)) {
+    if (registeredEvents.some(event => event.eventpath === eventpath)) {
       alert("Already Registered For this Event");
       return;
     }
@@ -52,7 +52,7 @@ const TeamComponent = ({ eventpath }) => {
 
     // Update user document to track their registration in the event
     await write(`users/${user.uid}`, {
-      joinedTeamsEvent: [...registeredEvents, eventpath], // Add event to the user's list
+      joinedTeamsEvent: [...registeredEvents, { eventpath, teamCode: newTeamCode }], // Store eventpath and eventID as objects
     });
 
     alert("Team created and registered successfully!");
@@ -102,9 +102,11 @@ const TeamComponent = ({ eventpath }) => {
     // Update the user document to track the team registration
     const userDoc = await read(`users/${user.uid}`);
     const registeredEvents = Array.isArray(userDoc?.joinedTeamsEvent) ? userDoc.joinedTeamsEvent : [];
-    if (!registeredEvents.includes(eventpath)) {
+
+    // If the user is not already in the event, add the eventpath and teamCode to the user's joinedTeamsEvent
+    if (!registeredEvents.some(event => event.eventpath === eventpath)) {
       await write(`users/${user.uid}`, {
-        joinedTeamsEvent: [...registeredEvents, eventpath], // Add event to the user's list
+        joinedTeamsEvent: [...registeredEvents, { eventpath, teamCode }], // Store eventpath and teamCode as objects
       });
     }
 
@@ -112,26 +114,38 @@ const TeamComponent = ({ eventpath }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={(e) => { e.preventDefault(); handleCreateTeam(); }}>
-        <input
-          type="text"
-          placeholder="Enter Team Name"
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-        />
-        <button type="submit">Create Team</button>
-      </form>
+    <div className="flex border rounded-lg shadow-md max-w-3xl mx-auto overflow-hidden">
+      <div className="flex-2 p-6">
+        <h2 className="text-2xl font-bold mb-4">{eventName}</h2>
+        <p className="text-gray-600 mb-6">{eventDescription}</p>
+        <div>
+          <form onSubmit={(e) => { e.preventDefault(); handleCreateTeam(); }}>
+            <input
+              type="text"
+              placeholder="Enter Team Name"
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              Create Team
+            </button>
+          </form>
 
-      <form onSubmit={(e) => { e.preventDefault(); handleJoinTeam(); }}>
-        <input
-          type="text"
-          placeholder="Enter Team Code"
-          value={teamCode}
-          onChange={(e) => setTeamCode(e.target.value)}
-        />
-        <button type="submit">Join Team</button>
-      </form>
+          <form onSubmit={(e) => { e.preventDefault(); handleJoinTeam(); }}>
+            <input
+              type="text"
+              placeholder="Enter Team Code"
+              value={teamCode}
+              onChange={(e) => setTeamCode(e.target.value)}
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              Join Team
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
