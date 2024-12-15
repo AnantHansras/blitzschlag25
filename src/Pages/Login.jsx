@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { app } from '../scripts/firebase';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  onAuthStateChanged,
+  fetchSignInMethodsForEmail
+} from "firebase/auth";
+import { app, write, read } from '../scripts/firebase'; // Ensure `read` is implemented to fetch data
 
 const Login = ({ toggleForm }) => {
   const [email, setEmail] = useState('');
@@ -10,6 +17,7 @@ const Login = ({ toggleForm }) => {
   const navigate = useNavigate(); 
   const auth = getAuth(app);
 
+  // Check if the user is already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -22,6 +30,40 @@ const Login = ({ toggleForm }) => {
     return () => unsubscribe();
   }, [auth, navigate]);
 
+  // Sign in with Google
+  const signWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const user = result.user;
+
+        // Check if the email is already registered with a different method
+        const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
+        if (signInMethods.length > 0 && !signInMethods.includes('google.com')) {
+          alert("This email is already registered with a different method. Please log in using that method.");
+          return;
+        }
+
+        // Check if user exists in Firestore
+        const userRef = await read(`users/${user.uid}`);
+        if (!userRef) {
+          // If user does not exist, write their data
+          await write(`users/${user.uid}`, {
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName || "",
+            joinedSingleEvent: {}, 
+            joinedTeamsEvent: {}, 
+          });
+        }
+
+        navigate('/profile'); // Redirect to profile page
+      })
+      .catch((error) => {
+        alert(`Google Sign-In Error: ${error.message}`);
+      });
+  };
+
+  // Handle email and password login
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email.includes('@')) {
