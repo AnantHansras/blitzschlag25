@@ -25,7 +25,7 @@ const Profile = () => {
       // Fetch the user's joined events
       fetchJoinedEvents(currentUser.uid);
     } else {
-      navigate("/login");
+      navigate("/Auth");
     }
   }, [navigate]);
 
@@ -125,87 +125,93 @@ const Profile = () => {
 
   return (
     <div>
-      <h1>Profile Page</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <div>
         <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={user ? user.email : ""}
-            disabled
-            readOnly
-          />
         </div>
         <div>
-          <button onClick={handleUpdateProfile}>Update Profile</button>
+        <h1>Profile Page</h1>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              />
+          </div>
+
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              value={user ? user.email : ""}
+              disabled
+              readOnly
+              />
+          </div>
+          <div>
+            <button onClick={handleUpdateProfile}>Update Profile</button>
+          </div>
+        </form>
+
+        <div>
+          <p>Email Verified: {emailVerified ? "Yes" : "No"}</p>
+          {!emailVerified && (
+            <button onClick={handleVerifyEmail}>Verify Email</button>
+          )}
         </div>
-      </form>
 
-      <div>
-        <p>Email Verified: {emailVerified ? "Yes" : "No"}</p>
-        {!emailVerified && (
-          <button onClick={handleVerifyEmail}>Verify Email</button>
-        )}
-      </div>
-
-      {/* Display Joined Single Events */}
-      <div>
-        <h2>Joined Single Events</h2>
-        {eventsLoading ? (
-          <p>Loading your events...</p>
-        ) : joinedSingleEvents.length === 0 ? (
-          <p>You haven't joined any single events yet.</p>
-        ) : (
-          <ul>
-            {joinedSingleEvents.map((event, index) => (
-              <li key={index}>
-                <strong>{event.eventName}</strong> - {event.eventDescription}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {/* Display Joined Team Events */}
-      <div>
-        <h2>Joined Team Events</h2>
-        {eventsLoading ? (
-          <p>Loading your team events...</p>
-        ) : joinedTeamEvents.length === 0 ? (
-          <p>You haven't joined any team events yet.</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Event Path</th>
-                <th>Team Name</th>
-                <th>Team Members</th>
-              </tr>
-            </thead>
-            <tbody>
-              {joinedTeamEvents.map((event, index) => (
-                <tr key={index}>
-                  <td>{event.eventpath}</td>
-                  <td>{event.teamName}</td>
-                  <td>
-                    {event.teamMembers.length === 0
-                      ? "No members"
-                      : event.teamMembers.join(", ")}
-                  </td>
-                </tr>
+        {/* Display Joined Single Events */}
+        <div>
+          <h2>Joined Single Events</h2>
+          {eventsLoading ? (
+            <p>Loading your events...</p>
+          ) : joinedSingleEvents.length === 0 ? (
+            <p>You haven't joined any single events yet.</p>
+          ) : (
+            <ul>
+              {joinedSingleEvents.map((event, index) => (
+                <li key={index}>
+                  <strong>{event.eventName}</strong> - {event.eventDescription}
+                </li>
               ))}
-            </tbody>
-          </table>
-        )}
+            </ul>
+          )}
+        </div>
+
+        {/* Display Joined Team Events */}
+        <div>
+          <h2>Joined Team Events</h2>
+          {eventsLoading ? (
+            <p>Loading your team events...</p>
+          ) : joinedTeamEvents.length === 0 ? (
+            <p>You haven't joined any team events yet.</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Event Path</th>
+                  <th>Team Name</th>
+                  <th>Team Members</th>
+                </tr>
+              </thead>
+              <tbody>
+                {joinedTeamEvents.map((event, index) => (
+                  <tr key={index}>
+                    <td>{event.eventpath}</td>
+                    <td>{event.teamName}</td>
+                    <td>
+                      {event.teamMembers.length === 0
+                        ? "No members"
+                        : event.teamMembers.join(", ")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+        </div>
       </div>
     </div>
   );
