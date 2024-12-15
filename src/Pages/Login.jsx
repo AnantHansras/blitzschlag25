@@ -17,79 +17,61 @@ const Login = ({ toggleForm }) => {
   const navigate = useNavigate(); 
   const auth = getAuth(app);
 
-  // Check if the user is already logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/profile'); 
+        navigate('/profile');
       } else {
         setLoading(false);
       }
     });
-
     return () => unsubscribe();
   }, [auth, navigate]);
 
-  // Sign in with Google
-  const signWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const user = result.user;
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-        // Check if the email is already registered with a different method
-        const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
-        if (signInMethods.length > 0 && !signInMethods.includes('google.com')) {
-          alert("This email is already registered with a different method. Please log in using that method.");
-          return;
-        }
-
-        // Check if user exists in Firestore
-        const userRef = await read(`users/${user.uid}`);
-        if (!userRef) {
-          // If user does not exist, write their data
-          await write(`users/${user.uid}`, {
-            uid: user.uid,
-            email: user.email,
-            name: user.displayName || "",
-            joinedSingleEvent: {}, 
-            joinedTeamsEvent: {}, 
-          });
-        }
-
-        navigate('/profile'); // Redirect to profile page
-      })
-      .catch((error) => {
-        alert(`Google Sign-In Error: ${error.message}`);
-      });
-  };
-
-  // Handle email and password login
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email.includes('@')) {
+    if (!isValidEmail(email)) {
       alert('Please enter a valid email address');
       return;
     }
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         alert("Login Successful");
-        navigate('/profile'); 
+        navigate('/profile');
       })
       .catch((error) => {
         alert(`Login Error: ${error.message}`);
       });
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // alert("Google Sign-In Successful");
-        navigate('/profile'); 
-      })
-      .catch((error) => {
-        alert(`Google Sign-In Error: ${error.message}`);
-      });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
+      if (signInMethods.length > 0 && !signInMethods.includes('google.com')) {
+        alert("This email is already registered with a different method. Please log in using that method.");
+        return;
+      }
+
+      const userRef = await read(`users/${user.uid}`);
+      if (!userRef) {
+        await write(`users/${user.uid}`, {
+          email: user.email,
+          name: user.displayName || user.email.split('@')[0], // Fallback to email prefix if no displayName
+          joinedSingleEvent: {}, 
+          joinedTeamsEvent: {}, 
+        });
+      }
+
+      navigate('/profile');
+    } catch (error) {
+      alert(`Google Sign-In Error: ${error.message}`);
+    }
   };
 
   if (loading) {
@@ -98,7 +80,7 @@ const Login = ({ toggleForm }) => {
 
   return (
     <div className="flex justify-center items-center h-full w-full mt-5">
-      <div className="grid gap-8 ">
+      <div className="grid gap-8">
         <section
           id="back-div"
           className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl opacity-80"
@@ -139,13 +121,13 @@ const Login = ({ toggleForm }) => {
               >
                 LOGIN
               </button>
-              <button
-                onClick={handleGoogleSignIn}
-                className="w-full p-3 mt-4 text-white bg-red-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-              >
-                Sign in with Google
-              </button>
             </form>
+            <button
+              onClick={handleGoogleSignIn}
+              className="w-full p-3 mt-4 text-white bg-red-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              Sign in with Google
+            </button>
             <div className="flex flex-col mt-4 text-sm text-center dark:text-gray-300">
               <p>
                 Don't have an account?

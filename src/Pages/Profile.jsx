@@ -45,8 +45,6 @@ const Profile = () => {
         if (eventDoc) {
           singleEventsData.push({
             eventpath: eventpath,
-            eventName: eventDoc.name,
-            eventDescription: eventDoc.description,
           });
         } else {
           console.error(`Missing event data for Event Path: ${eventpath}`);
@@ -174,7 +172,7 @@ const Profile = () => {
           <ul className="mt-2 space-y-2">
             {joinedSingleEvents.map((event, index) => (
               <li key={index} className="border border-gray-200 p-4 rounded-md">
-                <strong className="text-lg">{event.eventName}</strong> - {event.eventDescription}
+                <strong className="text-lg">{event.eventpath}</strong> - {event.eventDescription}
               </li>
             ))}
           </ul>

@@ -1,14 +1,16 @@
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { auth } from "../scripts/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
+
 import "../css files/navbar.css";
 
 const Navbar = () => {
   const [NavComponents, setNavComponents] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // Move useNavigate here
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -20,7 +22,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      console.log("User logged out");
+      navigate("/Auth"); // Use navigate directly here
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -163,6 +165,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-

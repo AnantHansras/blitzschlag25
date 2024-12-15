@@ -15,7 +15,7 @@ const Events = () => {
   const checkUserLogin = () => {
     if (!user) {
       alert("Please log in first.");
-      navigate('/login'); // Use navigate to redirect to the login page
+      navigate('/Auth');// Use navigate to redirect to the login page
       return false;
     }
     return true;
