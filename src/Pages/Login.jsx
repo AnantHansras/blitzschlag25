@@ -101,18 +101,18 @@ const Login = ({ toggleForm }) => {
       <div className="grid gap-8 ">
         <section
           id="back-div"
-          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl opacity-80"
         >
-          <div className="border-8 border-transparent rounded-xl bg-white dark:bg-[#0d1117] shadow-xl p-8 m-2">
+          <div className="border-8 border-transparent rounded-xl bg-white dark:bg-[#0d1117] shadow-xl p-6 m-2">
             <h1 className="text-5xl font-bold text-center cursor-default dark:text-gray-300 text-gray-900">
-              Log in
+              Login
             </h1>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block mb-2 text-lg dark:text-gray-300">Email</label>
+                <label htmlFor="email" className="block mb-1 text-lg dark:text-gray-300">Email</label>
                 <input
                   id="email"
-                  className="border p-3 shadow-md dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
+                  className="border p-2 shadow-md dark:bg-neutral-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
                   type="email"
                   placeholder="Email"
                   required
@@ -121,10 +121,10 @@ const Login = ({ toggleForm }) => {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block mb-2 text-lg dark:text-gray-300">Password</label>
+                <label htmlFor="password" className="block mb-1 text-lg dark:text-gray-300">Password</label>
                 <input
                   id="password"
-                  className="border p-3 shadow-md dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
+                  className="border p-2 shadow-md dark:bg-neutral-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
                   type="password"
                   placeholder="Password"
                   required
@@ -137,7 +137,7 @@ const Login = ({ toggleForm }) => {
                 className="w-full p-3 mt-4 text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 type="submit"
               >
-                LOG IN
+                LOGIN
               </button>
               <button
                 onClick={handleGoogleSignIn}
@@ -149,15 +149,15 @@ const Login = ({ toggleForm }) => {
             <div className="flex flex-col mt-4 text-sm text-center dark:text-gray-300">
               <p>
                 Don't have an account?
-                <button onClick={toggleForm} className="text-blue-400 transition hover:underline">Sign Up</button>
+                <button onClick={toggleForm} className="text-blue-400 transition hover:underline">{'\u00A0'}Sign Up</button>
               </p>
             </div>
             <div className="mt-4 text-center text-sm text-gray-500">
               <p>
                 By signing in, you agree to our
-                <a href="#" className="text-blue-400 transition hover:underline">Terms</a>
+                <a href="#" className="text-blue-400 transition hover:underline">{'\u00A0'}Terms{'\u00A0'}</a>
                 and
-                <a href="#" className="text-blue-400 transition hover:underline">Privacy Policy</a>.
+                <a href="#" className="text-blue-400 transition hover:underline">{'\u00A0'}Privacy Policy</a>.
               </p>
             </div>
           </div>

@@ -67,3 +67,47 @@ body {
     transform:scaleX(1);
   }
 
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.interactive-link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem; 
+  font-weight: 600; 
+  text-transform: uppercase; 
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.interactive-link:hover {
+  color: #ff6b6b;
+  transform: scale(1.1);
+}
+
