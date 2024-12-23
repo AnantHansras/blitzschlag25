@@ -171,6 +171,11 @@ const Navbar = () => {
               Schedule
             </Link>
           </li>
+          <li>
+            <Link to="/model3d" className="hover:bg-black px-4 py-2 rounded">
+              3D Model
+            </Link>
+          </li>
         </ul>
 
         {/* Hamburger Icon */}
