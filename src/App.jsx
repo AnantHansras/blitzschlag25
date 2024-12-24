@@ -19,7 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const location = useLocation();
   return (
-    <div className='bg-[#0b0d10] w-screen h-screen text-white'>
+    <div className=' w-screen h-screen text-white'>
         <div className='w-screen h-screen text-white'>
           {location.pathname !== '/model3d' && <Navbar />}
           <div>
