@@ -1,58 +1,339 @@
 const eventsData = {
     flagship: [
         {
-            name: "BATTLE OF BANDS",
-            description: "The ultimate showdown of musical prowess! A battle where raw talent collides with dazzling vitality. Witness local bands duke it out over the coveted title of Best Band on Campus, as they unleash their original compositions and captivate the audience with their musical mastery",
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
             type: "teamEvent", // Added event type
-            eventPath: "battleofbands"
+            day: "Day 1",
+            category: "Puzzle",
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
         },
         {
-            name: "PANACHE",
-            description: "The fashion competition of BLITZSCHLAG is a platform for fashionistas to push boundaries, challenge perceptions, and redefine the very essence of beauty. Expect innovative designs, breathtaking performances, and a celebration of creativity like no other.",
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
             type: "teamEvent", // Added event type
-            eventPath: "panache"
+            day: "Day 1",
+            category: "Quiz",
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
+        },
+        {
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
+            type: "teamEvent", // Added event type
+            day: "Day 1",
+            category: null,
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
+        },
+        {
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
+            type: "teamEvent", // Added event type
+            day: "Day 1",
+            category: null,
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
         }
     ],
     club: [
+
         {
-            name: "Sargam(Classical Music & Dance Club)",
-            description: "A Standalone instrument playing competition. where participants must choose a song to play on their instrument and they will be judged on the basis of their technicalities and resemblance. Melodic and percussion instruments will be judged separately.",
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
             type: "singleEvent", // Added event type
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
             eventPath: "sargamclassicalmusicdanceclub"
         },
         {
-            name: "Voice Choice(Classical Music and Dance Club)",
-            description: "Music is the shorthand of emotion. It has the ability to take people out of themselves for a few hours. Classical Music & Dance Club is delighted to announce Voice Choice, a Solo Singing Competition. It is a perennial event which enjoys immense participation from all across the country. So put your best foot forward, and immerse yourself in the phantom sphere of Blitzschlag.",
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
             type: "singleEvent", // Added event type
-            eventPath: "voicechoiceclassicalmusicanddanceclub"
-        }
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
+        },
+        {
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
+            type: "singleEvent", // Added event type
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
+        },
+        {
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
+            type: "singleEvent", // Added event type
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
+        },
     ],
     attractions: [
         {
-            name: "Treasure Hunt",
-            description: "Treasure hunt is a game in which each team attempts to be the first in finding something that has been hidden all across the campus using clues. Guessing, the first clue leads to the next spot as the game continues, and the final clue leads to the ultimate hidden treasure. The winning team will be awarded with alluring rewards. The game for the Sherlocks amongst the crowd, Treasure Hunt is for all the Mystery solvers out there.",
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
             type: "teamEvent", // Added event type
-            eventPath: "treasurehunt"
+            day: "Day 1",
+            category: "Puzzle",
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
         },
         {
-            name: "Blind Maze",
-            description: "Ever get lost in some new neighbourhood or while exploring some new areas in campus, what helps in that situation? THAT’S RIGHT! GOOGLE MAPS!! Lets explore this feeling of lost and found in this fun competition of BLIND MAZE!!",
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
             type: "teamEvent", // Added event type
-            eventPath: "blindmaze"
+            day: "Day 1",
+            category: "Quiz",
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
+        },
+        {
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
+            type: "teamEvent", // Added event type
+            day: "Day 1",
+            category: null,
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
+        },
+        {
+            name: "Discover India: The Puzzle Hunt",
+            description: "Discover India: The Puzzle Hunt is an engaging and interactive event where participants embark on a treasure hunt to solve riddles, find hidden jigsaw puzzle pieces, and assemble a map of India. Teams collaborate to decode clues, collect puzzle pieces, and race against time to complete the map in a fun and competitive atmosphere. The event offers a thrilling mix of problem-solving and teamwork.",
+            type: "teamEvent", // Added event type
+            day: "Day 1",
+            category: null,
+            rules: [
+                "Teams will consist of 3-5 members each.",
+                "Each team will receive the first clue card to begin the hunt.",
+                "Teams must solve riddles to locate hidden puzzle pieces scattered across the venue.",
+                "All puzzle pieces must be collected and brought back to the central area.",
+                "Teams will assemble the puzzle of India in the central area after collecting all pieces.",
+                "The team that completes the puzzle first wins the event.",
+                "Each team has a maximum of 7 minutes to solve the puzzle and decode the clues."
+            ],
+            prize: "Exciting cash prizes await the winners: ₹2000 for the first place and ₹1000 for the second place, celebrating teamwork and quick thinking.",
+            venue: "VLTC",
+            time: "Day 1 10:00-13:00",
+            eventPath: "discoverindiapuzzlehunt"
         }
     ],
     fun: [
         {
-            name: "Golgappa",
-            description: "Indulge in our Golgappa Eating Challenge – showcase speed and precision with this beloved South Asian street food. Join the fun, devouring these small, flavourful puris within a set me.",
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
             type: "singleEvent", // Added event type
-            eventPath: "golgappa"
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
         },
         {
-            name: "Bolti Band",
-            description: "A fun and engaging event to participate in duos where one will be whispering some funny phrases and the receiver has to decode it, while listening to their favourite music!",
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
             type: "singleEvent", // Added event type
-            eventPath: "boltiband"
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
+        },
+        {
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
+            type: "singleEvent", // Added event type
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
+        },
+        {
+            name: "Tinder Dating",
+            description: "Tinder Dating is an engaging event where two randomly selected students are seated on the hot seat for a fun, 5-minute conversation in front of an audience. This activity aims to foster connections and encourage lighthearted interaction in a lively atmosphere. With rounds lasting 5 minutes per pair and a total event duration of approximately 2 hours, participants get the opportunity to showcase their spontaneity, conversational skills, and charisma in a relaxed and entertaining setting.",
+            type: "singleEvent", // Added event type
+            day:"Day 1",
+            category : null ,
+            rules : [
+                "Participants will be chosen randomly to ensure fairness.",
+                "Two selected participants will sit on the 'hot seat' for a 5-minute conversation in front of the audience.",
+                "Each pair must strictly adhere to the 5-minute conversation limit.",
+                "The audience is encouraged to observe but not interrupt the conversations.",
+                "Participants must maintain decorum, respect each other, and ensure conversations are lighthearted and appropriate.",
+                "Participants cannot choose their partners; pairing is entirely random.",
+                "A moderator may oversee the event to ensure rules are followed and assist if needed.",
+                "The entire event will last approximately 2 hours, with multiple rounds of participants."
+              ],
+            prize:"The event offers exciting cash prizes for the top participants: ₹2000 for the first place, ₹1500 for the second place, and ₹1000 for the third place, rewarding excellence and enthusiasm.",
+            venue:"VLTC L-104",
+            time:"Day 1 9:30-13:00",
+            eventPath: "sargamclassicalmusicdanceclub"
         }
     ]
 };

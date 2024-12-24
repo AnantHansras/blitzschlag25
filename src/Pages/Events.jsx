@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SingleComponent from "../Components/single";
 import TeamComponent from "../Components/team";
 import eventsData from '../scripts/eventData';
-import { toast } from 'react-toastify'; // Import toast from react-toastify
+import { toast } from 'react-toastify';
 
 const Events = () => {
   const navigate = useNavigate();
@@ -14,128 +14,135 @@ const Events = () => {
 
   const checkUserLogin = () => {
     if (!user) {
-      toast.error("Please log in first.", { autoClose: 5000 }); // Toast for login error
-      navigate('/Auth'); // Use navigate to redirect to the login page
+      toast.error("Please log in first.", { autoClose: 5000 });
+      navigate('/Auth');
       return false;
     }
     return true;
   };
 
   const handleJoinTeam = async () => {
-    if (!checkUserLogin()) return; // Check if the user is logged in
-  
+    if (!checkUserLogin()) return;
+
     if (!teamCode) {
-      toast.error("Invalid Team Code", { autoClose: 5000 }); // Toast for invalid team code
+      toast.error("Invalid Team Code", { autoClose: 5000 });
       return;
     }
-  
-    // Fetch the team document
+
     const teamDoc = await read(`teams/${teamCode}`);
     if (!teamDoc) {
-      toast.error("Team not found", { autoClose: 5000 }); // Toast for team not found
+      toast.error("Team not found", { autoClose: 5000 });
       return;
     }
-  
-    // Extract the event path (stored in 'event' attribute of the team)
+
     const eventPath = teamDoc.event;
     if (!eventPath) {
-      toast.error("Event data for this team is missing.", { autoClose: 5000 }); // Toast for missing event data
+      toast.error("Event data for this team is missing.", { autoClose: 5000 });
       return;
     }
-  
-    // Retrieve event data for max team size
+
     const eventDoc = await read(`events/${eventPath}`);
-    // || !eventDoc.maxTeamSize
     if (!eventDoc) {
-      toast.error("Event data is missing or incomplete.", { autoClose: 5000 }); // Toast for incomplete event data
+      toast.error("Event data is missing or incomplete.", { autoClose: 5000 });
       return;
     }
-  
+
     const maxTeamSize = eventDoc.maxTeamSize;
-  
-    // Check if the user has already joined a team for this event
+
     const userDoc = await read(`users/${user.uid}`);
     const registeredEvents = Array.isArray(userDoc?.joinedTeamsEvent) ? userDoc.joinedTeamsEvent : [];
-  
-    // Prevent joining another team for the same event
+
     if (registeredEvents.some(event => event.eventpath === eventPath)) {
-      toast.info("You have already joined a team for this event. You cannot join another team.", { autoClose: 5000 }); // Toast for already joined event
+      toast.info("You have already joined a team for this event.", { autoClose: 5000 });
       return;
     }
-  
-    // Check if the user is already a member of this team
+
     if (teamDoc.members.includes(user.uid)) {
-      toast.info("You are already a member of this team.", { autoClose: 5000 }); // Toast for already a team member
+      toast.info("You are already a member of this team.", { autoClose: 5000 });
       return;
     }
-  
-    // Check if the team has reached its max capacity
+
     if (teamDoc.members.length >= maxTeamSize) {
-      toast.error("This team is full.", { autoClose: 5000 }); // Toast for team full
+      toast.error("This team is full.", { autoClose: 5000 });
       return;
     }
-  
-    // Update the team's members array to include the current user
+
     await write(
       `teams/${teamCode}`,
       {
-        members: [...teamDoc.members, user.uid], // Add user to members array
+        members: [...teamDoc.members, user.uid],
       },
-      { merge: true } // Prevent overwriting other fields
+      { merge: true }
     );
-  
-    // Update the user's document to track the joined team and event
+
     await write(
       `users/${user.uid}`,
       {
         joinedTeamsEvent: [...registeredEvents, { eventpath: eventPath, teamCode }],
       },
-      { merge: true } // Avoid overwriting other user data
+      { merge: true }
     );
-  
-    toast.success("Successfully joined the team!", { autoClose: 5000 }); // Toast for success
+
+    toast.success("Successfully joined the team!", { autoClose: 5000 });
   };
-  
+
   return (
-    <div className="p-6">
-      <h1 className="text-4xl font-bold text-center mb-8">Events</h1>
-      <div className="mb-5 flex justify-center">
-        <form onSubmit={(e) => { e.preventDefault(); handleJoinTeam(); }}>
+    <div className="p-6 bg-[#0b0d10] text-white min-h-screen">
+      <h1 className="text-5xl font-bold text-center mb-12">Events</h1>
+      <div className="mb-8 flex justify-center">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleJoinTeam();
+          }}
+          className="flex space-x-4"
+        >
           <input
             type="text"
             placeholder="Enter Team Code"
             value={teamCode}
             onChange={(e) => setTeamCode(e.target.value)}
-            className="w-96 mr-10 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-80 p-3 bg-[#1b1f24] border border-[#2c2f34] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 text-white placeholder-gray-400"
           />
-          <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <button
+            type="submit"
+            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
             Join Team
           </button>
         </form>
       </div>
-      <div className="flex justify-center space-x-4 mb-6">
+
+      <div className="flex justify-center space-x-4 mb-8">
         {Object.keys(eventsData).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-md font-medium ${
-              activeTab === tab ? "bg-blue-600 text-white" : "bg-gray-200"
-            } hover:bg-blue-500 hover:text-white focus:outline-none`}
+            className={`px-6 py-3 rounded-lg font-medium transition ${
+              activeTab === tab
+                ? "bg-blue-600 text-white shadow-lg"
+                : "bg-[#1b1f24] text-gray-400 hover:bg-blue-400 hover:text-white"
+            }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1).replace(/_/g, " ")}
           </button>
         ))}
       </div>
 
-      <div>
+      <div className="grid gap-6 lg:grid-cols-3 xl:grid-cols-4 justify-items-center">
         {eventsData[activeTab].map((event, index) => (
-          // Conditionally render SingleComponent or TeamComponent based on event type
           event.type === "singleEvent" ? (
             <SingleComponent
               key={index}
               eventName={event.name}
               eventDescription={event.description}
               eventpath={event.eventPath}
+              eventCategory = {event.category}
+              eventDay={event.day}
+              eventTime={event.time}
+              eventPrize={event.prize}
+              eventRules={event.rules}
+              eventVenue={event.venue}
             />
           ) : (
             <TeamComponent
@@ -143,6 +150,12 @@ const Events = () => {
               eventName={event.name}
               eventDescription={event.description}
               eventpath={event.eventPath}
+              eventCategory = {event.category}
+              eventDay={event.day}
+              eventTime={event.time}
+              eventPrize={event.prize}
+              eventRules={event.rules}
+              eventVenue={event.venue}
             />
           )
         ))}
