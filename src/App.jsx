@@ -10,7 +10,7 @@ import Schedule from './Pages/Schedule';
 import Profile from './Pages/Profile';
 import CampusEmbassador from './Pages/CampusEmbassador';
 import Auth from './Pages/Auth';
-import Pronight from './Pages/Pronight';
+import Pronite from './Pages/Pronite';
 import Pass from './Pages/Pass';
 import Error from './Pages/Error';
 import Model3D from './Pages/Model3D';
@@ -33,13 +33,14 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/campus_embassador" element={<CampusEmbassador />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/pronight" element={<Pronight />} />
+              <Route path="/pronites" element={<Pronite />} />
               <Route path="/model3d" element={<Model3D />} />
               <Route path="/pass" element={<Pass />} />
               <Route path="*" element={<Error />} />
             </Routes>
           </div>
         </div>
+
       <ToastContainer />
     </div>
   );

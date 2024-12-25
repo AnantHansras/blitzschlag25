@@ -3,7 +3,7 @@ import { auth } from "../scripts/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-
+import logo from '../Assets/blitz_logo.png'
 import "../css files/navbar.css";
 
 const Navbar = () => {
@@ -57,34 +57,34 @@ const Navbar = () => {
           {/* Navigation Links */}
           <div className="navComponent justify-center items-center w-fit">
             <ul className="flex flex-col w-fit justify-center items-center space-y-6">
-              <li>
+              <li onClick={handleOverlayClose}>
                 <Link to="/" className="px-4 py-2 rounded interactive-link">
                   Home
                 </Link>
               </li>
-              <li>
+              <li onClick={handleOverlayClose}>
                 <Link to="/about" className="px-4 py-2 rounded interactive-link">
                   About
                 </Link>
               </li>
-              <li>
+              <li onClick={handleOverlayClose}>
                 <Link to="/our_team" className="px-4 py-2 rounded interactive-link">
                   Our Team
                 </Link>
               </li>
-              <li>
+              <li onClick={handleOverlayClose}>
                 <Link to="/campus_embassador" className="px-4 py-2 rounded interactive-link">
                   Embassador
                 </Link>
               </li>
-              <li>
+              <li onClick={handleOverlayClose}>
                 <Link to="/pass" className="px-4 py-2 rounded interactive-link">
                   Pass
                 </Link>
               </li>
-              <li>
-                <Link to="/pronight" className="px-4 py-2 rounded interactive-link">
-                  Pro Nights
+              <li onClick={handleOverlayClose}>
+                <Link to="/pronites" className="px-4 py-2 rounded interactive-link">
+                  ProNites
                 </Link>
               </li>
             </ul>
@@ -128,7 +128,7 @@ const Navbar = () => {
       {/* Navbar */}
       <div className="flex justify-between items-center px-4 py-3">
         <div>
-          <Link to="/">Logo</Link>
+          <Link to="/"><img src={logo} alt="Blitz Logo" className="h-14" /></Link>
         </div>
 
         {/* Main Navigation (Visible in PC) */}

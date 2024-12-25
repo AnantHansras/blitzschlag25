@@ -81,11 +81,11 @@ const Login = ({ toggleForm }) => {
   }
 
   return (
-    <div className="flex justify-center items-center h-full w-full mt-5">
+    <div className="flex justify-center items-center h-full w-full mt-5 opacity-80">
       <div className="grid gap-8">
         <section
           id="back-div"
-          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl opacity-80"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl "
         >
           <div className="border-8 border-transparent rounded-xl bg-white dark:bg-[#0d1117] shadow-xl p-6 m-2">
             <h1 className="text-5xl font-bold text-center cursor-default dark:text-gray-300 text-gray-900">
@@ -96,7 +96,7 @@ const Login = ({ toggleForm }) => {
                 <label htmlFor="email" className="block mb-1 text-lg dark:text-gray-300">Email</label>
                 <input
                   id="email"
-                  className="border p-2 shadow-md dark:bg-neutral-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
+                  className="border p-2 shadow-md dark:bg-white dark:text-gray-700 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
                   type="email"
                   placeholder="Email"
                   required
@@ -108,7 +108,7 @@ const Login = ({ toggleForm }) => {
                 <label htmlFor="password" className="block mb-1 text-lg dark:text-gray-300">Password</label>
                 <input
                   id="password"
-                  className="border p-2 shadow-md dark:bg-neutral-700 dark:text-gray-300 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
+                  className="border p-2 shadow-md dark:bg-white dark:text-gray-700 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
                   type="password"
                   placeholder="Password"
                   required
