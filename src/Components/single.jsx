@@ -170,7 +170,7 @@ const SingleComponent = ({
 
           {/* Description (First 14 lines) */}
           <p
-            className="text-gray-400 text-justify mb-4 flex-1 overflow-y-auto"
+            className="text-gray-400 text-justify mb-4 flex-1 overflow-y-hidden"
             style={{ lineHeight: "1.6" }}
           >
             {truncateText(eventDescription, 14)}
@@ -264,12 +264,16 @@ const SingleComponent = ({
                 </div>
 
                 {/* Prize Section */}
-                <div>
+                {
+                  eventPrize && 
+                  <div>
                   <h2 className="text-xl font-semibold text-white">
                     Prize for Winner
                   </h2>
                   <p className="text-gray-400">{eventPrize}</p>
                 </div>
+                }
+                
               </div>
             </div>
           </div>
