@@ -39,7 +39,61 @@ const Navbar = () => {
   };
 
   return (
-    <div className="text-white relative">
+    <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl">
+      
+
+      {/* Navbar */}
+      <div className="flex justify-between items-center">
+       
+        <div>
+          <Link to="/"><img src={logo} alt="Blitz Logo" className="h-14 ml-2" /></Link>
+        </div>
+
+        {/* Main Navigation (Visible in PC) */}
+        <div className="hidden font-normal text-2xl text-[#D3D3D3] lg:flex justify-between item-center gap-x-7" 
+        style={{ fontFamily: "'Jaro', sans-serif"}}>
+          <div>
+            <Link to="/sponsor" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200">Sponsor</Link>
+          </div>
+          <div>
+            <Link to="/event" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">Events</Link>
+          </div>
+          <div>
+            {!user ? (
+              <Link to="/Auth" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">
+                Login
+              </Link>
+            ) : (
+              <Link  className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200  " onClick={() => setShowLogoutModal(true)}>
+                  Logout
+              </Link>
+            )}
+          </div>
+          <div>
+            <Link to="/schedule" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">Schedule</Link>
+          </div>
+          <div>
+            <Link to="/model3d" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">3D Model</Link>
+          </div>
+        </div>
+        {user && (
+              <Link to="/profile" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 "
+                onClick={() => setNavComponents(false)}>
+                Profile
+              </Link>
+            ) }
+
+        {/* Hamburger Icon */}
+        <div
+          onClick={() => setNavComponents(true)}
+          className="cursor-pointer text-2xl mr-2"
+        >
+          {NavComponents ? <FaTimes /> : <FaBars />}
+        </div>
+
+      </div>
+
+
       {NavComponents && (
         <div
           className={`overlay fixed inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 bg-opacity-95 z-50 flex justify-evenly items-center ${
@@ -125,67 +179,6 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Navbar */}
-      <div className="flex justify-between items-center px-4 py-3">
-        <div>
-          <Link to="/"><img src={logo} alt="Blitz Logo" className="h-14" /></Link>
-        </div>
-
-        {/* Main Navigation (Visible in PC) */}
-        <ul className="hidden lg:flex justify-between gap-x-3 bg-black rounded-xl p-2">
-          <li>
-            <Link to="/sponsor" className="hover:bg-black px-4 py-2 rounded">
-              Sponsor
-            </Link>
-          </li>
-          <li>
-            <Link to="/event" className="hover:bg-black px-4 py-2 rounded">
-              Events
-            </Link>
-          </li>
-          <li>
-            {!user ? (
-              <Link to="/Auth" className="hover:bg-black px-4 py-2 rounded">
-                Login
-              </Link>
-            ) : (
-              <Link  className="hover:bg-black px-4 py-2 rounded" onClick={() => setShowLogoutModal(true)}>
-                  Logout
-              </Link>
-            )}
-          </li>
-          <li className="flex gap-x-4">
-            {user ? (
-              <Link
-                to="/profile"
-                onClick={() => setNavComponents(false)}
-                className="px-4 py-2 rounded"
-              >
-                Profile
-              </Link>
-            ) : null}
-            <Link
-              to="/schedule"
-              className="hover:bg-black px-4 py-2 rounded"
-            >
-              Schedule
-            </Link>
-          </li>
-          <li>
-            <Link to="/model3d" className="hover:bg-black px-4 py-2 rounded">
-              3D Model
-            </Link>
-          </li>
-        </ul>
-
-        {/* Hamburger Icon */}
-        <div
-          onClick={() => setNavComponents(true)}
-          className="cursor-pointer text-2xl"
-        >
-          {NavComponents ? <FaTimes /> : <FaBars />}
-        </div>
-      </div>
     </div>
   );
 };
