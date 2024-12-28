@@ -39,14 +39,14 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl">
+    <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl py-3">
       
 
       {/* Navbar */}
       <div className="flex justify-between items-center">
        
         <div>
-          <Link to="/"><img src={logo} alt="Blitz Logo" className="h-14 ml-2" /></Link>
+          <Link to="/"><img src={logo} alt="Blitz Logo" className="h-20 ml-3 absolute top-0" /></Link>
         </div>
 
         {/* Main Navigation (Visible in PC) */}
@@ -72,9 +72,7 @@ const Navbar = () => {
           <div>
             <Link to="/schedule" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">Schedule</Link>
           </div>
-          <div>
-            <Link to="/model3d" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">3D Model</Link>
-          </div>
+          
         </div>
         {user && (
               <Link to="/profile" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 "
@@ -86,7 +84,7 @@ const Navbar = () => {
         {/* Hamburger Icon */}
         <div
           onClick={() => setNavComponents(true)}
-          className="cursor-pointer text-2xl mr-2"
+          className="cursor-pointer text-2xl mr-3"
         >
           {NavComponents ? <FaTimes /> : <FaBars />}
         </div>
