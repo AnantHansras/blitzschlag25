@@ -1,7 +1,8 @@
 import React from 'react';
 import homeImage from '../Assets/blitz_home.png';
 import insect from '../Assets/BlitzHome_insect.png';
-import { VscPlayCircle } from "react-icons/vsc";
+import { Link, useNavigate } from 'react-router-dom';
+import { FiPlayCircle } from "react-icons/fi";
 const Home = () => {
   return (
     <div className="h-screen bg-transparent relative overflow-hidden">
@@ -53,7 +54,7 @@ const Home = () => {
           <span className="bg-clip-text text-transparent pt-2 bg-[linear-gradient(224.46deg,_#724E2C_36.57%,_#F6B168_51.94%,_#5F3F24_73.6%,_#E68E23_117.23%,_#453B2E_130.33%)]" 
            style={{fontFamily: "'Aclonica', sans-serif"}}>
             Enter The Dreamland</span>
-            <span className="text-[#C0AA67] text-5xl " ><VscPlayCircle /></span>
+            <Link to="/model3d" className="text-[#C0AA67] text-5xl hover:scale-105 hover:text-[#f5db86] transition-all duration-200"><FiPlayCircle /></Link>
         </p>
       </div>
     </div>
