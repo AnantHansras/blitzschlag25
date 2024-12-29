@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import loginImg from '../Assets/loginbg.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   getAuth, 
@@ -81,7 +82,14 @@ const Login = ({ toggleForm }) => {
   }
 
   return (
-    <div className="flex justify-center items-center h-full w-full mt-5 opacity-80">
+    
+    <div className="flex justify-center items-center w-screen mt-5 opacity-80">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-80"
+        style={{
+          backgroundImage: `url(${loginImg})`,
+        }}
+      ></div>
       <div className="grid gap-8">
         <section
           id="back-div"

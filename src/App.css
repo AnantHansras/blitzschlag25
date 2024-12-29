@@ -1,3 +1,10 @@
 .custom-cursor {
   cursor: url('/image.png'), auto; /* Replace with the actual path to your cursor image */
 }
+* {
+  user-select: none; /* Prevents text and element selection */
+  -webkit-user-drag: none; /* Disables dragging for all elements */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For older versions of IE */
+  /* overflow: hidden; */
+}
