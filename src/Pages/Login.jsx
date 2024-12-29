@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import loginImg from '../Assets/loginbg.jpg';
-import { Link, useNavigate } from 'react-router-dom';
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
+import { useNavigate } from 'react-router-dom';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
   onAuthStateChanged,
-  fetchSignInMethodsForEmail
-} from "firebase/auth";
-import { app, write, read } from '../scripts/firebase'; // Ensure `read` is implemented to fetch data
-import { toast } from 'react-toastify'; // Import toast from react-toastify
+  fetchSignInMethodsForEmail,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
+import { app, write, read } from '../scripts/firebase';
+import { toast } from 'react-toastify';
 
-const Login = ({ toggleForm }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login = () => {
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); 
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    semail: '',
+    spassword: '',
+  });
+  const navigate = useNavigate();
   const auth = getAuth(app);
 
   useEffect(() => {
@@ -32,20 +39,61 @@ const Login = ({ toggleForm }) => {
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleEmailSignUp = async (e) => {
     e.preventDefault();
-    if (!isValidEmail(email)) {
-      toast.error('Please enter a valid email address', { autoClose: 5000 }); // Toast for invalid email
+    const { name, semail, spassword } = formData;
+
+    if (spassword.length < 8) {
+      toast.error('Password must be at least 8 characters long', { autoClose: 5000 });
       return;
     }
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        toast.success("Login Successful", { autoClose: 5000 }); // Toast for successful login
-        navigate('/profile');
-      })
-      .catch((error) => {
-        toast.error(`Login Error: ${error.message}`, { autoClose: 5000 }); // Toast for login error
+
+    try {
+      const methods = await fetchSignInMethodsForEmail(auth, semail);
+      if (methods.length > 0) {
+        toast.error('An account with this email already exists.', { autoClose: 5000 });
+        return;
+      }
+
+      const userCredential = await createUserWithEmailAndPassword(auth, semail, spassword);
+      const user = userCredential.user;
+
+      await updateProfile(user, { displayName: name });
+      await write(`users/${user.uid}`, {
+        email: user.email,
+        name: name,
+        joinedSingleEvent: {},
+        joinedTeamsEvent: {},
       });
+
+      toast.success('Account Created Successfully!', { autoClose: 5000 });
+      navigate('/profile');
+    } catch (error) {
+      toast.error(`Error creating account: ${error.message}`, { autoClose: 5000 });
+    }
+  };
+
+  const handleEmailSignIn = async (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+
+    if (!isValidEmail(email)) {
+      toast.error('Please enter a valid email address', { autoClose: 5000 });
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success('Login Successful', { autoClose: 5000 });
+      navigate('/profile');
+    } catch (error) {
+      toast.error(`Login Error: ${error.message}`, { autoClose: 5000 });
+    }
   };
 
   const handleGoogleSignIn = async () => {
@@ -54,9 +102,12 @@ const Login = ({ toggleForm }) => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
-      if (signInMethods.length > 0 && !signInMethods.includes('google.com')) {
-        toast.error("This email is already registered with a different method. Please log in using that method.", { autoClose: 5000 }); // Toast for email already registered
+      const methods = await fetchSignInMethodsForEmail(auth, user.email);
+      if (methods.length > 0 && !methods.includes('google.com')) {
+        toast.error(
+          'This email is already registered with a different method. Please log in using that method.',
+          { autoClose: 5000 }
+        );
         return;
       }
 
@@ -64,96 +115,127 @@ const Login = ({ toggleForm }) => {
       if (!userRef) {
         await write(`users/${user.uid}`, {
           email: user.email,
-          name: user.displayName || user.email.split('@')[0], // Fallback to email prefix if no displayName
-          joinedSingleEvent: {}, 
-          joinedTeamsEvent: {}, 
+          name: user.displayName || user.email.split('@')[0],
+          joinedSingleEvent: {},
+          joinedTeamsEvent: {},
         });
       }
 
-      toast.success("Google Sign-In Successful", { autoClose: 5000 }); // Toast for Google sign-in success
+      toast.success('Google Sign-In Successful', { autoClose: 5000 });
       navigate('/profile');
     } catch (error) {
-      toast.error(`Google Sign-In Error: ${error.message}`, { autoClose: 5000 }); // Toast for Google sign-in error
+      toast.error(`Google Sign-In Error: ${error.message}`, { autoClose: 5000 });
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   return (
-    
-    <div className="flex justify-center items-center w-screen mt-5 opacity-80">
+    <div className="relative flex items-center justify-center min-h-screen bg-gray-900">
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-80"
-        style={{
-          backgroundImage: `url(${loginImg})`,
-        }}
-      ></div>
-      <div className="grid gap-8">
-        <section
-          id="back-div"
-          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl "
-        >
-          <div className="border-8 border-transparent rounded-xl bg-white dark:bg-[#0d1117] shadow-xl p-6 m-2">
-            <h1 className="text-5xl font-bold text-center cursor-default dark:text-gray-300 text-gray-900">
-              Login
-            </h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block mb-1 text-lg dark:text-gray-300">Email</label>
-                <input
-                  id="email"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-700 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  type="email"
-                  placeholder="Email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="block mb-1 text-lg dark:text-gray-300">Password</label>
-                <input
-                  id="password"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-700 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <a href="#" className="text-blue-400 text-sm transition hover:underline">Forget your password?</a>
-              <button
-                className="w-full p-3 mt-4 text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="submit"
-              >
-                LOGIN
-              </button>
-            </form>
+        className="absolute inset-0 bg-cover bg-center opacity-75"
+        style={{ backgroundImage: `url(${loginImg})` }}
+      />
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 rounded-lg shadow-lg overflow-hidden max-w-6xl w-full p-6">
+        {/* Login Form */}
+        <div className="p-8 bg-black bg-opacity-60 rounded-lg text-white flex flex-col items-center justify-center">
+          <h2 className="text-4xl font-bold mb-6">LOGIN</h2>
+          <form onSubmit={handleEmailSignIn} className="space-y-6 w-full max-w-md">
+            <div>
+              <input
+                id="email"
+                name="email"
+                className="placeholder:text-white w-full px-4 py-2 bg-transparent border-b-2 border-black rounded-none text-white focus:ring-2 focus:ring-blue-400"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                placeholder="Email Address"
+              />
+            </div>
+            <div>
+              <input
+                id="password"
+                name="password"
+                className="placeholder:text-white w-full px-4 py-2 bg-transparent border-b-2 border-black rounded-none text-white focus:ring-2 focus:ring-blue-400"
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                placeholder="Password"
+              />
+            </div>
             <button
-              onClick={handleGoogleSignIn}
-              className="w-full p-3 mt-4 text-white bg-red-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              type="submit"
+              className="w-full py-2 bg-transparent border-2 rounded text-white font-semibold transition-transform transform hover:scale-105"
             >
-              Sign in with Google
+              Login
             </button>
-            <div className="flex flex-col mt-4 text-sm text-center dark:text-gray-300">
-              <p>
-                Don't have an account?
-                <button onClick={toggleForm} className="text-blue-400 transition hover:underline">{'\u00A0'}Sign Up</button>
-              </p>
+          </form>
+          <button
+            onClick={handleGoogleSignIn}
+            className="max-w-md w-full py-2 mt-4 bg-transparent border-2 rounded text-white font-medium transition-transform transform hover:scale-105"
+          >
+            Sign in with Google
+          </button>
+        </div>
+
+        {/* Register Form */}
+        <div className="p-8 bg-black bg-opacity-60 rounded-lg text-white flex flex-col items-center justify-center">
+          <h2 className="text-4xl font-bold mb-6">REGISTER</h2>
+          <form onSubmit={handleEmailSignUp} className="space-y-6 w-full max-w-md">
+            <div>
+              <input
+                id="name"
+                name="name"
+                className="placeholder:text-white w-full px-4 py-2 bg-transparent border-b-2 border-black rounded-none text-white focus:ring-2 focus:ring-blue-400"
+                type="text"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                placeholder="Name"
+              />
             </div>
-            <div className="mt-4 text-center text-sm text-gray-500">
-              <p>
-                By signing in, you agree to our
-                <a href="#" className="text-blue-400 transition hover:underline">{'\u00A0'}Terms{'\u00A0'}</a>
-                and
-                <a href="#" className="text-blue-400 transition hover:underline">{'\u00A0'}Privacy Policy</a>.
-              </p>
+            <div>
+              <input
+                id="semail"
+                name="semail"
+                className="placeholder:text-white w-full px-4 py-2 bg-transparent border-b-2 border-black rounded-none text-white focus:ring-2 focus:ring-blue-400"
+                type="email"
+                value={formData.semail}
+                onChange={handleInputChange}
+                required
+                placeholder="Email Address"
+              />
             </div>
-          </div>
-        </section>
+            <div>
+              <input
+                id="spassword"
+                name="spassword"
+                className="placeholder:text-white w-full px-4 py-2 bg-transparent border-b-2 border-black rounded-none text-white focus:ring-2 focus:ring-blue-400"
+                type="password"
+                value={formData.spassword}
+                onChange={handleInputChange}
+                required
+                placeholder="Password"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 bg-transparent border-2 rounded text-white font-semibold transition-transform transform hover:scale-105"
+            >
+              Create Account
+            </button>
+          </form>
+          <button
+            onClick={handleGoogleSignIn}
+            className="max-w-md w-full py-2 mt-4 bg-transparent border-2 rounded text-white font-medium transition-transform transform hover:scale-105"
+          >
+            Sign up with Google
+          </button>
+        </div>
       </div>
     </div>
   );
