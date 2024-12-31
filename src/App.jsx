@@ -9,7 +9,7 @@ import Team from './Pages/Team';
 import Schedule from './Pages/Schedule';
 import Profile from './Pages/Profile';
 import CampusEmbassador from './Pages/CampusEmbassador';
-import Auth from './Pages/Login';
+import Auth from './Pages/Auth';
 import Pronite from './Pages/Pronite';
 import Pass from './Pages/Pass';
 import Error from './Pages/Error';
