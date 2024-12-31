@@ -1,154 +1,134 @@
-import React, { useState, useEffect } from 'react';
-import { app, auth, write } from '../scripts/firebase';
-import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail, onAuthStateChanged, updateProfile } from "firebase/auth";
+import React, { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import app from '../../firebase'; // Import Firebase initialization
 
-const SignUp = ({ toggleForm }) => {
-  const [email, setEmail] = useState('');
+const baseurl = "http://localhost:5000/blitzschlag-25/us-central1/api";
+
+const SignUp = () => {
+  const [userName, setUserName] = useState('');
   const [pwd, setPwd] = useState('');
-  const [confirmPwd, setConfirmPwd] = useState('');
-  const [name, setName] = useState(''); 
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [cpwd, setCpwd] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate('/profile');
-      } else {
-        setLoading(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [navigate]);
+  const navigate = useNavigate(); // Initialize the navigation hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (pwd !== confirmPwd) {
-      toast.error("Password and Confirm Password are not the same", { autoClose: 5000 });
+    // Basic validation
+    if (pwd !== cpwd) {
+      setError('Passwords do not match');
       return;
     }
-    if (pwd.length < 8) {
-      toast.error("Password must be at least 8 characters long", { autoClose: 5000 });
-      return;
-    }
+    setError('');
+
+    // Initialize Firebase Authentication
+    const auth = getAuth(app);
 
     try {
-      const methods = await fetchSignInMethodsForEmail(auth, email);
-    
-      if (methods.length > 0) {
-        toast.error("An account with this email already exists.", { autoClose: 5000 });
+      // Create user with email and password using Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
+      const user = userCredential.user;
+
+      // Prepare the data to send to the backend
+      const userData = {
+        email,
+        password: pwd,
+        userName,
+        uid: user.uid, // Send the UID to Firestore
+      };
+
+      // Send user data to the backend for Firestore storage
+      const response = await fetch(`${baseurl}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // If successful, set success message and navigate to profile
+        setSuccess(result.message);
+        alert('Sign up successful!'); // Show an alert box
+        console.log(result);
+        navigate('/profile'); // Navigate to the profile page
       } else {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, pwd);
-        const user = userCredential.user;
-    
-        await updateProfile(user, { displayName: name });
-    
-        alert("Account Created Successfully!");
-    
-        await write(`users/${user.uid}`, {
-          email: user.email,
-          name: name,
-          joinedSingleEvent: {}, 
-          joinedTeamsEvent: {},
-        });
-    
-        navigate("/");
+        // If backend error, display the error message
+        setError(result.message || 'Something went wrong. Please try again.');
       }
-    } catch (error) {
-      console.error(error);
-      if (error.code === 'auth/email-already-in-use') {
-        alert("This email is already in use.");
-      } else if (error.code === 'auth/weak-password') {
-        alert("Password is too weak.");
-      } else {
-        alert("Error creating account: " + error.message);
+    } catch (err) {
+      // Handle Firebase errors (e.g., weak password, email already in use)
+      const errorCode = err.code;
+
+      let errorMessage = '';
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email is already in use. Please try logging in or use a different email.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email format. Please provide a valid email address.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password is too weak. Please use a stronger password.';
+          break;
+        default:
+          errorMessage = 'Failed to sign up. Please try again later.';
+          break;
       }
-    }    
+
+      setError(errorMessage);
+      console.error(err);
+    }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="flex justify-center items-center h-full w-full mt-4 opacity-80">
-      <div className="grid gap-8 w-1/3">
-        <section
-          id="back-div"
-          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl"
-        >
-          <div className="border-8 border-transparent rounded-xl bg-white dark:bg-[#0d1117] shadow-xl p-4 m-2 pt-2">
-            <h1 className="text-4xl font-bold text-center cursor-default dark:text-gray-300 text-gray-900">
-              Sign Up
-            </h1>
-            <form onSubmit={handleSubmit} className="space-y-1">
-              <div>
-                <label htmlFor="name" className="block mb-1 text-lg dark:text-gray-300">Name</label>
-                <input
-                  type="text"
-                  required
-                  id="name"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-900 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  placeholder="Enter your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block mb-1 text-lg dark:text-gray-300">Email</label>
-                <input
-                  required
-                  id="email"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-900 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  placeholder="example@mail.com"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="pwd" className="block mb-1 text-lg dark:text-gray-300">Password</label>
-                <input
-                  type="password"
-                  required
-                  id="pwd"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-900 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  placeholder="********"
-                  value={pwd}
-                  onChange={(e) => setPwd(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="confirmpwd" className="block mb-1 text-lg dark:text-gray-300">Confirm Password</label>
-                <input
-                  type="password"
-                  required
-                  id="confirmpwd"
-                  className="border p-2 mb-5 shadow-md dark:bg-white dark:text-gray-900 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  placeholder="********"
-                  value={confirmPwd}
-                  onChange={(e) => setConfirmPwd(e.target.value)}
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full p-3  text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Create Account
-              </button>
-            </form>
-            <div className="flex flex-col mt-4 text-sm text-center dark:text-gray-300">
-              <p>
-                Already have an account .
-                <button onClick={toggleForm} className="text-blue-400 transition hover:underline">{'\u00A0'}Login</button>
-              </p>
-            </div>
-          </div>
-        </section>
-      </div>
+    <div className="bg-white box-border flex flex-col justify-center items-center p-4">
+      <form className="flex flex-col justify-center w-80 text-black" onSubmit={handleSubmit}>
+        <label htmlFor="username">Username</label>
+        <input
+          required
+          type="text"
+          id="username"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          className="border p-2 mb-2"
+        />
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="border p-2 mb-2"
+        />
+        <label htmlFor="pwd">Password</label>
+        <input
+          type="password"
+          id="pwd"
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
+          className="border p-2 mb-2"
+        />
+        <label htmlFor="cpwd">Confirm Password</label>
+        <input
+          type="password"
+          id="cpwd"
+          value={cpwd}
+          onChange={(e) => setCpwd(e.target.value)}
+          className="border p-2 mb-2"
+        />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>{success}</p>}
+        <button className="bg-blue-900 text-white p-2 mt-2" type="submit">
+          Sign Up
+        </button>
+      </form>
     </div>
   );
 };

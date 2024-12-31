@@ -1,218 +1,131 @@
-import React, { useState, useEffect } from "react";
-import { getAuth, updateProfile, sendEmailVerification } from "firebase/auth";
-import { read, write } from "../scripts/firebase";
-import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify'; // Import the toast function
-import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+import React, { useEffect, useState } from 'react';
+import { getAuth, signOut, sendEmailVerification } from 'firebase/auth';
+import app from '../../firebase'; // Your Firebase initialization file
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [name, setName] = useState("");
-  const [loading, setLoading] = useState(true);
   const [emailVerified, setEmailVerified] = useState(false);
-  const [joinedSingleEvents, setJoinedSingleEvents] = useState([]); // Store single events
-  const [joinedTeamEvents, setJoinedTeamEvents] = useState([]); // Store team events
-  const [eventsLoading, setEventsLoading] = useState(true); // Loading state for events
-  const navigate = useNavigate();
-  const auth = getAuth();
+  const [message, setMessage] = useState('');
+  const [apiData, setApiData] = useState(null); // State to store API data
+  const [loading, setLoading] = useState(true);
 
+  const auth = getAuth(app);
+
+  // Load user data on mount
   useEffect(() => {
     const currentUser = auth.currentUser;
     if (currentUser) {
       setUser(currentUser);
-      setName(currentUser.displayName || "");
       setEmailVerified(currentUser.emailVerified);
-      setLoading(false);
 
-      // Fetch the user's joined events
-      fetchJoinedEvents(currentUser.uid);
-    } else {
-      navigate("/Auth");
+      // Fetch additional data from API
+      fetchProfileData(currentUser.uid);
     }
-  }, [navigate]);
+  }, [auth]);
 
-  const fetchJoinedEvents = async (userId) => {
+  const fetchProfileData = async (uid) => {
     try {
-      setEventsLoading(true); // Start loading
-      const userDoc = await read(`users/${userId}`);
-
-      // Ensure joinedSingleEvent and joinedTeamsEvent exist and are arrays
-      const joinedSingleEvent = Array.isArray(userDoc?.joinedSingleEvent) ? userDoc.joinedSingleEvent : [];
-      const joinedTeamsEvent = Array.isArray(userDoc?.joinedTeamsEvent) ? userDoc.joinedTeamsEvent : [];
-
-      // Store single events data
-      const singleEventsData = [];
-      for (const eventpath of joinedSingleEvent) {
-        const eventDoc = await read(`events/${eventpath}`);
-        if (eventDoc) {
-          singleEventsData.push({
-            eventpath: eventpath,
-          });
-        } else {
-          console.error(`Missing event data for Event Path: ${eventpath}`);
-        }
-      }
-
-      // Store team events data
-      const teamEventsData = [];
-      for (const teamEvent of joinedTeamsEvent) {
-        const eventDoc = await read(`events/${teamEvent.eventpath}`);
-        if (eventDoc) {
-          const teamDoc = await read(`teams/${teamEvent.teamCode}`);
-          if (teamDoc) {
-            // Fetch all team members' names based on the member uids
-            const teamMembersWithNames = await Promise.all(
-              teamDoc.members.map(async (memberUid) => {
-                const memberDoc = await read(`users/${memberUid}`);
-                return memberDoc ? memberDoc.name : "Unknown"; // Fallback to "Unknown" if no name is found
-              })
-            );
-
-            teamEventsData.push({
-              eventpath: teamEvent.eventpath,
-              teamName: teamDoc.name,
-              teamMembers: teamMembersWithNames, // Now contains all team members' names
-            });
-          } else {
-            console.error(`Missing team data for Team Code: ${teamEvent.teamCode}`);
-          }
-        } else {
-          console.error(`Missing event data for Event Path: ${teamEvent.eventpath}`);
-        }
-      }
-
-      setJoinedSingleEvents(singleEventsData);
-      setJoinedTeamEvents(teamEventsData);
-    } catch (error) {
-      console.error("Error fetching events: ", error);
-    } finally {
-      setEventsLoading(false); // End loading
-    }
-  };
-
-  const handleUpdateProfile = async () => {
-    if (!name) {
-      toast.info("Name is required.", { autoClose: 5000 });
-      return;
-    }
-
-    try {
-      await updateProfile(auth.currentUser, { displayName: name });
-
-      await write(`users/${auth.currentUser.uid}`, {
-        email: auth.currentUser.email,
-        name: name, // Updated name
+      const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/profile', {
+        method: 'POST', // Use POST if your API requires it
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uid }),
       });
 
-      toast.success("Profile updated successfully", { autoClose: 5000 });
+      const result = await response.json();
+      if (response.ok) {
+        setApiData(result.data); // Assuming API returns a 'data' field
+      } else {
+        console.error('Error fetching profile data:', result.message || 'Unknown error');
+      }
     } catch (error) {
-      toast.error("Error updating profile: " + error.message, { autoClose: 5000 });
+      console.error('Error fetching profile data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Handle email verification
   const handleVerifyEmail = async () => {
+    if (user) {
+      try {
+        await sendEmailVerification(user);
+        setMessage('Verification email sent! Check your inbox.');
+      } catch (error) {
+        console.error('Error sending verification email:', error.message);
+        setMessage('Failed to send verification email.');
+      }
+    }
+  };
+
+  // Handle logout
+  const handleLogout = async () => {
     try {
-      await sendEmailVerification(auth.currentUser);
-      toast.info("Verification email sent!", { autoClose: 5000 });
+      await signOut(auth);
+      setUser(null);
+      setMessage('Logged out successfully.');
     } catch (error) {
-      toast.success("Error sending verification email:", { autoClose: 5000 });
+      console.error('Error logging out:', error.message);
+      setMessage('Failed to log out.');
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <p>Loading...</p>;
+  }
+
+  if (!user) {
+    return <p>Please log in to view your profile.</p>;
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg text-black">
-      <h1 className="text-2xl font-bold mb-4">Profile Page</h1>
-      <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring focus:ring-blue-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          <input
-            type="email"
-            value={user ? user.email : ""}
-            disabled
-            readOnly
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
-          />
-        </div>
-        <div>
-          <button onClick={handleUpdateProfile} className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
-            Update Profile
-          </button>
-        </div>
-      </form>
-
-      <div className="mt-4">
-        <p className="text-sm">Email Verified: {emailVerified ? "Yes" : "No"}</p>
-        {!emailVerified && (
-          <button onClick={handleVerifyEmail} className="mt-2 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 transition">
-            Verify Email
-          </button>
+    <div className="bg-white p-4 rounded shadow-md w-96 mx-auto text-center text-black">
+      <h2 className="text-2xl font-bold mb-4">Profile</h2>
+      <div className="mb-4">
+        <p>
+          <strong>Email:</strong> {user.email}
+        </p>
+        <p>
+          <strong>Email Verified:</strong>{' '}
+          {emailVerified ? (
+            <span className="text-green-600">Yes</span>
+          ) : (
+            <span className="text-red-600">No</span>
+          )}
+        </p>
+        {apiData && (
+          <>
+            <p>
+              <strong>Username:</strong> {apiData.userName}
+            </p>
+            <p>
+              <strong>College Name:</strong> {apiData.collegeName || 'Not Provided'}
+            </p>
+            <p>
+              <strong>Joined Events:</strong> {apiData.joinedEvents.join(', ') || 'None'}
+            </p>
+            <p>
+              <strong>Joined Teams:</strong> {apiData.joinedTeams.join(', ') || 'None'}
+            </p>
+          </>
         )}
+        {message && <p className="text-blue-600">{message}</p>}
       </div>
-
-      {/* Display Joined Single Events */}
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">Joined Single Events</h2>
-        {eventsLoading ? (
-          <p>Loading your events...</p>
-        ) : joinedSingleEvents.length === 0 ? (
-          <p>You haven't joined any single events yet.</p>
-        ) : (
-          <ul className="mt-2 space-y-2">
-            {joinedSingleEvents.map((event, index) => (
-              <li key={index} className="border border-gray-200 p-4 rounded-md">
-                <strong className="text-lg">{event.eventpath}</strong> - {event.eventDescription}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {/* Display Joined Team Events */}
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">Joined Team Events</h2>
-        {eventsLoading ? (
-          <p>Loading your team events...</p>
-        ) : joinedTeamEvents.length === 0 ? (
-          <p>You haven't joined any team events yet.</p>
-        ) : (
-          <table className="min-w-full border border-gray-200 mt-2">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-300 p-2">Event Path</th>
-                <th className="border border-gray-300 p-2">Team Name</th>
-                <th className="border border-gray-300 p-2">Team Members</th>
-              </tr>
-            </thead>
-            <tbody>
-              {joinedTeamEvents.map((event, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="border border-gray-300 p-2">{event.eventpath}</td>
-                  <td className="border border-gray-300 p-2">{event.teamName}</td>
-                  <td className="border border-gray-300 p-2">
-                    {event.teamMembers.length === 0
-                      ? "No members"
-                      : event.teamMembers.join(", ")}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+      {!emailVerified && (
+        <button
+          onClick={handleVerifyEmail}
+          className="bg-blue-500 text-white py-2 px-4 rounded mb-2 hover:bg-blue-700"
+        >
+          Verify Email
+        </button>
+      )}
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700"
+      >
+        Logout
+      </button>
     </div>
   );
 };
