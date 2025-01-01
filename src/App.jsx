@@ -1,18 +1,19 @@
 import './App.css';
 import { Route, Routes ,useLocation} from 'react-router-dom';
 import Navbar from './Components/Navbar';
+import Profile from './Pages/Profile';
+import Login from './Pages/Login';
 import Home from './Pages/Home';
 import About from './Pages/About';
-import Events from './Pages/Events';
 import Sponsor from './Pages/Sponsor';
 import Team from './Pages/Team';
+import Event from './Pages/Event';
 import Schedule from './Pages/Schedule';
-import Profile from './Pages/Profile';
 import CampusEmbassador from './Pages/CampusEmbassador';
-import Auth from './Pages/Auth';
 import Pronite from './Pages/Pronite';
 import Pass from './Pages/Pass';
 import Error from './Pages/Error';
+import SignUp from './Pages/SignUp';
 import Model3D from './Pages/Model3D';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,22 +27,33 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              <Route path="/event" element={<Events />} />
               <Route path="/sponsor" element={<Sponsor />} />
               <Route path="/our_team" element={<Team />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/campus_embassador" element={<CampusEmbassador />} />
-              <Route path="/auth" element={<Auth />} />
               <Route path="/pronites" element={<Pronite />} />
               <Route path="/model3d" element={<Model3D />} />
               <Route path="/pass" element={<Pass />} />
               <Route path="*" element={<Error />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/login" element={<Login/>} />
+              <Route path="/event" element={<Event/>} />
             </Routes>
           </div>
         </div>
 
-      <ToastContainer />
+      <ToastContainer
+        autoClose={3000} // Auto close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={false} // Show newest toast at the bottom
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="dark" // You can choose from 'light', 'dark', 'colored'
+      />
     </div>
   );
 }

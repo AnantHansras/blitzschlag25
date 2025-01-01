@@ -1,151 +1,195 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  onAuthStateChanged,
-  fetchSignInMethodsForEmail
-} from "firebase/auth";
-import { app, write, read } from '../scripts/firebase'; // Ensure `read` is implemented to fetch data
-import { toast } from 'react-toastify'; // Import toast from react-toastify
+import React, { useState } from 'react';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import app from '../../firebase'; // Firebase initialization file
+import loginbg from '../Assets/loginbg.jpg';
+import { toast } from 'react-toastify';  // Import the toast function
+import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS
 
-const Login = ({ toggleForm }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); 
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
   const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate('/profile');
-      } else {
-        setLoading(false);
-      }
-    });
-    return () => unsubscribe();
-  }, [auth, navigate]);
-
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (!isValidEmail(email)) {
-      toast.error('Please enter a valid email address', { autoClose: 5000 }); // Toast for invalid email
-      return;
+    setLoading(true);
+    setError('');
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      console.log('User logged in:', user);
+      alert('Login successful!');
+      navigate('/profile'); // Navigate to profile on successful login
+    } catch (error) {
+      console.error('Error logging in:', error.message);
+
+      let errorMessage = '';
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = 'No user found with this email.';
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Incorrect password.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email format.';
+          break;
+        default:
+          errorMessage = 'Failed to log in. Please try again.';
+          break;
+      }
+      setError(errorMessage);
+
+      // Show the error message as a toast
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        toast.success("Login Successful", { autoClose: 5000 }); // Toast for successful login
-        navigate('/profile');
-      })
-      .catch((error) => {
-        toast.error(`Login Error: ${error.message}`, { autoClose: 5000 }); // Toast for login error
-      });
   };
 
   const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
+    setLoading(true);
+    setError('');
+
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
-      if (signInMethods.length > 0 && !signInMethods.includes('google.com')) {
-        toast.error("This email is already registered with a different method. Please log in using that method.", { autoClose: 5000 }); // Toast for email already registered
-        return;
-      }
+      console.log('User logged in with Google:', user);
 
-      const userRef = await read(`users/${user.uid}`);
-      if (!userRef) {
-        await write(`users/${user.uid}`, {
+      const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/signinwithgoogle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uid: user.uid,
+          userName: user.displayName || 'Anonymous',
           email: user.email,
-          name: user.displayName || user.email.split('@')[0], // Fallback to email prefix if no displayName
-          joinedSingleEvent: {}, 
-          joinedTeamsEvent: {}, 
-        });
+        }),
+      });
+
+      const contentType = response.headers.get('Content-Type');
+      let data = null;
+
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        throw new Error('Invalid response format from server');
       }
 
-      toast.success("Google Sign-In Successful", { autoClose: 5000 }); // Toast for Google sign-in success
-      navigate('/profile');
+      if (response.ok && data.success !== false) {
+        console.log('Backend response:', data);
+        toast.success(data.message || 'Login with Google successful!');
+        navigate('/profile'); // Navigate to profile on successful login
+      } else {
+        console.error('Backend error:', data);
+        toast.error(data.message || 'Failed to sign in with Google.');
+        setError(data.message || 'Failed to sign in with Google.');
+      }
     } catch (error) {
-      toast.error(`Google Sign-In Error: ${error.message}`, { autoClose: 5000 }); // Toast for Google sign-in error
+      console.error('Error logging in with Google:', error.message);
+      toast.error('Failed to log in with Google. Please try again.');
+      setError('Failed to log in with Google. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="flex justify-center items-center h-full w-full mt-5 opacity-80">
-      <div className="grid gap-8">
-        <section
-          id="back-div"
-          className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl "
-        >
-          <div className="border-8 border-transparent rounded-xl bg-white dark:bg-[#0d1117] shadow-xl p-6 m-2">
-            <h1 className="text-5xl font-bold text-center cursor-default dark:text-gray-300 text-gray-900">
-              Login
-            </h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="block mb-1 text-lg dark:text-gray-300">Email</label>
-                <input
-                  id="email"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-700 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  type="email"
-                  placeholder="Email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="block mb-1 text-lg dark:text-gray-300">Password</label>
-                <input
-                  id="password"
-                  className="border p-2 shadow-md dark:bg-white dark:text-gray-700 dark:border-gray-700 border-gray-300 rounded-lg w-full focus:ring-2 focus:ring-blue-500 transition transform hover:scale-105 duration-300"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <a href="#" className="text-blue-400 text-sm transition hover:underline">Forget your password?</a>
-              <button
-                className="w-full p-3 mt-4 text-white bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                type="submit"
-              >
-                LOGIN
-              </button>
-            </form>
-            <button
-              onClick={handleGoogleSignIn}
-              className="w-full p-3 mt-4 text-white bg-red-500 rounded-lg hover:scale-105 transition transform duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-            >
-              Sign in with Google
-            </button>
-            <div className="flex flex-col mt-4 text-sm text-center dark:text-gray-300">
-              <p>
-                Don't have an account?
-                <button onClick={toggleForm} className="text-blue-400 transition hover:underline">{'\u00A0'}Sign Up</button>
-              </p>
-            </div>
-            <div className="mt-4 text-center text-sm text-gray-500">
-              <p>
-                By signing in, you agree to our
-                <a href="#" className="text-blue-400 transition hover:underline">{'\u00A0'}Terms{'\u00A0'}</a>
-                and
-                <a href="#" className="text-blue-400 transition hover:underline">{'\u00A0'}Privacy Policy</a>.
-              </p>
-            </div>
+    <div
+      style={{
+        backgroundImage: `url(${loginbg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+      }}
+      className="box-border flex flex-col justify-center items-center p-4 text-black"
+    >
+      <div className="bg-black opacity-80 p-12 rounded-2xl flex flex-col justify-center shadow-xl min-w-96 mt-8">
+        <form className="flex flex-col justify-center space-y-6" onSubmit={handleLogin}>
+          <h2 className="text-3xl font-bold text-white text-center">Login</h2>
+
+          <div>
+            <input
+              autoComplete="off"
+              placeholder="Email"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
+              required
+            />
           </div>
-        </section>
+
+          <div>
+            <input
+              placeholder="Password"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
+              required
+            />
+          </div>
+
+          <button
+            className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading && 'opacity-50'}`}
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? (
+              <div className="flex justify-center items-center">
+                <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity=".25" />
+                  <path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Logging in...
+              </div>
+            ) : (
+              'Login'
+            )}
+          </button>
+
+        </form>
+
+        <button
+          className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={handleGoogleSignIn}
+          disabled={loading}
+        >
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity=".25" />
+                <path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Signing in with Google...
+            </div>
+          ) : (
+            'Sign in with Google'
+          )}
+        </button>
+
+        <p className="mt-6 text-white text-center">
+          Don't have an account?{' '}
+          <span
+            className="text-blue-600 cursor-pointer hover:underline"
+            onClick={() => navigate('/signup')}
+          >
+            Sign Up
+          </span>
+        </p>
       </div>
     </div>
   );

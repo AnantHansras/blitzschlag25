@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { auth } from "../scripts/firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,31 +11,6 @@ const Navbar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/Auth");
-      setShowLogoutModal(false);
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  };
-
-  const handleOverlayClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setNavComponents(false);
-      setIsClosing(false);
-    }, 500); // Match animation duration
-  };
 
   return (
     <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl py-3">
@@ -60,7 +34,7 @@ const Navbar = () => {
           </div>
           <div>
             {!user ? (
-              <Link to="/Auth" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">
+              <Link to="/login" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">
                 Login
               </Link>
             ) : (
