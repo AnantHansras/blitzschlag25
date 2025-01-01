@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { auth } from "../../firebase"; // Import Firebase auth
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { auth } from '../../firebase'; // Import Firebase auth
 
 const TeamComponent = ({ event }) => {
   const [teamName, setTeamName] = useState('');
   const [loading, setLoading] = useState(false);
-  const [teams, setTeams] = useState([]); // This can be populated by fetching existing teams if needed
-  const [uid, setUid] = useState(null);
+  const [uid, setUid] = useState(null); // Store the UID here
 
   // Fetch the current user's UID when the component mounts
   useEffect(() => {
@@ -42,11 +41,16 @@ const TeamComponent = ({ event }) => {
       });
 
       const data = await response.json();
-      if (response.ok) {
-        toast.success("Team created successfully!");
-        setTeamName('');
+      if (!response.ok) {
+        // Check if the error message indicates email is not verified
+        if (data.message && data.message.includes("not verified")) {
+          toast.error("Your email is not verified. Please verify your email to create a team.");
+        } else {
+          toast.error(data.message || "Failed to create team.");
+        }
       } else {
-        toast.error(data.message || "Failed to create team.");
+        toast.success("Team created successfully!");
+        setTeamName(''); // Clear the team name after success
       }
     } catch (error) {
       console.error("Error creating team:", error);
@@ -79,10 +83,15 @@ const TeamComponent = ({ event }) => {
       });
 
       const data = await response.json();
-      if (response.ok) {
-        toast.success("Successfully joined the team!");
+      if (!response.ok) {
+        // Check if the error message indicates email is not verified
+        if (data.message && data.message.includes("not verified")) {
+          toast.error("Your email is not verified. Please verify your email to join a team.");
+        } else {
+          toast.error(data.message || "Failed to join team.");
+        }
       } else {
-        toast.error(data.message || "Failed to join team.");
+        toast.success("Successfully joined the team!");
       }
     } catch (error) {
       console.error("Error joining team:", error);

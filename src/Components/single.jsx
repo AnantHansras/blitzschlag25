@@ -43,11 +43,18 @@ const SingleComponent = ({ event }) => {
       });
 
       const data = await response.json();
-      if (response.ok) {
-        toast.success('Successfully registered for the event!');
-      } else {
-        toast.error(data.message || 'Failed to register.');
+
+      // Check if the server response contains a "not verified" message
+      if (!response.ok) {
+        if (data.message && data.message.includes("not verified")) {
+          toast.error("Your email is not verified. Please verify your email to register for the event.");
+        } else {
+          toast.error(data.message || 'Failed to register.');
+        }
+        return;
       }
+
+      toast.success('Successfully registered for the event!');
     } catch (error) {
       console.error('Error registering for event:', error);
       toast.error('An error occurred while registering.');

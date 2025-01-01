@@ -1,5 +1,3 @@
-// events.js
-
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import eventData from "../data/eventData"; // Import your event data
@@ -83,6 +81,13 @@ const Events = () => {
       return;
     }
 
+    // Check if email is verified before joining a team
+    const user = auth.currentUser;
+    if (user && !user.emailVerified) {
+      toast.error("You need to verify your email before joining a team.");
+      return;
+    }
+
     if (!teamCode) {
       toast.error("Please enter a team code.");
       return;
@@ -105,7 +110,15 @@ const Events = () => {
       // Check if the response is OK (status code 200)
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to join the team.");
+        
+        // If the server message indicates the user is not verified
+        if (errorData.message && errorData.message.includes("not verified")) {
+          toast.error("You need to verify your email before joining a team.");
+        } else {
+          throw new Error(errorData.message || "Failed to join the team.");
+        }
+
+        return; // Early return if there's an error
       }
 
       // If successful, parse the response JSON
@@ -161,9 +174,7 @@ const Events = () => {
           <button
             onClick={handleJoinTeam}
             disabled={loading}
-            className={`w-full md:w-auto bg-transparent border-2 border-white text-white p-3 rounded-lg ${
-              loading && "opacity-50"
-            }`}
+            className={`w-full md:w-auto bg-transparent border-2 border-white text-white p-3 rounded-lg ${loading && "opacity-50"}`}
           >
             {loading ? "Joining..." : "Join Team"}
           </button>
@@ -176,9 +187,7 @@ const Events = () => {
           <button
             key={tab}
             onClick={() => handleTabChange(tab)}
-            className={`px-4 py-2 mx-2 rounded-md ${
-              activeTab === tab ? "bg-blue-500 text-white" : "bg-gray-600"
-            }`}
+            className={`px-4 py-2 mx-2 rounded-md ${activeTab === tab ? "bg-blue-500 text-white" : "bg-gray-600"}`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
