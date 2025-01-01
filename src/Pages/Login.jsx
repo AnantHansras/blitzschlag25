@@ -159,7 +159,7 @@ const Login = () => {
             ) : (
               'Login'
             )}
-            </button>
+          </button>
 
         </form>
 
@@ -180,8 +180,6 @@ const Login = () => {
             'Sign in with Google'
           )}
         </button>
-
-
 
         <p className="mt-6 text-white text-center">
           Don't have an account?{' '}
