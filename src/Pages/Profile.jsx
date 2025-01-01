@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, signOut, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
-import app from "../../firebase"; // Your Firebase initialization file
+import { app } from "../../firebase"; // Your Firebase initialization file
 import { useNavigate } from "react-router-dom";
 import profilebg from '../Assets/profilebg.jpg';
 

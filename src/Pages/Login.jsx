@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import app from '../../firebase'; // Firebase initialization file
+import { app } from '../../firebase'; // Firebase initialization file
 import loginbg from '../Assets/loginbg.jpg';
 import { toast } from 'react-toastify';  // Import the toast function
 import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS

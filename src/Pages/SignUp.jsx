@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import app from '../../firebase'; // Import Firebase initialization
+import { app } from '../../firebase'; // Import Firebase initialization
 import loginbg from '../Assets/loginbg.jpg'; // Import the background image
 import { toast, ToastContainer } from 'react-toastify'; // Import Toastify functions
 import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
