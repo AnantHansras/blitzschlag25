@@ -44,7 +44,16 @@ function App() {
           </div>
         </div>
 
-      <ToastContainer />
+      <ToastContainer
+        autoClose={3000} // Auto close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={false} // Show newest toast at the bottom
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="dark" // You can choose from 'light', 'dark', 'colored'
+      />
     </div>
   );
 }
