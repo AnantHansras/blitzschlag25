@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { app } from '../../firebase'; // Firebase initialization file
 import loginbg from '../Assets/loginbg.jpg';
-import { toast } from 'react-toastify';  // Import the toast function
-import 'react-toastify/dist/ReactToastify.css';  // Import toast CSS
+import { toast } from 'react-toastify'; // Import the toast function
+import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [forgotPasswordMode, setForgotPasswordMode] = useState(false); // For toggling forgot password
 
   const navigate = useNavigate();
   const auth = getAuth(app);
@@ -104,6 +105,22 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success('Password reset email sent!');
+      setForgotPasswordMode(false); // Close the forgot password form
+    } catch (error) {
+      console.error('Error sending reset email:', error.message);
+      toast.error('Failed to send password reset email. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       style={{
@@ -115,81 +132,120 @@ const Login = () => {
       className="box-border flex flex-col justify-center items-center p-4 text-black"
     >
       <div className="bg-black opacity-80 p-12 rounded-2xl flex flex-col justify-center shadow-xl min-w-96 mt-8">
-        <form className="flex flex-col justify-center space-y-6" onSubmit={handleLogin}>
-          <h2 className="text-3xl font-bold text-white text-center">Login</h2>
-
-          <div>
+        {forgotPasswordMode ? (
+          // Forgot password form
+          <div className="mt-4 mb-4 text-white">
+            <h2 className="text-3xl mb-8 font-bold text-center">Forgot Password</h2>
             <input
-              autoComplete="off"
-              placeholder="Email"
               type="email"
-              id="email"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
-              required
+              className="placeholder-white bg-transparent w-full p-3 border-b-2 border-gray-300 outline-none"
             />
+            <button
+              onClick={handleForgotPassword}
+              className="w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4"
+            >
+              {loading ? 'Sending email...' : 'Send Reset Link'}
+            </button>
+            <p
+              onClick={() => setForgotPasswordMode(false)}
+              className="text-center text-blue-600 mt-2 cursor-pointer hover:underline"
+            >
+              Back to Login
+            </p>
           </div>
+        ) : (
+          // Login form
+          <>
+            <form className="flex flex-col justify-center space-y-6" onSubmit={handleLogin}>
+              <h2 className="text-3xl font-bold text-white text-center">Login</h2>
 
-          <div>
-            <input
-              placeholder="Password"
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
-              required
-            />
-          </div>
-
-          <button
-            className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading && 'opacity-50'}`}
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? (
-              <div className="flex justify-center items-center">
-                <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity=".25" />
-                  <path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                Logging in...
+              <div>
+                <input
+                  autoComplete="off"
+                  placeholder="Email"
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
+                  required
+                />
               </div>
-            ) : (
-              'Login'
-            )}
-          </button>
 
-        </form>
+              <div>
+                <input
+                  placeholder="Password"
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
+                  required
+                />
+              </div>
 
-        <button
-          className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-        >
-          {loading ? (
-            <div className="flex justify-center items-center">
-              <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity=".25" />
-                <path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Signing in with Google...
-            </div>
-          ) : (
-            'Sign in with Google'
-          )}
-        </button>
+              <button
+                className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading && 'opacity-50'}`}
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex justify-center items-center">
+                    <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity=".25" />
+                      <path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Logging in...
+                  </div>
+                ) : (
+                  'Login'
+                )}
+              </button>
+            </form>
 
-        <p className="mt-6 text-white text-center">
-          Don't have an account?{' '}
-          <span
-            className="text-blue-600 cursor-pointer hover:underline"
-            onClick={() => navigate('/signup')}
+            <button
+              className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity=".25" />
+                    <path d="M4 12a8 8 0 1 1 8 8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Signing in with Google...
+                </div>
+              ) : (
+                'Sign in with Google'
+              )}
+            </button>
+          </>
+        )}
+
+        {!forgotPasswordMode && (
+          <p className="mt-6 text-white text-center">
+            Don't have an account?{' '}
+            <span
+              className="text-blue-600 cursor-pointer hover:underline"
+              onClick={() => navigate('/signup')}
+            >
+              Sign Up
+            </span>
+          </p>
+        )}
+
+        {!forgotPasswordMode && (
+          <p
+            onClick={() => setForgotPasswordMode(true)}
+            className="mt-2 text-white text-center cursor-pointer hover:underline"
           >
-            Sign Up
-          </span>
-        </p>
+            Forgot Password?
+          </p>
+        )}
       </div>
     </div>
   );
