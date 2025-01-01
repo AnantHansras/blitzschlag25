@@ -75,6 +75,7 @@ const Profile = () => {
   const setApiData = (data) => {
     const { userData, teamsDetails } = data;
     const { joinedEvents } = userData;
+    setName(userData.userName);
     const events = [];
 
     const groupedEvents = {
@@ -150,24 +151,25 @@ const Profile = () => {
       className="grid grid-cols-1 sm:grid-cols-3 gap-4 h-screen p-5 pt-24"
     >
       {/* Left Column: Profile and Info */}
-      <div className="flex flex-col justify-between bg-lightblue bg-black bg-opacity-80 p-6 sm:p-14 rounded-2xl">
-        <div className="flex justify-center mb-4">
+      <div className="flex flex-col justify-between bg-lightblue bg-black bg-opacity-80 sm:p-20 rounded-2xl">
+        <div className="flex justify-center">
           {profileImage ? (
             <img
               src={profileImage}
               alt="Profile"
-              className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover bg-black"
+              className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover bg-black"
             />
           ) : (
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-300 flex items-center justify-center">
+            <div className="w-28 h-28 sm:w-24 sm:h-24 rounded-full bg-gray-300 flex items-center justify-center">
               <span className="text-white text-sm sm:text-lg">No Photo</span>
             </div>
           )}
         </div>
-
-        <div>
+        <p className="text-center" >{name}</p>
+        <div> 
+         
           <div className="space-y-4">
-            <div>
+            {/* <div>
               <input
                 type="text"
                 value={name}
@@ -175,7 +177,7 @@ const Profile = () => {
                 readOnly
                 className="placeholder-white bg-transparent w-full p-3 mt-2 border-b-2 border-gray-300 outline-none text-white"
               />
-            </div>
+            </div> */}
 
             <div>
               <input
