@@ -104,8 +104,8 @@ const SignUp = () => {
         height: '100vh', // Ensure it covers the full height of the screen
       }}
     >
-      <div className="box-border flex flex-col justify-center items-center p-4 text-white">
-        <div className="bg-black opacity-80 p-12 rounded-2xl flex flex-col justify-center shadow-xl min-w-96 mt-16">
+      <div className="box-border h-screen flex flex-col justify-center items-center p-8 text-white">
+        <div className="bg-black mt-8 opacity-80 p-12 rounded-2xl flex flex-col justify-center shadow-xl min-w-96 ">
           <form className="flex flex-col justify-center space-y-6" onSubmit={handleSubmit}>
             <h2 className="text-3xl font-bold text-center">Sign Up</h2>
 
