@@ -1,5 +1,9 @@
-import { initializeApp } from 'firebase/app';
+// firebase.js
 
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAumyXCu9A3J195FZyFo_-x1imbJ2IQOHc",
     authDomain: "blitzschlag-25.firebaseapp.com",
@@ -10,7 +14,8 @@ const firebaseConfig = {
     appId: "1:315737505564:web:d6853a58cc9107b48284d9"
 };
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-export default app;
+export { app, auth };  // Named exports
