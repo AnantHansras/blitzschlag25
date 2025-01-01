@@ -15,12 +15,15 @@ import Pass from './Pages/Pass';
 import Error from './Pages/Error';
 import SignUp from './Pages/SignUp';
 import Model3D from './Pages/Model3D';
+import { Tooltip } from "react-tooltip";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
+  <Tooltip id="global-tooltip" />
   const location = useLocation();
   return (
-    <div className=' w-screen h-screen text-white'>
+  <>
+      <div className=' w-screen h-screen text-white'>
         <div className='w-screen h-screen text-white'>
           {location.pathname !== '/model3d' && <Navbar />}
           <div>
@@ -55,6 +58,7 @@ function App() {
         theme="dark" // You can choose from 'light', 'dark', 'colored'
       />
     </div>
+  </>
   );
 }
 
