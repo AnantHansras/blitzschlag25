@@ -80,20 +80,14 @@ const Events = () => {
       toast.error("You must be logged in to join a team.");
       return;
     }
-
-    // Check if email is verified before joining a team
-    const user = auth.currentUser;
-    if (user && !user.emailVerified) {
-      toast.error("You need to verify your email before joining a team.");
-      return;
-    }
-
+  
     if (!teamCode) {
       toast.error("Please enter a team code.");
       return;
     }
-
+  
     setLoading(true);
+  
     try {
       // Send POST request with uid and teamCode to the API endpoint
       const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/jointeam', {
@@ -106,36 +100,34 @@ const Events = () => {
           teamCode, // Pass the entered team code
         }),
       });
-
-      // Check if the response is OK (status code 200)
+  
+      const data = await response.json();
+  
+      // Handle response from the server
       if (!response.ok) {
-        const errorData = await response.json();
-        
-        // If the server message indicates the user is not verified
-        if (errorData.message && errorData.message.includes("not verified")) {
-          toast.error("You need to verify your email before joining a team.");
+        // Check for specific server messages
+        if (data.message && data.message.includes("not verified")) {
+          toast.error("Your email is not verified. Please verify your email to join a team.");
+        } else if (data.message) {
+          toast.error(data.message);
         } else {
-          throw new Error(errorData.message || "Failed to join the team.");
+          throw new Error("Failed to join the team. Please try again.");
         }
-
         return; // Early return if there's an error
       }
-
-      // If successful, parse the response JSON
-      const data = await response.json();
-      toast.success(data.message); // Show success message from the backend
-
-      // Clear the team code input after successful join
-      setTeamCode("");
-
+  
+      // Success case
+      toast.success(data.message || "Successfully joined the team!");
+      setTeamCode(""); // Clear the team code input
     } catch (error) {
-      // Handle errors that occur during the API request
-      console.error(error);
-      toast.error(error.message || "Failed to join the team. Please try again.");
+      // Handle API request errors
+      console.error("Error while joining team:", error);
+      toast.error(error.message || "An error occurred. Please try again.");
     } finally {
-      setLoading(false); // Reset the loading state
+      setLoading(false); // Reset loading state
     }
   };
+  
 
   // Open the drawer with the selected event
   const openDrawer = (event) => {

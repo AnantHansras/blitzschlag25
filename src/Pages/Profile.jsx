@@ -225,7 +225,6 @@ const Profile = () => {
             <div className="absolute left-1/2 top-0 transform -translate-x-1/2 border-l-2 border-white min-h-full z-0"></div> {/* Fixed vertical line */}
 
             {Object.keys(timelineEvents)
-              .filter((day) => timelineEvents[day].length > 0) // Only include non-empty days
               .map((day, index) => (
                 <div key={index} className="relative z-10">
                   {/* Event Details */}

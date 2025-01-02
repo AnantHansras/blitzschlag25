@@ -46,13 +46,14 @@ const SingleComponent = ({ event }) => {
 
       // Check if the server response contains a "not verified" message
       if (!response.ok) {
-        if (data.message && data.message.includes("not verified")) {
-          toast.error("Your email is not verified. Please verify your email to register for the event.");
+        if (data.message && data.message.includes("email is not verified")) {
+          toast.error(data.message); // This should now show the correct error message
         } else {
           toast.error(data.message || 'Failed to register.');
         }
         return;
       }
+      
 
       toast.success('Successfully registered for the event!');
     } catch (error) {

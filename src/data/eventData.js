@@ -28,7 +28,7 @@ const eventData = {
     event1: {
         name: 'Event 1',
         venue: 'Club House',
-        day: 2,
+        day: 3,
         rulebook: 'something will be here',
         description: 'something about club event',
         maxTeamSize: 1,

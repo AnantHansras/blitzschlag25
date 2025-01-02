@@ -19,14 +19,14 @@ const TeamComponent = ({ event }) => {
 
   const handleCreateTeam = async () => {
     if (!teamName || loading) return;
-
+  
     if (!uid) {
       toast.error("User not logged in.");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/createteam', {
         method: 'POST',
@@ -39,11 +39,11 @@ const TeamComponent = ({ event }) => {
           teamName,
         }),
       });
-
+  
       const data = await response.json();
       if (!response.ok) {
         // Check if the error message indicates email is not verified
-        if (data.message && data.message.includes("not verified")) {
+        if (data.message && data.message.toLowerCase().includes("email is not verified")) {
           toast.error("Your email is not verified. Please verify your email to create a team.");
         } else {
           toast.error(data.message || "Failed to create team.");
@@ -59,47 +59,7 @@ const TeamComponent = ({ event }) => {
       setLoading(false);
     }
   };
-
-  const handleJoinTeam = async (teamCode) => {
-    if (loading) return;
-
-    if (!uid) {
-      toast.error("User not logged in.");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch('/jointeam', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          uid,
-          teamCode,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        // Check if the error message indicates email is not verified
-        if (data.message && data.message.includes("not verified")) {
-          toast.error("Your email is not verified. Please verify your email to join a team.");
-        } else {
-          toast.error(data.message || "Failed to join team.");
-        }
-      } else {
-        toast.success("Successfully joined the team!");
-      }
-    } catch (error) {
-      console.error("Error joining team:", error);
-      toast.error("An error occurred while joining the team.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   return (
     <div>
