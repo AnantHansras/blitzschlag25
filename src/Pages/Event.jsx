@@ -1,5 +1,3 @@
-// events.js
-
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import eventData from "../data/eventData"; // Import your event data
@@ -82,13 +80,14 @@ const Events = () => {
       toast.error("You must be logged in to join a team.");
       return;
     }
-
+  
     if (!teamCode) {
       toast.error("Please enter a team code.");
       return;
     }
-
+  
     setLoading(true);
+  
     try {
       // Send POST request with uid and teamCode to the API endpoint
       const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/jointeam', {
@@ -101,28 +100,34 @@ const Events = () => {
           teamCode, // Pass the entered team code
         }),
       });
-
-      // Check if the response is OK (status code 200)
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to join the team.");
-      }
-
-      // If successful, parse the response JSON
+  
       const data = await response.json();
-      toast.success(data.message); // Show success message from the backend
-
-      // Clear the team code input after successful join
-      setTeamCode("");
-
+  
+      // Handle response from the server
+      if (!response.ok) {
+        // Check for specific server messages
+        if (data.message && data.message.includes("not verified")) {
+          toast.error("Your email is not verified. Please verify your email to join a team.");
+        } else if (data.message) {
+          toast.error(data.message);
+        } else {
+          throw new Error("Failed to join the team. Please try again.");
+        }
+        return; // Early return if there's an error
+      }
+  
+      // Success case
+      toast.success(data.message || "Successfully joined the team!");
+      setTeamCode(""); // Clear the team code input
     } catch (error) {
-      // Handle errors that occur during the API request
-      console.error(error);
-      toast.error(error.message || "Failed to join the team. Please try again.");
+      // Handle API request errors
+      console.error("Error while joining team:", error);
+      toast.error(error.message || "An error occurred. Please try again.");
     } finally {
-      setLoading(false); // Reset the loading state
+      setLoading(false); // Reset loading state
     }
   };
+  
 
   // Open the drawer with the selected event
   const openDrawer = (event) => {
@@ -161,9 +166,7 @@ const Events = () => {
           <button
             onClick={handleJoinTeam}
             disabled={loading}
-            className={`w-full md:w-auto bg-transparent border-2 border-white text-white p-3 rounded-lg ${
-              loading && "opacity-50"
-            }`}
+            className={`w-full md:w-auto bg-transparent border-2 border-white text-white p-3 rounded-lg ${loading && "opacity-50"}`}
           >
             {loading ? "Joining..." : "Join Team"}
           </button>
@@ -176,9 +179,7 @@ const Events = () => {
           <button
             key={tab}
             onClick={() => handleTabChange(tab)}
-            className={`px-4 py-2 mx-2 rounded-md ${
-              activeTab === tab ? "bg-blue-500 text-white" : "bg-gray-600"
-            }`}
+            className={`px-4 py-2 mx-2 rounded-md ${activeTab === tab ? "bg-blue-500 text-white" : "bg-gray-600"}`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>

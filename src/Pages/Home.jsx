@@ -2,6 +2,7 @@ import React from 'react';
 import homeImage from '../Assets/blitz_home.png';
 import insect from '../Assets/BlitzHome_insect.png';
 import { Link, useNavigate } from 'react-router-dom';
+import Footer from '../Components/Footer';
 import { FiPlayCircle } from "react-icons/fi";
 const Home = () => {
   return (
@@ -57,6 +58,7 @@ const Home = () => {
             <Link to="/model3d" className="text-[#C0AA67] text-5xl hover:scale-105 hover:text-[#f5db86] transition-all duration-200"><FiPlayCircle /></Link>
         </p>
       </div>
+
     </div>
   )
 }
