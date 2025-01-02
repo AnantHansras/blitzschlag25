@@ -1,8 +1,9 @@
 import React from 'react'
+import PageNA from '../Components/PageNA'
 
 const Sponsor = () => {
   return (
-    <div>Sponsor</div>
+    <div><PageNA/></div>
   )
 }
 

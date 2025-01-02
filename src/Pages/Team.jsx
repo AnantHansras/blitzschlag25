@@ -1,8 +1,9 @@
 import React from 'react'
+import PageNA from '../Components/PageNA'
 
 const Team = () => {
   return (
-    <div>Team</div>
+    <div><PageNA/></div>
   )
 }
 

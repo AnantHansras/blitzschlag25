@@ -1,8 +1,9 @@
 import React from 'react'
+import PageNA from '../Components/PageNA'
 
 const CampusEmbassador = () => {
   return (
-    <div>CampusEmbassador</div>
+    <div><PageNA/></div>
   )
 }
 
