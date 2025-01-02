@@ -3,6 +3,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../Assets/blitz_logo.png'
+import { auth } from "../../firebase"; // assuming you have a firebase.js file where auth is initialized
 import "../css files/navbar.css";
 
 const Navbar = () => {
@@ -12,13 +13,30 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Listen to auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    // Clean up the listener when the component is unmounted
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setShowLogoutModal(false);
+      navigate("/"); // Redirect to homepage after logout
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
+  };
+
   return (
     <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl py-3">
-      
-
       {/* Navbar */}
       <div className="flex justify-between items-center">
-       
         <div>
           <Link to="/"><img src={logo} alt="Blitz Logo" className="h-20 ml-3 absolute top-0" /></Link>
         </div>
@@ -38,22 +56,21 @@ const Navbar = () => {
                 Login
               </Link>
             ) : (
-              <Link  className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200  " onClick={() => setShowLogoutModal(true)}>
-                  Logout
+              <Link  className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 " onClick={() => setShowLogoutModal(true)}>
+                Logout
               </Link>
             )}
           </div>
+          {user && (
+          <Link to="/profile" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 " onClick={() => setNavComponents(false)}>
+            Profile
+          </Link>
+        )}
           <div>
             <Link to="/schedule" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 ">Schedule</Link>
           </div>
-          
         </div>
-        {user && (
-              <Link to="/profile" className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 "
-                onClick={() => setNavComponents(false)}>
-                Profile
-              </Link>
-            ) }
+        
 
         {/* Hamburger Icon */}
         <div
@@ -62,15 +79,11 @@ const Navbar = () => {
         >
           {NavComponents ? <FaTimes /> : <FaBars />}
         </div>
-
       </div>
-
 
       {NavComponents && (
         <div
-          className={`overlay fixed inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 bg-opacity-95 z-50 flex justify-evenly items-center ${
-            isClosing ? "close" : "open"
-          }`}
+          className={`overlay fixed inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 bg-opacity-95 z-50 flex justify-evenly items-center ${isClosing ? "close" : "open"}`}
         >
           {/* Close Icon */}
           <button
@@ -150,7 +163,6 @@ const Navbar = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

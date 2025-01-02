@@ -15,12 +15,16 @@ import Pass from './Pages/Pass';
 import Error from './Pages/Error';
 import SignUp from './Pages/SignUp';
 import Model3D from './Pages/Model3D';
+import Footer from './Components/Footer';
+import { Tooltip } from "react-tooltip";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
+  <Tooltip id="global-tooltip" />
   const location = useLocation();
   return (
-    <div className=' w-screen h-screen text-white'>
+  <>
+      <div className=' w-screen h-screen text-white'>
         <div className='w-screen h-screen text-white'>
           {location.pathname !== '/model3d' && <Navbar />}
           <div>
@@ -40,6 +44,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/login" element={<Login/>} />
               <Route path="/event" element={<Event/>} />
+              <Route path="/footer" element={<Footer/>} />
             </Routes>
           </div>
         </div>
@@ -55,6 +60,7 @@ function App() {
         theme="dark" // You can choose from 'light', 'dark', 'colored'
       />
     </div>
+  </>
   );
 }
 
