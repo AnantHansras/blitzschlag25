@@ -174,11 +174,6 @@ const SignUp = () => {
               )}
             </button>
           </div>
-
-
-            {error && <p className="text-red-500">{error}</p>}
-            {success && <p className="text-green-500">{success}</p>}
-
             <button
               type="submit"
               className={`w-full bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4 ${loading && 'opacity-50'}`}
