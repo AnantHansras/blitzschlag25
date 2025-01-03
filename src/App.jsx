@@ -39,12 +39,12 @@ function App() {
               <Route path="/pronites" element={<Pronite />} />
               <Route path="/model3d" element={<Model3D />} />
               <Route path="/pass" element={<Pass />} />
-              <Route path="*" element={<Error />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/login" element={<Login/>} />
               <Route path="/event" element={<Event/>} />
               <Route path="/footer" element={<Footer/>} />
+              <Route path="*" element={<Error />} />
             </Routes>
           </div>
         </div>
