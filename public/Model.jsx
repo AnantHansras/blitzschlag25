@@ -969,7 +969,7 @@ export default function Model() {
           ref={button3Ref}
           onPointerOver={() => handleHover(true)}  // Add custom cursor on hover
           onPointerOut={() => handleHover(false)} // Remove custom cursor when not hovering
-          onClick={()=> navigate("/auth")}
+          onClick={()=> navigate("/login")}
           name="Cube003"
           position={[-0.631, 3.88, -3.103]}
           rotation={[0, 0.072, 0]}

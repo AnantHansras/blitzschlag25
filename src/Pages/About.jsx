@@ -1,8 +1,9 @@
 import React from 'react'
+import PageNA from '../Components/PageNA'
 
 const About = () => {
   return (
-    <div>About</div>
+    <div><PageNA/></div>
   )
 }
 
