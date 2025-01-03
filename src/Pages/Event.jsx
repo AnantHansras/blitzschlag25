@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import eventData from "../data/eventData"; 
 import SingleComponent from "../Components/single"; 
 import TeamComponent from "../Components/team"; 
-import eventbg from "../Assets/eventbg.jpg"; 
+import eventbg from "../Assets/loginbg.jpg"; 
 import { auth } from "../../firebase"; 
 import "../css files/events.css";
 import Drawer from 'react-modern-drawer'; // Import the Drawer component
@@ -126,39 +126,44 @@ const Events = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      <h1 className="text-5xl font-bold mt-16 text-center text-white tracking-widest">
-          Event
-      </h1>
-      {/* Event Handling Section */}
-        <div className="flex justify-evenly items-center my-8">
-          <div>
-          <input
-              type="text"
-              value={teamCode}
-              onChange={(e) => setTeamCode(e.target.value)}
-              placeholder="Enter Team Code"
-              className="border-2 bg-opacity-80 mx-2 border-white bg-black text-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
-            />
-          <button
-            onClick={handleJoinTeam}
-            disabled={loading}
-            className={`border-white bg-opacity-80 bg-black text-gray-300 px-4 py-3 rounded-lg   hover:ring-2 hover:ring-indigo-500 hover:border-indigo-500 transition-all duration-300 border-2 ${loading ? "bg-black border-white text-white cursor-not-allowed" : "bg-black border-indigo-500 text-white"}`}
-          >
-            {loading ? "Joining..." : "Join Team"}
-          </button>
-          </div>
-        </div>
-        {/* Back to Categories Button */}
-        {showEvents && (
-          <div className="flex justify-center mt-4">
-            <button
-              onClick={handleBackToCategories}
-              className="bg-transparent border-2 border-white text-white p-4 rounded-lg transition-transform transform hover:scale-105 hover:bg-indigo-600"
-            >
-              Back to Categories
-            </button>
-          </div>
-        )}
+<h1 className="text-4xl sm:text-5xl font-bold mt-16 text-center text-white tracking-widest">
+  Event
+</h1>
+
+{/* Event Handling Section */}
+<div className="flex flex-col sm:flex-row justify-center items-center my-8 gap-4">
+  <input
+    type="text"
+    value={teamCode}
+    onChange={(e) => setTeamCode(e.target.value)}
+    placeholder="Enter Team Code"
+    className="w-full sm:w-auto border-2 bg-opacity-80 border-white bg-black text-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+  />
+  <button
+    onClick={handleJoinTeam}
+    disabled={loading}
+    className={`w-full sm:w-auto border-white bg-opacity-80 bg-black text-gray-300 px-4 py-3 rounded-lg hover:ring-2 hover:ring-indigo-500 hover:border-indigo-500 transition-all duration-300 border-2 ${
+      loading
+        ? "bg-black border-white text-white cursor-not-allowed"
+        : "bg-black border-indigo-500 text-white"
+    }`}
+  >
+    {loading ? "Joining..." : "Join Team"}
+  </button>
+</div>
+
+{/* Back to Categories Button */}
+{showEvents && (
+  <div className="flex justify-center mt-4">
+    <button
+      onClick={handleBackToCategories}
+      className="w-full sm:w-auto bg-transparent border-2 border-white text-white p-4 rounded-lg transition-transform transform hover:scale-105 hover:bg-indigo-600"
+    >
+      Back to Categories
+    </button>
+  </div>
+)}
+
 
       {/* Category Buttons */}
       {!showEvents && (
@@ -192,106 +197,111 @@ const Events = () => {
         </div>
       )}
 
-      {/* Event Cards */}
-      {showEvents && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredEvents.length === 0 ? (
-            <p>No events available for this category.</p>
-          ) : (
-            filteredEvents.map((event, index) => (
-              <div
-                key={index}
-                className="relative group border border-gray-200 rounded-lg shadow-md overflow-hidden"
-                style={{
-                  height: '300px',
-                  width: '100%',
-                  background: 'linear-gradient(135deg, #c31432, #240b36, #3b8d99)',
-                }}
-              >
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 opacity-100 transition-opacity duration-300 group-hover:opacity-0">
-                  <h3 className="text-xl font-semibold mb-2 text-center text-white">{event.name}</h3>
-                  <p className="text-sm text-gray-100 text-center">
-                    {event.description.slice(0, 100)}...
-                  </p>
-                </div>
-
-                <div className="absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <img
-                    src={event.imgUrl}
-                    alt={event.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <button
-                      onClick={() => openDrawer(event)}
-                      className="bg-white text-gray-900 px-6 py-2 rounded-lg font-semibold transform hover:scale-105"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      )}
-
-      {/* Drawer for Event Details */}
-      {selectedEvent && (
-        <Drawer
-          overlayOpacity={0}
-          lockBackgroundScroll={true}
-          open={drawerOpen}
-          onClose={closeDrawer}
-          direction="bottom"
-          size={400}
-          style={{
-            left: 0,
-            right: 0,
-            bottom: 0,
-            transform: 'translate3d(0, 100%, 0)',
-            width: '100%',
-            background: "rgba(0, 0, 0, 0.9)", // Black background with 80% opacity
-            width: "100vw",
-            position: "fixed", // Fix the drawer at the bottom of the viewport
-            left: 0, // Align to the left of the viewport
-            right: 0, // Align to the right of the viewport
-            bottom: 0, // Position at the bottom
-            maxHeight: drawerOpen ? "100vh" : "0vh", // Transition height
-            overflowY: "scroll", // Enable vertical scrolling
-            transition: "max-height 2s ease-in-out, opacity 2s ease-in-out", // Smooth transitions
-            opacity: drawerOpen ? 1 : 0, // Fade in and out based on state
-          }}
-        >
-          <div className="h-full w-full p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* First Div */}
-            <div className="lg:col-span-1">
-              <h2 className="text-2xl font-semibold mb-4 sm:text-left">{selectedEvent.name}</h2>
-              <p className="mb-4 sm:text-left">{selectedEvent.description}</p>
+{/* Event Cards */}
+{showEvents && (
+  <div className="container mx-auto px-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredEvents.length === 0 ? (
+        <p className="text-center text-white">No events available for this category.</p>
+      ) : (
+        filteredEvents.map((event, index) => (
+          <div
+            key={index}
+            className="relative group border border-gray-200 rounded-lg shadow-md overflow-hidden"
+            style={{
+              height: '300px',
+              width: '100%',
+              background: 'linear-gradient(135deg, #c31432, #240b36, #3b8d99)',
+            }}
+          >
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 opacity-100 transition-opacity duration-300 group-hover:opacity-0">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-center text-white">
+                {event.name}
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-100 text-center">
+                {event.description.slice(0, 100)}...
+              </p>
             </div>
 
-            {/* Second Div */}
-            <div className="lg:col-span-1">
-              <p className="sm:text-left">
-                <strong>Venue:</strong> {selectedEvent.venue}
-              </p>
-              <p className="sm:text-left">
-                <strong>Max Team Size:</strong> {selectedEvent.maxTeamSize}
-              </p>
-              <p className="sm:text-left">
-                <strong>Category:</strong> {selectedEvent.type}
-              </p>
-              <div className="mt-6">
-                {selectedEvent.maxTeamSize === 1 ? (
-                  <SingleComponent event={selectedEvent} uid={uid} />
-                ) : (
-                  <TeamComponent event={selectedEvent} uid={uid} />
-                )}
+            <div className="absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <img
+                src={event.imgUrl}
+                alt={event.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <button
+                  onClick={() => openDrawer(event)}
+                  className="bg-white text-gray-900 px-4 sm:px-6 py-2 rounded-lg font-semibold transform hover:scale-105"
+                >
+                  View Details
+                </button>
               </div>
             </div>
           </div>
-        </Drawer>
+        ))
       )}
+    </div>
+  </div>
+)}
+
+
+{/* Drawer for Event Details */}
+{selectedEvent && (
+  <Drawer
+    overlayOpacity={0}
+    open={drawerOpen}
+    onClose={closeDrawer}
+    direction="bottom"
+    size={400}
+    style={{
+      left: 0,
+      right: 0,
+      bottom: 0,
+      transform: 'translate3d(0, 100%, 0)',
+      width: '100%',
+      background: 'rgba(0, 0, 0, 0.9)',
+      position: 'fixed',
+      maxHeight: drawerOpen ? '100vh' : '0vh',
+      overflowY: 'auto',
+      transition: 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out',
+      opacity: drawerOpen ? 1 : 0,
+    }}
+  >
+    <div className="h-full w-full p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* First Div */}
+      <div className="md:col-span-1">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center md:text-left">
+          {selectedEvent.name}
+        </h2>
+        <p className="mb-4 text-sm sm:text-base text-center md:text-left">
+          {selectedEvent.description}
+        </p>
+      </div>
+
+      {/* Second Div */}
+      <div className="md:col-span-1">
+        <p className="text-sm sm:text-base text-center md:text-left">
+          <strong>Venue:</strong> {selectedEvent.venue}
+        </p>
+        <p className="text-sm sm:text-base text-center md:text-left">
+          <strong>Max Team Size:</strong> {selectedEvent.maxTeamSize}
+        </p>
+        <p className="text-sm sm:text-base text-center md:text-left">
+          <strong>Category:</strong> {selectedEvent.type}
+        </p>
+        <div className="mt-6">
+          {selectedEvent.maxTeamSize === 1 ? (
+            <SingleComponent event={selectedEvent} uid={uid} />
+          ) : (
+            <TeamComponent event={selectedEvent} uid={uid} />
+          )}
+        </div>
+      </div>
+    </div>
+  </Drawer>
+)}
+
     </div>
   );
 };
