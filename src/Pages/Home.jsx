@@ -8,6 +8,7 @@ const Home = () => {
   return (
     <div className="h-screen bg-transparent relative overflow-hidden">
       {/* Background Image */}
+      
       <div
         className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{
