@@ -5,7 +5,6 @@ import { useEffect, useRef } from 'react';
 import Navbar from './Components/Navbar';
 import Profile from './Pages/Profile';
 import Login from './Pages/Login';
-import Home from './Pages/Home';
 import About from './Pages/About';
 import Sponsor from './Pages/Sponsor';
 import Team from './Pages/Team';
@@ -17,10 +16,10 @@ import Pass from './Pages/Pass';
 import Error from './Pages/Error';
 import SignUp from './Pages/SignUp';
 import Model3D from './Pages/Model3D';
-import Footer from './Components/Footer';
 import { Tooltip } from "react-tooltip";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LandingPage from './Pages/LandingPage';
 
 function App() {
   const location = useLocation();
@@ -152,7 +151,7 @@ function App() {
         {location.pathname !== '/model3d' && <Navbar />}
         <div>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<About />} />
             <Route path="/event" element={<Event />} />
             <Route path="/sponsor" element={<Sponsor />} />

@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl py-3">
+    <div className="absolute w-full bg-[#C4C4C430] z-50 rounded-b-3xl py-3">
       <div className="flex justify-between items-center">
         <div>
           <Link to="/">

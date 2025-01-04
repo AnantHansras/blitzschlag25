@@ -1,9 +1,22 @@
-import React from 'react'
+import React from 'react';
+import sponsorImg from "../Assets/sponsor.jpg";
 
 const Sponsor = () => {
   return (
-    <div>Sponsor</div>
-  )
-}
+    <div
+      className="h-screen w-full bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${sponsorImg})`,
+      }}
+    >
+      {/* Optional: Add content inside */}
+      <div 
+        style={{ fontFamily: '"Amarante", serif' }}
+        className="h-full w-full flex items-center justify-center bg-black bg-opacity-50 text-white">
+        <h1 className="text-8xl font-bold">Sponsor</h1>
+      </div>
+    </div>
+  );
+};
 
-export default Sponsor
+export default Sponsor;

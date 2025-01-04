@@ -4,12 +4,12 @@ import clublogo from '../Assets/culturalclublogo.png';
 
 const Footer = () => {
     return (
-        <div className='absolute bottom-0 px-4 sm:px-8 md:px-16 py-8 w-full bg-black flex flex-col justify-center gap-4'>
+        <div className='relative bottom-0 px-4 sm:px-8 md:px-16 py-8 w-full bg-black flex flex-col justify-center gap-4'>
             {/* Top section - Logos and Support */}
             <div className='px-2 flex flex-col sm:flex-row justify-between text-left'>
                 <div className='flex justify-center sm:justify-start gap-4'>
-                    <img src={mnitlogo} className='w-32 h-32' alt="MNIT Logo" />
-                    <img src={clublogo} className='w-32 h-32' alt="Cultural Club Logo" />
+                    <img src={mnitlogo} className='w-24 h-24 ' alt="MNIT Logo" />
+                    <img src={clublogo} className='w-24 h-24 ' alt="Cultural Club Logo" />
                 </div> 
                 <div className='text-white mt-4 sm:mt-0'>
                     <p>Get Support</p>
