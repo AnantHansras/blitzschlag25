@@ -13,7 +13,7 @@ const CampusEmbassador = () => {
       <div 
         style={{ fontFamily: '"Amarante", serif' }}
         className="h-full w-full flex items-center justify-center bg-black bg-opacity-50 text-white">
-        <h1 className="text-8xl font-bold">Campus Embassador</h1>
+        <h1 className="text-lg font-bold">Campus Embassador</h1>
       </div>
     </div>
   );
