@@ -154,7 +154,7 @@ const Events = () => {
 
 {/* Back to Categories Button */}
 {showEvents && (
-  <div className="flex justify-center mt-4">
+  <div className="flex justify-center mt-4 mb-4">
     <button
       onClick={handleBackToCategories}
       className="w-full sm:w-auto bg-transparent border-2 border-white text-white p-4 rounded-lg transition-transform transform hover:scale-105 hover:bg-indigo-600"
@@ -165,11 +165,11 @@ const Events = () => {
 )}
 
 
-     {/* Category Buttons */}
 {/* Category Buttons */}
 {!showEvents && (
-  <div className="category-buttons mt-24">
-    <div className="box">
+  <div className="category-buttons mt-24 relative flex flex-col items-center">
+    {/* Rotating Cards */}
+    <div className="box flex flex-wrap justify-center z-10">
       {Object.entries(categories).map(([key, value]) => (
         <div
           className="category-btn"
@@ -182,15 +182,16 @@ const Events = () => {
               backgroundImage: `url(../../src/Assets/${key}.png)`, // Dynamically set the image
               backgroundSize: "cover",
               backgroundPosition: "center",
-              width: "100%",
-              height: "100%",
+              width: "200px",
+              height: "200px",
               borderRadius: "18px",
               padding: "20px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               transition: "transform 0.3s ease, background-color 0.3s ease",
-              position: "relative", // For text positioning
+              position: "relative", // For holographic effect
+              boxShadow: "0 15px 25px rgba(0, 0, 0, 0.2)", // Shadow for hovering
             }}
             className="hover:scale-110 hover:bg-white hover:text-gray-900"
           >
@@ -199,15 +200,7 @@ const Events = () => {
                 color: "white", // White text color
                 fontSize: "1.5rem", // Adjust the font size
                 fontWeight: "bold",
-                position: "absolute", // To float above the background
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)", // Center the text
-                textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)", // Subtle shadow for 3D effect
-                background: "rgba(0, 0, 0, 0.5)", // Semi-transparent black background
-                padding: "10px 20px", // Padding around text
-                borderRadius: "12px", // Rounded corners for the background
-                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.3)", // Shadow for floating effect
+                textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)", // Subtle shadow for text
               }}
             >
               {value}
@@ -216,9 +209,42 @@ const Events = () => {
         </div>
       ))}
     </div>
+
+    {/* Horizontal Disc Portal */}
+    <div className="portal-container mt-16 relative flex justify-center items-center">
+      {/* Light Cone */}
+      <div
+        className="light-cone absolute"
+        style={{
+          width: "0",
+          height: "0",
+          borderLeft: "200px solid transparent",
+          borderRight: "200px solid transparent",
+          borderTop: "300px solid rgba(150, 200, 255, 0.3)", // Semi-transparent conical light
+          position: "absolute",
+          top: "-200px", // Adjust height under cards
+          zIndex: "0", // Ensure it's behind cards
+          filter: "blur(8px)",
+        }}
+      />
+      
+      {/* Portal Disc */}
+      <div
+        className="portal-disc"
+        style={{
+          width: "400px",
+          height: "50px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, #6a11cb, #2575fc, #1a2a6c)",
+          boxShadow:
+            "0 0 50px 15px rgba(100, 50, 200, 0.8), 0 0 70px 30px rgba(50, 200, 250, 0.6)",
+          position: "relative",
+          zIndex: "0",
+        }}
+      />
+    </div>
   </div>
 )}
-
 
 
 {/* Event Cards */}

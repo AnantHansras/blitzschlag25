@@ -1,0 +1,84 @@
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /* White background */
+    overflow: hidden;
+  }
+  
+  /* Splash screen container */
+  .splash-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+  }
+  
+  .splash-container.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  /* SVG setup */
+  .carving-effect {
+    width: 70%;
+    height: auto;
+  }
+  
+  /* Knife stroke animation */
+  .knife-stroke {
+    fill: none;
+    stroke: white;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 400; /* Length of the stroke */
+    stroke-dashoffset: 400;
+    animation: carveEffect 5s ease forwards;
+  }
+  
+  /* Text for carved effect */
+  .carved-text {
+    font-size: 100px;
+    fill: white;
+    font-weight: bold;
+    opacity: 0;
+    animation: revealText 5s ease forwards 5s; /* Delay for text */
+  }
+  
+  /* Keyframes for carving effect */
+  @keyframes carveEffect {
+    0% {
+      stroke-dashoffset: 400;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  /* Keyframes for revealing text */
+  @keyframes revealText {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  

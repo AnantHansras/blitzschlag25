@@ -19,12 +19,14 @@ import Footer from './Components/Footer';
 import { Tooltip } from "react-tooltip";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SplashScreen from './Pages/SplashScreen';
 function App() {
   <Tooltip id="global-tooltip" />
   const location = useLocation();
   return (
   
       <div className=' w-screen h-screen text-white'>
+        <SplashScreen />
         <div className='w-screen h-screen text-white'>
           {location.pathname !== '/model3d' && <Navbar />}
           <div>
