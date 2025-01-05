@@ -7,6 +7,8 @@ import "react-modern-drawer/dist/index.css";
 import logo from "../Assets/blitz_logo.png";
 import { auth } from "../../firebase"; // Assuming you have a firebase.js file where auth is initialized
 import "../css files/navbar.css";
+import { FaHome, FaInfoCircle, FaUser, FaCalendarAlt, FaUsers, FaHandHoldingHeart, FaSignInAlt, FaSignOutAlt, FaTicketAlt, FaCubes, FaMusic } from "react-icons/fa";
+
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -53,7 +55,11 @@ const Navbar = () => {
 
         {/* Main Navigation (Visible in PC) */}
         <div
+<<<<<<< HEAD
           className="hidden relative p-2 -top-3 font-normal text-2xl bg-[#C4C4C430] rounded-b-xl  text-[#D3D3D3] lg:flex justify-between items-center gap-x-7"
+=======
+          className="hidden  font-normal text-2xl text-[#D3D3D3] lg:flex justify-between items-center gap-x-7"
+>>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
           style={{ fontFamily: "'Jaro', sans-serif" }}
         >
           <Link
@@ -110,114 +116,128 @@ const Navbar = () => {
 
       {/* Drawer for Mobile Navigation */}
       <Drawer
-        open={isDrawerOpen}
-        onClose={toggleDrawer}
-        direction="right"
-        style={{
-          backgroundColor: "transparent", // Custom background color
-        }}
-        size={280}
+  open={isDrawerOpen}
+  onClose={toggleDrawer}
+  direction="right"
+  style={{
+    backgroundColor: "transparent", // Custom background color
+  }}
+  size={280}
+>
+  <div className="flex flex-col items-left p-10 bg-black bg-opacity-100 h-full overflow-y-scroll">
+    <Link
+      to="/"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaHome className="mr-2" />
+      Home
+    </Link>
+    <Link
+      to="/about"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaInfoCircle className="mr-2" />
+      About
+    </Link>
+    <Link
+      to="/sponsor"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaHandHoldingHeart className="mr-2" />
+      Sponsor
+    </Link>
+    <Link
+      to="/our_team"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaUsers className="mr-2" />
+      Our Team
+    </Link>
+    <Link
+      to="/schedule"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaCalendarAlt className="mr-2" />
+      Schedule
+    </Link>
+    {user && (
+      <Link
+        to="/profile"
+        className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+        onClick={toggleDrawer}
       >
-        <div className="flex flex-col items-left p-10 bg-black bg-opacity-80 h-full overflow-y-scroll">
-          <Link
-            to="/"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            About
-          </Link>
-          <Link
-            to="/sponsor"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Sponsor
-          </Link>
-          <Link
-            to="/our_team"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Our Team
-          </Link>
-          <Link
-            to="/schedule"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Schedule
-          </Link>
-          {user && (
-            <Link
-              to="/profile"
-              className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-              onClick={toggleDrawer}
-            >
-              Profile
-            </Link>
-          )}
-          <Link
-            to="/campus_embassador"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Campus Embassador
-          </Link>
-          <Link
-            to="/pronites"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            ProNites
-          </Link>
-          <Link
-            to="/model3d"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            3D Model
-          </Link>
-          <Link
-            to="/pass"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Pass
-          </Link>
-          {!user ? (
-            <>
-              <Link
-                to="/signup"
-                className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-                onClick={toggleDrawer}
-              >
-                Sign Up
-              </Link>
-              <Link
-                to="/login"
-                className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-                onClick={toggleDrawer}
-              >
-                Login
-              </Link>
-            </>
-          ) : null}
-          <Link
-            to="/event"
-            className="px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-            onClick={toggleDrawer}
-          >
-            Event
-          </Link>
-        </div>
-      </Drawer>
+        <FaUser className="mr-2" />
+        Profile
+      </Link>
+    )}
+    <Link
+      to="/campus_embassador"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaUsers className="mr-2" size="2em" />
+
+      Campus Embassador
+    </Link>
+    <Link
+      to="/pronites"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaMusic className="mr-2" />
+      ProNites
+    </Link>
+    <Link
+      to="/model3d"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaCubes className="mr-2" />
+      3D Model
+    </Link>
+    <Link
+      to="/pass"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaTicketAlt className="mr-2" />
+      Pass
+    </Link>
+    {!user ? (
+      <>
+        <Link
+          to="/signup"
+          className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+          onClick={toggleDrawer}
+        >
+          <FaSignOutAlt className="mr-2" />
+          Sign Up
+        </Link>
+        <Link
+          to="/login"
+          className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+          onClick={toggleDrawer}
+        >
+          <FaSignInAlt className="mr-2" />
+          Login
+        </Link>
+      </>
+    ) : null}
+    <Link
+      to="/event"
+      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+      onClick={toggleDrawer}
+    >
+      <FaCalendarAlt className="mr-2" />
+      Event
+    </Link>
+  </div>
+</Drawer>
 
       {/* Logout Modal */}
       {showLogoutModal && (

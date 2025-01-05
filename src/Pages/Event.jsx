@@ -108,10 +108,10 @@ const Events = () => {
 
   const getBackgroundImage = (key) => {
     const images = {
-      category1: 'flagship.webp',
-      category2: 'Fun.png',
-      category3: 'club.webp',
-      category4: 'attraction.webp',
+      category1: 'flagship.png',
+      category2: 'fun.png',
+      category3: 'club_event.png',
+      category4: 'main_att.png',
     };
     return images[key] || ''; // Return the correct background image
   };
@@ -165,37 +165,61 @@ const Events = () => {
 )}
 
 
-      {/* Category Buttons */}
-      {!showEvents && (
-        <div className="category-buttons mt-24">
-          <div className="box">
-            {Object.entries(categories).map(([key, value]) => (
-              <div
-                className="category-btn"
-                key={key}
-                style={{ margin: "10px", transition: "transform 0.3s ease" }}
-              >
-                <button
-                  onClick={() => handleTabChange(value)}
-                  style={{
-                    backgroundImage: `url(${getBackgroundImage(key)})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "18px",
-                    padding: "20px",
-                    transition: "transform 0.3s ease, background-color 0.3s ease",
-                  }}
-                  className="hover:scale-110 hover:bg-white hover:text-gray-900"
-                >
-                  {value}
-                </button>
-              </div>
-            ))}
-          </div>
+     {/* Category Buttons */}
+{/* Category Buttons */}
+{!showEvents && (
+  <div className="category-buttons mt-24">
+    <div className="box">
+      {Object.entries(categories).map(([key, value]) => (
+        <div
+          className="category-btn"
+          key={key}
+          style={{ margin: "10px", transition: "transform 0.3s ease" }}
+        >
+          <button
+            onClick={() => handleTabChange(value)}
+            style={{
+              backgroundImage: `url(../../src/Assets/${key}.png)`, // Dynamically set the image
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              width: "100%",
+              height: "100%",
+              borderRadius: "18px",
+              padding: "20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "transform 0.3s ease, background-color 0.3s ease",
+              position: "relative", // For text positioning
+            }}
+            className="hover:scale-110 hover:bg-white hover:text-gray-900"
+          >
+            <span
+              style={{
+                color: "white", // White text color
+                fontSize: "1.5rem", // Adjust the font size
+                fontWeight: "bold",
+                position: "absolute", // To float above the background
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)", // Center the text
+                textShadow: "0 4px 6px rgba(0, 0, 0, 0.3)", // Subtle shadow for 3D effect
+                background: "rgba(0, 0, 0, 0.5)", // Semi-transparent black background
+                padding: "10px 20px", // Padding around text
+                borderRadius: "12px", // Rounded corners for the background
+                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.3)", // Shadow for floating effect
+              }}
+            >
+              {value}
+            </span>
+          </button>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+)}
+
+
 
 {/* Event Cards */}
 {showEvents && (

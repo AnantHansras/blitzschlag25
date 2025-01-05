@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import sponsorImg from "../Assets/sponsor.jpg";
 
@@ -18,5 +19,15 @@ const Sponsor = () => {
     </div>
   );
 };
+=======
+import React from 'react'
+import PageNA from '../Components/PageNA'
+
+const Sponsor = () => {
+  return (
+    <div><PageNA/></div>
+  )
+}
+>>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
 
 export default Sponsor;

@@ -19,7 +19,38 @@ import Model3D from './Pages/Model3D';
 import { Tooltip } from "react-tooltip";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+<<<<<<< HEAD
 import LandingPage from './Pages/LandingPage';
+=======
+function App() {
+  <Tooltip id="global-tooltip" />
+  const location = useLocation();
+  return (
+  
+      <div className=' w-screen h-screen text-white'>
+        <div className='w-screen h-screen text-white'>
+          {location.pathname !== '/model3d' && <Navbar />}
+          <div>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/sponsor" element={<Sponsor />} />
+              <Route path="/our_team" element={<Team />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/campus_embassador" element={<CampusEmbassador />} />
+              <Route path="/pronites" element={<Pronite />} />
+              <Route path="/model3d" element={<Model3D />} />
+              <Route path="/pass" element={<Pass />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/login" element={<Login/>} />
+              <Route path="/event" element={<Event/>} />
+              <Route path="/footer" element={<Footer/>} />
+            </Routes>
+          </div>
+        </div>
+>>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
 
 function App() {
   const location = useLocation();
@@ -145,6 +176,7 @@ function App() {
         className="absolute top-0 left-0 w-full h-full pointer-events-none"
         style={{ zIndex: 1000 }}
       />
+<<<<<<< HEAD
   
       <div className="w-screen h-screen text-white relative">
         {/* Main app content */}
@@ -183,6 +215,10 @@ function App() {
         />
       </div>
     </>
+=======
+    </div>
+  
+>>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
   );
 }
 
