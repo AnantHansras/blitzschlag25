@@ -1,0 +1,32 @@
+.autoShow{
+    animation: autoShowAnimation both;
+    animation-timeline: view(70% 5%);
+}
+
+@keyframes autoShowAnimation{
+    from{
+        opacity: 0;
+        transform: translate(200px) scale(0.3);
+    }
+    to{
+        opacity: 100;
+        transform: translate(0) scale(1);
+    }
+}
+
+.boxAnimation{
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
+
+@keyframes appear {
+    from{
+        opacity: 0;
+        scale: 0;
+    }
+    to{
+        opacity: 100;
+        scale: 1;
+    }
+}

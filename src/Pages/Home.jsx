@@ -6,7 +6,7 @@ import Footer from '../Components/Footer';
 import { FiPlayCircle } from "react-icons/fi";
 const Home = () => {
   return (
-    <div className="h-screen bg-transparent relative overflow-hidden">
+    <div className="h-screen w-full bg-transparent relative overflow-hidden">
       {/* Background Image */}
       
       <div

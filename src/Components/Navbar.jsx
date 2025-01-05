@@ -41,21 +41,21 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed w-full bg-[#C4C4C430] z-50 rounded-b-3xl py-3">
+    <div className="absolute w-full z-50 bg-transparent py-3">
       <div className="flex justify-between items-center">
         <div>
           <Link to="/">
             <img
               src={logo}
               alt="Blitz Logo"
-              className="h-20 ml-3 absolute top-0"
+              className="h-20 p-1 ml-3 absolute top-0"
             />
           </Link>
         </div>
 
         {/* Main Navigation (Visible in PC) */}
         <div
-          className="hidden  font-normal text-2xl text-[#D3D3D3] lg:flex justify-between items-center gap-x-7"
+          className="hidden relative p-2 -top-3 font-normal text-2xl bg-[#C4C4C430] rounded-b-xl  text-[#D3D3D3] lg:flex justify-between items-center gap-x-7"
           style={{ fontFamily: "'Jaro', sans-serif" }}
         >
           <Link

@@ -7,4 +7,4 @@ const CampusEmbassador = () => {
   )
 }
 
-export default CampusEmbassador
+export default CampusEmbassador;
