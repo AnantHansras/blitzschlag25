@@ -1,10 +1,11 @@
 'use client'
 import './App.css';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { Route, Routes ,useLocation} from 'react-router-dom';
+import { useEffect, useRef } from 'react'
 import Navbar from './Components/Navbar';
 import Profile from './Pages/Profile';
 import Login from './Pages/Login';
+import Home from './Pages/Home';
 import About from './Pages/About';
 import Sponsor from './Pages/Sponsor';
 import Team from './Pages/Team';
@@ -13,16 +14,15 @@ import Schedule from './Pages/Schedule';
 import CampusEmbassador from './Pages/CampusEmbassador';
 import Pronite from './Pages/Pronite';
 import Pass from './Pages/Pass';
+import LandingPage from './Pages/LandingPage';
 import Error from './Pages/Error';
 import SignUp from './Pages/SignUp';
 import Model3D from './Pages/Model3D';
-import { Tooltip } from "react-tooltip";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import LandingPage from './Pages/LandingPage';
-import SplashScreen from './Pages/SplashScreen';
-
+import { Tooltip } from 'react-tooltip';
 function App() {
+  
   const location = useLocation();
   const canvasRef = useRef(null);
 
@@ -116,6 +116,7 @@ function App() {
         gradient.addColorStop(0, `rgba(255, 204, 50, ${p.life})`); // Darker golden core
         gradient.addColorStop(0.4, `rgba(255, 153, 0, ${p.life * 0.3})`); // Rich golden tone
         gradient.addColorStop(1, `rgba(128, 80, 0, 0)`); // Fade to a dark brownish transparent color
+        
   
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * (1 + (1 - p.life) * 2), 0, Math.PI * 2);
@@ -134,58 +135,58 @@ function App() {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
+  
 
   return (
     <>
-      <SplashScreen/>
-      {/* Tooltip */}
-      <Tooltip id="global-tooltip" />
-
-      {/* Canvas for mouse effect */}
-      <canvas
-        ref={canvasRef}
-        className="absolute top-0 left-0 w-full h-full pointer-events-none"
-        style={{ zIndex: 1000 }}
-      />
-  
+      <Tooltip id="global-tooltip"/>
       <div className="w-screen h-screen text-white relative">
+        {/* Canvas for the mouse effect */}
+        <canvas
+          ref={canvasRef}
+          className="absolute top-0 left-0 w-full h-full pointer-events-none"
+          style={{ zIndex: 1000 }}
+        />
+    
         {/* Main app content */}
-        {location.pathname !== '/model3d' && <Navbar />}
-        <div>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/event" element={<Event />} />
-            <Route path="/sponsor" element={<Sponsor />} />
-            <Route path="/our_team" element={<Team />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/campus_embassador" element={<CampusEmbassador />} />
-            <Route path="/pronites" element={<Pronite />} />
-            <Route path="/model3d" element={<Model3D />} />
-            <Route path="/pass" element={<Pass />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
+        <div className="relative z-10 w-screen h-screen text-white">
+          {location.pathname !== '/model3d' && <Navbar />}
+          <div>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/event" element={<Event />} />
+              <Route path="/sponsor" element={<Sponsor />} />
+              <Route path="/our_team" element={<Team />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/campus_embassador" element={<CampusEmbassador />} />
+              {/* <Route path="/auth" element={<Auth />} /> */}
+              <Route path="/pronites" element={<Pronite />} />
+              <Route path="/model3d" element={<Model3D />} />
+              <Route path="/pass" element={<Pass />} />
+              <Route path="*" element={<Error />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login/>} />
+            </Routes>
+          </div>
         </div>
-  
-        {/* Footer */}
-  
+    
         {/* Toast notifications */}
         <ToastContainer
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
+          autoClose={3000} // Auto close after 5 seconds
+          hideProgressBar={false} // Show progress bar
+          newestOnTop={false} // Show newest toast at the bottom
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           pauseOnHover
-          theme="dark"
+          theme="dark" // You can choose from 'light', 'dark', 'colored'
         />
       </div>
     </>
   );
+  
 }
 
 export default App;
