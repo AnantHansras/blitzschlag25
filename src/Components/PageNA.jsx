@@ -29,10 +29,6 @@ const PageNA = () => {
                     <p className="text-gray-400">
                     We're working on it!
 The content you're looking for is currently unavailable, but we’re updating it and it will be available soon.
-<<<<<<< HEAD
-=======
-
->>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
 Thank you for your patience!
                     </p>
                     <a onClick={()=>{navigate('/')}} className="text-indigo-500 duration-150 hover:text-indigo-100 font-medium inline-flex items-center gap-x-1">
@@ -49,8 +45,4 @@ Thank you for your patience!
     
   )
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
 export default PageNA

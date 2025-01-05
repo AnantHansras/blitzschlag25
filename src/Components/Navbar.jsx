@@ -55,11 +55,7 @@ const Navbar = () => {
 
         {/* Main Navigation (Visible in PC) */}
         <div
-<<<<<<< HEAD
           className="hidden relative p-2 -top-3 font-normal text-2xl bg-[#C4C4C430] rounded-b-xl  text-[#D3D3D3] lg:flex justify-between items-center gap-x-7"
-=======
-          className="hidden  font-normal text-2xl text-[#D3D3D3] lg:flex justify-between items-center gap-x-7"
->>>>>>> c9ecbfd66825ce0f26facdb4b2a024d7e41f42e5
           style={{ fontFamily: "'Jaro', sans-serif" }}
         >
           <Link
