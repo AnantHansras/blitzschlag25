@@ -118,7 +118,7 @@ const Navbar = () => {
   style={{
     backgroundColor: "transparent", // Custom background color
   }}
-  size={280}
+  size={300}
 >
   <div className="flex flex-col items-left p-10 bg-black bg-opacity-100 h-full overflow-y-scroll">
     <Link
@@ -176,9 +176,8 @@ const Navbar = () => {
       className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
       onClick={toggleDrawer}
     >
-      <FaUsers className="mr-2" size="2em" />
-
-      Campus Embassador
+      <FaUsers className="mr-2"/>
+         Embassador
     </Link>
     <Link
       to="/pronites"

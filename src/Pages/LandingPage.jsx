@@ -6,7 +6,7 @@ import Sponsor from "./Sponsor";
 import CampusEmbassador from "./CampusEmbassador";
 import EventImg from "../Assets/eventbg.jpg";
 import "../css files/animation.css";
-
+import Transition from "../transition";
 // EventL Component
 const EventL = () => {
   return (
@@ -61,4 +61,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default Transition(LandingPage);

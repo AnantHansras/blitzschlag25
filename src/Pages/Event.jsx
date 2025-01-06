@@ -4,9 +4,11 @@ import eventData from "../data/eventData";
 import SingleComponent from "../Components/single"; 
 import TeamComponent from "../Components/team"; 
 import eventbg from "../Assets/loginbg.jpg"; 
+import Transition from "../transition";
 import { auth } from "../../firebase"; 
 import "../css files/events.css";
 import Drawer from 'react-modern-drawer'; // Import the Drawer component
+import { CardBody, CardContainer, CardItem } from "../Components/3dcard";
 
 const Events = () => {
   const [uid, setUid] = useState(null); // State for storing the UID
@@ -126,7 +128,8 @@ const Events = () => {
         backgroundAttachment: "fixed",
       }}
     >
-<h1 className="text-4xl sm:text-5xl font-bold mt-16 text-center text-white tracking-widest">
+<h1 style={{ fontFamily: '"Amarante", serif' }}
+      className="text-center text-7xl mb-8 font-normal bg-gradient-to-r from-[#071182] via-[#989898] to-[#50FFF0] bg-clip-text text-transparent">
   Event
 </h1>
 
@@ -154,10 +157,10 @@ const Events = () => {
 
 {/* Back to Categories Button */}
 {showEvents && (
-  <div className="flex justify-center mt-4 mb-4">
+  <div className="flex justify-center my-4">
     <button
       onClick={handleBackToCategories}
-      className="w-full sm:w-auto bg-transparent border-2 border-white text-white p-4 rounded-lg transition-transform transform hover:scale-105 hover:bg-indigo-600"
+      className="w-full -mt-4 mb-8 sm:w-auto bg-black bg-opacity-80 border-2 border-white text-white p-4 rounded-lg"
     >
       Back to Categories
     </button>
@@ -250,45 +253,87 @@ const Events = () => {
 {/* Event Cards */}
 {showEvents && (
   <div className="container mx-auto px-4">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2">
       {filteredEvents.length === 0 ? (
         <p className="text-center text-white">No events available for this category.</p>
       ) : (
         filteredEvents.map((event, index) => (
-          <div
-            key={index}
-            className="relative group border border-gray-200 rounded-lg shadow-md overflow-hidden"
-            style={{
-              height: '300px',
-              width: '100%',
-              background: 'linear-gradient(135deg, #c31432, #240b36, #3b8d99)',
-            }}
-          >
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 opacity-100 transition-opacity duration-300 group-hover:opacity-0">
-              <h3 className="text-lg sm:text-xl font-semibold mb-2 text-center text-white">
-                {event.name}
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-100 text-center">
-                {event.description.slice(0, 100)}...
-              </p>
-            </div>
+          <CardContainer className="inter-var -m-8 -my-16">
+                <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:bg-opacity-50 dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+                  <CardItem
+                    translateZ="50"
+                    className="text-xl font-bold text-neutral-600 dark:text-white"
+                  >
+                    {event.name}
+                  </CardItem>
+                  <CardItem
+                    as="p"
+                    translateZ="60"
+                    className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+                  >
+                    {event.description.slice(0, 100)}...
+                  </CardItem>
+                  <CardItem
+                    translateZ="100"
+                    rotateX={20}
+                    rotateZ={-10}
+                    className="w-full mt-4"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      height="1000"
+                      width="1000"
+                      className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+                      alt="thumbnail"
+                    />
+                  </CardItem>
+                  <div className="flex justify-end items-center mt-4">
+                    <CardItem
+                      translateZ={20}
+                      translateX={40}
+                      as="button"
+                      onClick={() => openDrawer(event)}
+                      className="px-4 py-2  rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
+                    >
+                      View Details
+                    </CardItem>
+                  </div>
+                </CardBody>
+              </CardContainer>
+          // <div
+          //   key={index}
+          //   className="relative group border border-gray-200 rounded-lg shadow-md overflow-hidden"
+          //   style={{
+          //     height: '300px',
+          //     width: '100%',
+          //     background: 'linear-gradient(135deg, #c31432, #240b36, #3b8d99)',
+          //   }}
+          // >
+          //   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-4 opacity-100 transition-opacity duration-300 group-hover:opacity-0">
+          //     <h3 className="text-lg sm:text-xl font-semibold mb-2 text-center text-white">
+          //       {event.name}
+          //     </h3>
+          //     <p className="text-xs sm:text-sm text-gray-100 text-center">
+          //       {event.description.slice(0, 100)}...
+          //     </p>
+          //   </div>
 
-            <div className="absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <img
-                src={event.imgUrl}
-                alt={event.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <button
-                  onClick={() => openDrawer(event)}
-                  className="bg-white text-gray-900 px-4 sm:px-6 py-2 rounded-lg font-semibold transform hover:scale-105"
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
+          //   <div className="absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          //     <img
+          //       src={event.imgUrl}
+          //       alt={event.name}
+          //       className="w-full h-full object-cover"
+          //     />
+          //     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          //       <button
+          //         onClick={() => openDrawer(event)}
+          //         className="bg-white text-gray-900 px-4 sm:px-6 py-2 rounded-lg font-semibold transform hover:scale-105"
+          //       >
+          //         View Details
+          //       </button>
+          //     </div>
+          //   </div>
+          // </div>
         ))
       )}
     </div>
@@ -356,4 +401,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default Transition(Events);
