@@ -4,7 +4,10 @@ import PageNA from '../Components/PageNA'
 
 const Pronite = () => {
   return (
-    <div><PageNA/></div>
+    <div >
+  <PageNA/>
+    </div>
+    
   )
 }
 

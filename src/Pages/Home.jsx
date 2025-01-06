@@ -4,6 +4,7 @@ import insect from '../Assets/BlitzHome_insect.png';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { FiPlayCircle } from "react-icons/fi";
+
 const Home = () => {
   return (
     <div className="h-screen w-full bg-transparent relative overflow-hidden">
