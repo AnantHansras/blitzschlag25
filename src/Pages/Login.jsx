@@ -145,7 +145,7 @@ const Login = () => {
             />
             <button
               onClick={handleForgotPassword}
-              className="w-full mt-6 bg-transparent border-2 border-white text-white p-3 rounded-lg mt-4"
+              className="w-full mt-6 bg-transparent border-2 border-white text-white p-3 rounded-lg "
             >
               {loading ? 'Sending email...' : 'Send Reset Link'}
             </button>
