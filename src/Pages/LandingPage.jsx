@@ -11,6 +11,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import mnitlogo from "../Assets/mnitlogo.png";
 import clublogo from "../Assets/culturalclublogo.png";
+import "./landing.css";
 
 import {
   Animator,
@@ -79,12 +80,28 @@ const LandingPage = () => {
           </div>
         </Animator>
       </ScrollPage>
-
       <ScrollPage>
-        <Animator animation={batch(Sticky(), Fade(), Spin(3))} >
-          <h1 style={{ fontSize: 50 }}>Events</h1>
-        </Animator>
-      </ScrollPage>
+  <Animator animation={batch(Sticky(), Fade(), Spin(3))}>
+    <h1
+      style={{
+        fontSize: "50px",
+        background: "linear-gradient(45deg, #ff6a00, #ee0979, #ff00b9)",
+        backgroundClip: "text",
+        color: "transparent",
+        fontWeight: "600",
+        textAlign: "center",
+        textShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+        letterSpacing: "2px",
+        animation: "glowAnimation 3s ease-in-out infinite",
+      }}
+    >
+      Events
+    </h1>
+  </Animator>
+</ScrollPage>
+
+
+
 
       {/* Event Section */}
       <ScrollPage>
@@ -97,10 +114,24 @@ const LandingPage = () => {
 
       {/* Sponsor Section */}
       <ScrollPage>
-        <Animator animation={batch(Sticky(), Fade(), Spin(3))}>
-          <h1 style={{ fontSize: 50 }}>Team</h1>
-        </Animator>
-      </ScrollPage>
+  <Animator animation={batch(Sticky(), Fade(), Spin(3))}>
+    <h1
+      style={{
+        fontSize: "50px",
+        background: "linear-gradient(45deg, #ff6a00, #ee0979, #ff00b9)",
+        backgroundClip: "text",
+        color: "transparent",
+        fontWeight: "600",
+        textAlign: "center",
+        textShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+        letterSpacing: "2px",
+        animation: "glowAnimation 3s ease-in-out infinite",
+      }}
+    >
+      Team
+    </h1>
+  </Animator>
+</ScrollPage>
 
       {/* Event Section */}
       <ScrollPage>
