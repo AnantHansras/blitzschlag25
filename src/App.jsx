@@ -4,6 +4,7 @@ import { Route, Routes ,useLocation} from 'react-router-dom';
 import { useEffect, useRef } from 'react'
 import Navbar from './Components/Navbar';
 import Profile from './Pages/Profile';
+import { AnimatePresence } from 'framer-motion';
 import Login from './Pages/Login';
 import Home from './Pages/Home';
 import About from './Pages/About';
@@ -21,6 +22,7 @@ import Model3D from './Pages/Model3D';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Tooltip } from 'react-tooltip';
+import SplashScreen from './Pages/SplashScreen';
 function App() {
   
   const location = useLocation();
@@ -147,28 +149,30 @@ function App() {
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
           style={{ zIndex: 1000 }}
         />
-    
+        <SplashScreen/>
         {/* Main app content */}
         <div className="relative z-10 w-screen h-screen text-white">
           {location.pathname !== '/model3d' && <Navbar />}
           <div>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/event" element={<Event />} />
-              <Route path="/sponsor" element={<Sponsor />} />
-              <Route path="/our_team" element={<Team />} />
-              <Route path="/schedule" element={<Schedule />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/campus_embassador" element={<CampusEmbassador />} />
-              {/* <Route path="/auth" element={<Auth />} /> */}
-              <Route path="/pronites" element={<Pronite />} />
-              <Route path="/model3d" element={<Model3D />} />
-              <Route path="/pass" element={<Pass />} />
-              <Route path="*" element={<Error />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login/>} />
-            </Routes>
+            <AnimatePresence mode='wait'>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/event" element={<Event />} />
+                <Route path="/sponsor" element={<Sponsor />} />
+                <Route path="/our_team" element={<Team />} />
+                <Route path="/schedule" element={<Schedule />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/campus_embassador" element={<CampusEmbassador />} />
+                {/* <Route path="/auth" element={<Auth />} /> */}
+                <Route path="/pronites" element={<Pronite />} />
+                <Route path="/model3d" element={<Model3D />} />
+                <Route path="/pass" element={<Pass />} />
+                <Route path="*" element={<Error />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={<Login/>} />
+              </Routes>
+            </AnimatePresence>
           </div>
         </div>
     

@@ -1,3 +1,5 @@
+import Transition from "../transition";
+import profileImg from "../../public/profile.webp"
 import React, { useState, useEffect } from "react";
 import { getAuth, signOut, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import { app } from "../../firebase"; // Your Firebase initialization file
@@ -46,13 +48,8 @@ const Profile = () => {
     });
 
     return () => unsubscribe();
-  }, [auth, navigate]);
-
-  const fetchProfileImage = async (uid) => {
-    const avatarUrl = `https://robohash.org/${uid}.png`;
-    setProfileImage(avatarUrl);
-  };
-
+  }, [auth, navigate]);  
+  
   const fetchProfileData = async (uid) => {
     try {
       const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/profile', {
@@ -151,6 +148,7 @@ const Profile = () => {
   className="grid grid-cols-1 sm:grid-cols-3 gap-4 h-screen p-5 pt-24"
 >
   <div
+    className="z-0"
     style={{
       position: 'absolute',
       top: 0,
@@ -172,13 +170,13 @@ const Profile = () => {
     </p>
 
     <div className="flex justify-center">
-      {profileImage ? (
+      {profileImg ? (
         <img
-          src={profileImage}
+          src={profileImg}
           alt="Profile"
           draggable="false"
           style={{ borderColor: 'rgba(130, 96, 89, 0.75)' }}
-          className="min-w-28 min-h-28 sm:w-32 sm:h-32 border-8 object-cover bg-black bg-opacity-75"
+          className="w-48 h-48 border-8 object-cover bg-black bg-opacity-75"
         />
       ) : (
         <div className="w-28 h-28 sm:w-24 sm:h-24 bg-gray-300 flex items-center justify-center">
@@ -224,6 +222,7 @@ const Profile = () => {
   {/* Right Column: Events */}
   <div className="sm:col-span-2 z-10 flex flex-col justify-center items-center p-4">
     <p
+      className=""
       style={{ fontFamily: '"Amarante", serif' }}
       className="text-center text-7xl mb-8 -mt-12 font-normal bg-gradient-to-r from-[#071182] via-[#989898] to-[#50FFF0] bg-clip-text text-transparent"
     >
@@ -313,4 +312,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Transition(Profile);

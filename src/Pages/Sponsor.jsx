@@ -21,11 +21,11 @@
 
 import React from 'react'
 import PageNA from '../Components/PageNA'
-
+import Transition from '../transition'
 const Sponsor = () => {
   return (
     <div><PageNA/></div>
   )
 }
 
-export default Sponsor;
+export default Transition(Sponsor);

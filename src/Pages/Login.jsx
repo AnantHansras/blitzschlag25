@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Transition from '../transition';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { app } from '../../firebase'; // Firebase initialization file
@@ -268,4 +269,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Transition(Login);
