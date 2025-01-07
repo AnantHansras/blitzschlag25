@@ -40,7 +40,6 @@ const Profile = () => {
         setUser(currentUser);
         setEmailVerified(currentUser.emailVerified);
         setName(currentUser.displayName || "");
-        fetchProfileImage(currentUser.uid);
         fetchProfileData(currentUser.uid);
       } else {
         navigate("/login");
@@ -52,22 +51,22 @@ const Profile = () => {
   
   const fetchProfileData = async (uid) => {
     try {
-      const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/profile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid }),
-      });
+        const response = await fetch(`http://localhost:5000/blitzschlag-25/us-central1/api/profile?uid=${encodeURIComponent(uid)}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
 
-      const result = await response.json();
-      if (response.ok) {
-        setApiData(result.data);
-      } else {
-        console.error('Error fetching profile data:', result.message || 'Unknown error');
-      }
+        const result = await response.json();
+        if (response.ok) {
+            setApiData(result.data);
+        } else {
+            console.error('Error fetching profile data:', result.message || 'Unknown error');
+        }
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+        console.error('Error fetching profile data:', error);
     }
-  };
+};
+
 
   const setApiData = (data) => {
     const { userData, teamsDetails } = data;
