@@ -128,10 +128,12 @@ const Events = () => {
         backgroundAttachment: "fixed",
       }}
     >
-<h1 style={{ fontFamily: '"Amarante", serif' }}
-      className="text-center text-7xl mb-8 font-normal bg-gradient-to-r from-[#071182] via-[#989898] to-[#50FFF0] bg-clip-text text-transparent">
-  Event
-</h1>
+ <p
+    style={{ fontFamily: '"Amarante", serif' }}
+    className="text-center mx-auto w-fit text-7xl mt-20 mb-8 font-normal bg-gradient-to-r from-[#071182] via-[#00ffc3] to-[#ff5050] bg-clip-text text-transparent"
+  >
+    EVENTS
+  </p>
 
 {/* Event Handling Section */}
 <div className="flex flex-col sm:flex-row justify-center items-center my-8 gap-4">
@@ -253,12 +255,12 @@ const Events = () => {
 {/* Event Cards */}
 {showEvents && (
   <div className="container mx-auto px-4">
-    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2">
+    <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-8">
       {filteredEvents.length === 0 ? (
         <p className="text-center text-white">No events available for this category.</p>
       ) : (
         filteredEvents.map((event, index) => (
-          <CardContainer className="inter-var -m-8 -my-16">
+          <CardContainer className="inter-var">
                 <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:bg-opacity-50 dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
                   <CardItem
                     translateZ="50"
@@ -271,7 +273,7 @@ const Events = () => {
                     translateZ="60"
                     className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
                   >
-                    {event.description.slice(0, 100)}...
+                    {event.description.slice(0,50)}...
                   </CardItem>
                   <CardItem
                     translateZ="100"

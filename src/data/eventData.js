@@ -79,7 +79,7 @@ const eventData = {
         description: 'Enhance your look with vibrant, temporary colored hair extensions.',
         maxTeamSize: 1,
         eventPath: 'hairStyling',
-        imgUrl: '/Event_background.jpg',
+        imgUrl: 'Event_background.jpg',
         club: 'none',
         type: 'fun',
     },
