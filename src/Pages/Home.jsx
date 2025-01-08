@@ -27,6 +27,7 @@ const Home = () => {
               fontFamily: "'Metal Mania', cursive",
               WebkitTextStroke: "3px #D4BF927D",
               WebkitTextFillColor: "#FFFBFB",
+              textShadow: "0 0 5px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(255, 255, 255, 0.4)"
             }}
           >
             BLITZSCHLAG' 25
@@ -53,12 +54,24 @@ const Home = () => {
         </p>
 
         {/* Subtitle */}
-        <p className="mt-12 text-2xl md:text-4xl  font-medium text-white flex gap-x-4 ">
-          <span className="bg-clip-text text-transparent pt-2 bg-[linear-gradient(224.46deg,_#724E2C_36.57%,_#F6B168_51.94%,_#5F3F24_73.6%,_#E68E23_117.23%,_#453B2E_130.33%)]" 
-           style={{fontFamily: "'Aclonica', sans-serif"}}>
-            Enter The Dreamland</span>
-            <Link to="/model3d" className="text-[#C0AA67] text-5xl hover:scale-105 hover:text-[#f5db86] transition-all duration-200"><FiPlayCircle /></Link>
-        </p>
+        <p className="mt-12 text-2xl md:text-4xl font-medium text-white flex gap-x-4">
+  <span 
+    className="bg-clip-text text-transparent pt-2 bg-[linear-gradient(224.46deg,_#ffffff_36.57%,_#ffffff.94%,_#ffffff_73.6%,_#E68E23_117.23%,_#ffffff_130.33%)]"
+    style={{
+      fontFamily: "'Aclonica', sans-serif",
+      textShadow: "0 0 5px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(255, 255, 255, 0.4)"
+    }}
+  >
+    Enter The Dreamland
+  </span>
+  <Link 
+    to="/model3d" 
+    className="text-[#C0AA67] text-5xl hover:scale-105 hover:text-[#f5db86] transition-all duration-200"
+  >
+    <FiPlayCircle />
+  </Link>
+</p>
+
       </div>
 
     </div>
