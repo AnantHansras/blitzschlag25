@@ -158,3 +158,89 @@ top: 166px;
   .scale-95 {
     transform: scale(0.95);
   }
+
+
+
+
+  .btn {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: #171717;
+  padding: 1em 2em;
+  border: none;
+  border-radius: .6rem;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.btn span:not(:nth-child(6)) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 30px;
+  width: 30px;
+  background-color: #0c66ed;
+  border-radius: 50%;
+  transition: .6s ease;
+}
+
+.btn span:nth-child(6) {
+  position: relative;
+}
+
+.btn span:nth-child(1) {
+  transform: translate(-3.3em, -4em);
+}
+
+.btn span:nth-child(2) {
+  transform: translate(-6em, 1.3em);
+}
+
+.btn span:nth-child(3) {
+  transform: translate(-.2em, 1.8em);
+}
+
+.btn span:nth-child(4) {
+  transform: translate(3.5em, 1.4em);
+}
+
+.btn span:nth-child(5) {
+  transform: translate(3.5em, -3.8em);
+}
+
+.btn:hover span:not(:nth-child(6)) {
+  transform: translate(-50%, -50%) scale(4);
+  transition: 1.5s ease;
+}
+
+/* From Uiverse.io by Alaner-xs */ 
+.input {
+  background-color: #383838;
+  border: 1ex solid none;
+  border-top-width: 1.7em;
+  margin: 0;
+  padding: 0;
+  color: #383838;
+  word-wrap: break-word;
+  outline: 7px solid #383838;
+  height: 29px;
+  font-size: 17px;
+  text-align: center;
+  transition: all 1s;
+  max-width: 190px;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+ }
+ 
+ .input:hover {
+  border-top-width: 0.2em;
+  background-color: #c4d8dc;
+ }
+ 
+ .input:focus {
+  border-top-width: 0.2em;
+  background-color: #f1e8e8;
+ }
