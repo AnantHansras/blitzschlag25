@@ -34,7 +34,7 @@ const AboutUs = () => {
         {/* Hero Section */}
         <section className="relative text-center py-16">
           <h1
-            className="text-5xl font-bold mt-8 tracking-wider text-center"
+            className="text-6xl font-bold mt-8 tracking-wider text-center"
             style={{ fontFamily: "'Metal Mania', cursive" }}
           >
             About Us
@@ -66,10 +66,10 @@ const AboutUs = () => {
           >
             <h2 className="text-4xl font-bold mb-4">About Blitzschlag</h2>
             <p className="text-gray-300 mb-6">
-              With immense pride, we present you BLITZSCHLAG 2024, the 2nd largest annual Cultural
+              With immense pride, we present you BLITZSCHLAG 2025, the 2nd largest annual Cultural
               Festival of Rajasthan and the pearl of the eyes of the Malaviya National Institute of
               Technology Jaipur that ignites the spirit of the entire MNIT community! From February
-              2nd to 4th, 2024, immerse yourselves in a whirlwind of captivating experiences.
+              6th to 8th, 2025, immerse yourselves in a whirlwind of captivating experiences.
               Unleash your artistic talents across diverse platforms, witness breathtaking
               performances, and be a part of an electrifying celebration of human expression.
             </p>
@@ -77,7 +77,7 @@ const AboutUs = () => {
         </section>
 
         {/* Theme */}
-        <section className="relative py-8 px-6 lg:px-20 grid lg:grid-cols-2 gap-8 items-center">
+        <section className="relative py-8 mt-2 px-6 lg:px-20 grid grid-flow-row lg:grid-cols-2 gap-8 items-center lg:flex-row ">
           {/* Content */}
           <motion.div
             className="bg-black rounded-xl bg-opacity-20 p-5 text-center"
@@ -149,36 +149,38 @@ const AboutUs = () => {
         </section>
 
         {/* abbout cacs */}
-        <section className="relative py-8 mt-2 px-6 lg:px-20 grid lg:grid-cols-2 gap-8 items-center">
-          {/* Content */}
-          <motion.div
-            className="bg-black rounded-xl bg-opacity-20 p-5 text-center"
-            variants={slideInFromLeft}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false }}
-          >
-            <h2 className="text-4xl font-bold mb-4">About Blitzschlag</h2>
-            <p className="text-gray-300 mb-6">
-            Cultural Society of the Institute is an umbrella that shelters numerous clubs and societies. The motto is to facilitate and promote opportunities as well as a platform for students to prove their mettle and to explore their passion through a plethora of interactive and innovative events. 
-            Participating in cultural pursuits helps you become more well-rounded and ready for the real world. They aid in students' sense of belonging to the Institute and help them grow professionally and personally by honing abilities including planning, public speaking, and teamwork.
-            
-            </p>
-          </motion.div>
+        <section className="relative py-8 mt-2 px-6 lg:px-20 grid grid-flow-row lg:grid-cols-2 gap-8 items-center lg:flex-row">
+  {/* Content */}
+  <motion.div
+    className="bg-black rounded-xl bg-opacity-20 p-5 text-center order-2 lg:order-1"
+    variants={slideInFromLeft}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: false }}
+  >
+    <h2 className="text-4xl font-bold mb-4">About CACS</h2>
+    <p className="text-gray-300 mb-6">
+      Cultural Society of the Institute is an umbrella that shelters numerous clubs and societies. The motto is to facilitate and promote opportunities as well as a platform for students to prove their mettle and to explore their passion through a plethora of interactive and innovative events. 
+      Participating in cultural pursuits helps you become more well-rounded and ready for the real world. They aid in students' sense of belonging to the Institute and help them grow professionally and personally by honing abilities including planning, public speaking, and teamwork.
+    </p>
+  </motion.div>
 
-          <motion.div
-            variants={slideInFromRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false }}
-          >
-            <img
-              src={cs}
-              alt="About Us"
-              className="rounded-lg shadow-lg ml-auto"
-            />
-          </motion.div>
-        </section>
+  {/* Image */}
+  <motion.div
+    className="order-1 lg:order-2"
+    variants={slideInFromRight}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: false }}
+  >
+    <img
+      src={cs}
+      alt="About Us"
+      className="rounded-lg shadow-lg ml-auto"
+    />
+  </motion.div>
+</section>
+
 
 
         {/* Call to Action */}
@@ -200,6 +202,11 @@ const AboutUs = () => {
             Get Started
           </button>
         </section>
+        <div className="text-center py-6 text-gray-400">
+          <p>
+            The information provided here is not final and will be updated soon. Stay tuned!
+          </p>
+        </div>
       </div>
     </div>
   );
