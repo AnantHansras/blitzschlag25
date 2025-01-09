@@ -140,9 +140,8 @@ const Events = () => {
         backgroundAttachment: "fixed",
       }}
     >
-=======
 <h1 style={{ fontFamily: '"Amarante", serif' }}
-      className="text-center text-7xl mb-8 font-normal bg-gradient-to-r from-[#071182] via-[#989898] to-[#50FFF0] bg-clip-text text-transparent">
+      className="text-center text-7xl mt-10 font-normal bg-gradient-to-r from-[#071182] via-[#989898] to-[#50FFF0] bg-clip-text text-transparent">
   Event
 </h1>
 
