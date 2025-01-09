@@ -1,4 +1,5 @@
 'use client'
+
 import './App.css';
 import { Route, Routes ,useLocation} from 'react-router-dom';
 import { useEffect, useRef } from 'react'
@@ -149,14 +150,14 @@ function App() {
           className="absolute top-0 left-0 w-full h-full pointer-events-none"
           style={{ zIndex: 1000 }}
         />
-        <SplashScreen/>
+        {/* <SplashScreen/> */}
         {/* Main app content */}
         <div className="relative z-10 w-screen h-screen text-white">
           {location.pathname !== '/model3d' && <Navbar />}
           <div>
             <AnimatePresence mode='wait'>
               <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route path="" element={<LandingPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/event" element={<Event />} />
                 <Route path="/sponsor" element={<Sponsor />} />
