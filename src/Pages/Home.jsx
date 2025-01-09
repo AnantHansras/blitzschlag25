@@ -43,7 +43,7 @@ const Home = () => {
           />
         </div>
         {/* Date and PlayButton */}
-        <div className="flex justify-center items-center w-full mt-5 gap-5">
+        <div className=" w-full space-y-10 ">
           <p
             className="text-xl md:text-3xl tracking-normal font-normal text-[#C0AA67] date"
             style={{
