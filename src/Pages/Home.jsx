@@ -3,6 +3,9 @@ import homeImage from '../Assets/blitz_home.png';
 import insect from '../Assets/BlitzHome_insect.png';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
+import mnitlogo from '../Assets/mnitlogo.png';
+import clublogo from '../Assets/culturalclublogo-removebg-preview.png';
+import { FiPlayCircle } from "react-icons/fi";
 import PlayButton from '../Components/PlayButton';
 
 const Home = () => {
@@ -52,7 +55,20 @@ const Home = () => {
           >
             6th - 9th February, 2025
           </p>
-          <p><PlayButton/></p>
+          <p><PlayButton /></p>
+        </div>
+        <p
+          className="text-xl mt-7 mb-3 md:text-3xl tracking-normal font-normal text-[#C0AA67] "
+          style={{
+            fontFamily: "'Metal Mania', cursive",
+            WebkitTextStroke: "0.5px #000000D1",
+            WebkitTextFillColor: "#C0AA67",
+            textShadow: "2px 2px 4px #000000",
+          }}
+        >presented by</p>
+        <div className='flex justify-center sm:justify-start gap-4'>
+          <img src={mnitlogo} className='w-24 h-24 ' alt="MNIT Logo" />
+          <img src={clublogo} className='w-24 h-24 ' alt="Cultural Club Logo" />
         </div>
       </div>
     </div>

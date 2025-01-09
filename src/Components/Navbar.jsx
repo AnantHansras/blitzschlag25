@@ -78,12 +78,8 @@ const Navbar = () => {
               Login
             </Link>
           ) : (
-            <span
-              className="px-4 py-2 hover:text-white hover:font-bold transition-all duration-200 cursor-pointer"
-              onClick={() => setShowLogoutModal(true)}
-            >
-              Logout
-            </span>
+            <>
+            </>
           )}
           {user && (
             <Link
@@ -186,14 +182,6 @@ const Navbar = () => {
     >
       <FaMusic className="mr-2" />
       ProNites
-    </Link>
-    <Link
-      to="/model3d"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaCubes className="mr-2" />
-      3D Model
     </Link>
     <Link
       to="/pass"
