@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import Home from "./Home";
-import Event from "./Event";
 import Team from "./Team";
 import EventImg from "../Assets/eventbg.jpg";
 import "../css files/animation.css";
