@@ -121,63 +121,55 @@ const advisors_team = [
     { name: "Rahul Bairwa", position: "Finance Secretary", img: rahulbairwa },
     { name: "Anushka Agrahari", position: "Mass & Media Secretary", img: anushkaagrahari },
     { name: "Raj Bilonia", position: "Mass & Media Secretary", img: rajbilonia },]
-
+    
+    // Import team data and images here (skipped for brevity)
+    
     const Team = () => {
-      const [activeTab, setActiveTab] = useState("core"); // Default tab is Core Team
+      const [activeTab, setActiveTab] = useState("core");
       const scrollContainerRef = useRef(null);
       const scrollContainerInnerRef = useRef(null);
+      const animationFrameRef = useRef(null);
     
       useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
         const scrollContainerInner = scrollContainerInnerRef.current;
+        const scrollSpeed = 3;
     
-        const startScroll = () => {
-          if (scrollContainer) {
-            const scrollSpeed = 2; // Speed in pixels per frame
+        const scroll = () => {
+          if (scrollContainer && scrollContainerInner) {
+            scrollContainer.scrollLeft += scrollSpeed;
     
-            // Function to move the scroll to the right
-            const scroll = () => {
-              if (scrollContainerInner) {
-                // Move the scroll to the right
-                scrollContainer.scrollLeft += scrollSpeed;
+            if (
+              scrollContainer.scrollLeft >=
+              scrollContainerInner.scrollWidth - scrollContainer.clientWidth
+            ) {
+              scrollContainer.scrollLeft = 0;
+            }
     
-                // When scroll reaches the end, reset to the start of the scroll container
-                if (
-                  scrollContainer.scrollLeft >=
-                  scrollContainerInner.scrollWidth - scrollContainer.clientWidth
-                ) {
-                  scrollContainer.scrollLeft = 0; // Reset to start
-                }
-    
-                requestAnimationFrame(scroll);
-              }
-            };
-    
-            // Start infinite scroll
-            scroll();
+            animationFrameRef.current = requestAnimationFrame(scroll);
           }
         };
     
-        // Start scrolling when the component mounts
-        startScroll();
+        scroll();
     
-        // Cleanup function when the component unmounts
-        return () => cancelAnimationFrame(startScroll);
+        return () => {
+          if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+          }
+        };
       }, []);
     
-      // Function to switch tabs
       const handleTabSwitch = (tab) => {
         setActiveTab(tab);
       };
     
-      // Select team data based on the active tab
       let teamData;
       if (activeTab === "organizing") {
         teamData = organizing_team;
       } else if (activeTab === "advisors") {
         teamData = advisors_team;
       } else {
-        teamData = core_team; // Default to core team
+        teamData = core_team;
       }
     
       return (
@@ -190,37 +182,43 @@ const advisors_team = [
     
           {/* Heading */}
           <h2
-            className="text-center tracking-wider mx-auto font-bold text-5xl text-white mt-24 z-20 mb-0 drop-shadow-lg"
+            className="text-center tracking-wider mx-auto font-bold text-4xl md:text-5xl lg:text-6xl text-white mt-32 md:mt-20 z-20 mb-2 md:mb-8 drop-shadow-lg"
             style={{ fontFamily: "'Metal Mania', cursive" }}
           >
             {activeTab === "organizing"
               ? "Organizing Team"
               : activeTab === "advisors"
               ? "Advisors Team"
-              : "Core Team"}
+              : "Team Avyukt"}
           </h2>
     
           {/* Horizontal Scrollable Content */}
           <div
             ref={scrollContainerRef}
-            className="z-10 flex space-x-8 -mt-32 mx-auto justify-center items-center"
+            className="z-10 flex space-x-6 md:space-x-8 -mt-16 mx-auto justify-center items-center overflow-hidden max-h-[70vh]"
             style={{
               whiteSpace: "nowrap",
-              maxHeight: "100vh",
-              overflowX: "scroll",
-              scrollBehavior: "smooth", // Smooth scroll
             }}
           >
-            {/* Wrapper to allow infinite scrolling */}
-            <div ref={scrollContainerInnerRef} className="flex">
-              {teamData.map((member, index) => (
-                <div key={index} className="inline-block">
+            <div
+              ref={scrollContainerInnerRef}
+              className="flex justify-center"
+            >
+              {/* {teamData.map((member, index) => (
+                <div
+                  key={index}
+                  className="inline-block mx-4 md:mx-6"
+                  style={{ minWidth: "200px" }}
+                >
                   <TeamCard img={member.img} name={member.name} post={member.position} />
                 </div>
-              ))}
-              {/* Duplicate the content for seamless looping */}
+              ))} */}
               {teamData.map((member, index) => (
-                <div key={index + teamData.length} className="inline-block">
+                <div
+                  key={index + teamData.length}
+                  className="inline-block mx-4 md:mx-6"
+                  style={{ minWidth: "200px" }}
+                >
                   <TeamCard img={member.img} name={member.name} post={member.position} />
                 </div>
               ))}
@@ -228,47 +226,47 @@ const advisors_team = [
           </div>
     
           {/* Tab Buttons */}
-          <div className="flex justify-center items-center gap-8 -mt-32">
-            <button
-              style={{ fontFamily: "cursive" }}
-              className={`relative py-3 border border-black px-8 text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
-                activeTab === "core"
-                  ? "bg-white/30 shadow-2xl"
-                  : "hover:bg-white/40 hover:shadow-xl"
-              }`}
-              onClick={() => handleTabSwitch("core")}
-            >
-              Core Team
-            </button>
-    
-            <button
-              style={{ fontFamily: "cursive" }}
-              className={`relative py-3 px-8 border border-black text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
-                activeTab === "organizing"
-                  ? "bg-white/30 shadow-2xl"
-                  : "hover:bg-white/40 hover:shadow-xl"
-              }`}
-              onClick={() => handleTabSwitch("organizing")}
-            >
-              Organizing Team
-            </button>
-    
-            <button
-              style={{ fontFamily: "cursive" }}
-              className={`relative py-3 px-8 border border-black text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
-                activeTab === "advisors"
-                  ? "bg-white/30 shadow-2xl"
-                  : "hover:bg-white/40 hover:shadow-xl"
-              }`}
-              onClick={() => handleTabSwitch("advisors")}
-            >
-              Advisors Team
-            </button>
-          </div>
+          <div className="flex justify-center items-center gap-4 md:gap-8 px-4  scrollbar-hide">
+  
+  <button
+    className={`relative py-2 px-4 sm:px-6 md:py-3 md:px-8 border border-black text-sm sm:text-sm md:text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
+      activeTab === "organizing"
+        ? "bg-white/30 shadow-2xl"
+        : "hover:bg-white/40 hover:shadow-xl"
+    }`}
+    onClick={() => handleTabSwitch("organizing")}
+  >
+    Organizing Team
+  </button>
+  <button
+    className={`relative py-2 px-4 sm:px-6 md:py-3 md:px-8 border border-black text-sm sm:text-lg md:text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
+      activeTab === "core"
+        ? "bg-white/30 shadow-2xl"
+        : "hover:bg-white/40 hover:shadow-xl"
+    }`}
+    onClick={() => handleTabSwitch("core")}
+  >
+    Core Team
+  </button>
+  <button
+    className={`relative py-2 px-4 sm:px-6 md:py-3 md:px-8 border border-black text-sm sm:text-lg md:text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
+      activeTab === "advisors"
+        ? "bg-white/30 shadow-2xl"
+        : "hover:bg-white/40 hover:shadow-xl"
+    }`}
+    onClick={() => handleTabSwitch("advisors")}
+  >
+    Advisors Team
+  </button>
+</div>
+
+
         </div>
       );
     };
     
     export default Team;
+    
+    
     
     
