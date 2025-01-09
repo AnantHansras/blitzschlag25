@@ -31,7 +31,7 @@ const SingleComponent = ({ event }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/joinevent', {
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/joinevent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

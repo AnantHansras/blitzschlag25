@@ -51,7 +51,7 @@ const Profile = () => {
   
   const fetchProfileData = async (uid) => {
     try {
-        const response = await fetch(`http://localhost:5000/blitzschlag-25/us-central1/api/profile?uid=${encodeURIComponent(uid)}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/profile?uid=${encodeURIComponent(uid)}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         });

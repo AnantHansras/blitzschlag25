@@ -67,7 +67,7 @@ const Login = () => {
 
       console.log('User logged in with Google:', user);
 
-      const response = await fetch('http://localhost:5000/blitzschlag-25/us-central1/api/signinwithgoogle', {
+      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/signinwithgoogle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
