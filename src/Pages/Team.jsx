@@ -1,4 +1,4 @@
-import React, { useEffect, useRef,useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import teamImg from "../Assets/teams.jpg";
 import TeamCard from "../Components/TeamCard";
 
@@ -30,7 +30,9 @@ import anshshah from "../Assets/ansh.jpg";
 import tanishagodha from "../Assets/tanisha.jpg";
 import giriraj from "../Assets/giriraj.png";
 import divyanshikushwah from "../Assets/divyanshi.jpg";
-
+import ashokkumarmeena from "../Assets/ashokkumarmeena.jpg";
+import simichaudhary from "../Assets/simichaudhary.jpg";
+import vinaytanwawr from "../Assets/vinaytanwar.jpg"; 
 
 import vidit from "../Assets/vidit.png";
 import krithik from "../Assets/krithik.png";
@@ -44,85 +46,121 @@ import ankit from "../Assets/ankit.png";
 const core_team = [
   { name: "Siddhant Mohanty", position: "President", img: siddhantmohanty },
   { name: "Chesta Soni", position: "Vice President", img: chestasoni },
-  { name: "Aayush Sarraff", position: "Cultural Secretary", img: aayushsarraff },
+  {
+    name: "Aayush Sarraff",
+    position: "Cultural Secretary",
+    img: aayushsarraff,
+  },
   { name: "Subhrajit Roy", position: "Cultural Secretary", img: subhrajitroy },
   { name: "Jitesh Yadav", position: "General Secretary", img: jiteshyadav },
   { name: "Aryaman Sharma", position: "General Secretary", img: aryamansharma },
-  { name: "Shravya Bhamidipati", position: "General Secretary", img: shravyabhamidipati },
+  {
+    name: "Shravya Bhamidipati",
+    position: "General Secretary",
+    img: shravyabhamidipati,
+  },
   { name: "Ishan Hemnani", position: "Technical Secretary", img: ishanhemnani },
   { name: "Shani Rajput", position: "Technical Secretary", img: shanirajput },
   { name: "Sachin", position: "Technical Secretary", img: sachin },
-  { name: "Tushar Sankhla", position: "Logistics Secretary", img: tusharsankhla },
+  {
+    name: "Tushar Sankhla",
+    position: "Logistics Secretary",
+    img: tusharsankhla,
+  },
   { name: "Vinay Bansal", position: "Logistics Secretary", img: vinaybansal },
-  { name: "Yashasvi Gautam", position: "Logistics Secretary", img: yashasvigautam },
+  {
+    name: "Yashasvi Gautam",
+    position: "Logistics Secretary",
+    img: yashasvigautam,
+  },
   { name: "Pravesh Nath", position: "Finance Secretary", img: praveshnath },
   { name: "Rahul Bairwa", position: "Finance Secretary", img: rahulbairwa },
-  { name: "Anushka Agrahari", position: "Mass & Media Secretary", img: anushkaagrahari },
+  {
+    name: "Anushka Agrahari",
+    position: "Mass & Media Secretary",
+    img: anushkaagrahari,
+  },
   { name: "Raj Bilonia", position: "Mass & Media Secretary", img: rajbilonia },
   { name: "Nitin Kumar", position: "Mass & Media Secretary", img: nitinkumar },
-  { name: "Ayush Agarwal", position: "Mass & Media Secretary", img: ayushagarwal },
+  {
+    name: "Ayush Agarwal",
+    position: "Mass & Media Secretary",
+    img: ayushagarwal,
+  },
   { name: "Nehal Dave", position: "Publicity Secretary", img: nehaldave },
-  { name: "Aman Tiwari", position: "Publicity Secretary", img: amanamarnathtiwari },
+  {
+    name: "Aman Tiwari",
+    position: "Publicity Secretary",
+    img: amanamarnathtiwari,
+  },
   { name: "Aditi Bajpai", position: "Publicity Secretary", img: aditibajpai },
   { name: "Rochit Jain", position: "Marketing Secretary", img: rochitjain },
   { name: "Ansh Shah", position: "Marketing Secretary", img: anshshah },
   { name: "Tanisha Godha", position: "Marketing Secretary", img: tanishagodha },
   { name: "Giriraj", position: "Decor Secretary", img: giriraj },
-  { name: "Divyanshi Kushwah", position: "Decor Secretary", img: divyanshikushwah },
+  {
+    name: "Divyanshi Kushwah",
+    position: "Decor Secretary",
+    img: divyanshikushwah,
+  },
 ];
-
 
 const advisors_team = [
   {
-    "name": "Krithik Mohan",
-    "position": "Advisor to VP + Cultural Secretary",
-    "img": krithik
+    name: "Krithik Mohan",
+    position: "Advisor to VP + Cultural Secretary",
+    img: krithik,
   },
   {
-    "name": "Jasneet Singh",
-    "position": "Advisor to Logistics + Decor Secretary",
-    "img": jassi
+    name: "Jasneet Singh",
+    position: "Advisor to Logistics + Decor Secretary",
+    img: jassi,
   },
   {
-    "name": "Vidit Awasthi",
-    "position": "Advisor to President",
-    "img": vidit
+    name: "Vidit Awasthi",
+    position: "Advisor to President",
+    img: vidit,
   },
   {
-    "name": "Madhvendra Singh",
-    "position": "Advisor to Logistics + Decor Secretary",
-    "img": mad
+    name: "Madhvendra Singh",
+    position: "Advisor to Logistics + Decor Secretary",
+    img: mad,
   },
   {
-    "name": "Rudra Purohit",
-    "position": "Advisor to Marketing Secretary",
-    "img": rudra
+    name: "Rudra Purohit",
+    position: "Advisor to Marketing Secretary",
+    img: rudra,
   },
   {
-    "name": "Ronak Gupta",
-    "position": "Advisor to Technical Secretary",
-    "img": ronak
+    name: "Ronak Gupta",
+    position: "Advisor to Technical Secretary",
+    img: ronak,
   },
   {
-    "name": "Ankit Sharma",
-    "position": "Advisor to General Secretary + Operational Management",
-    "img": ankit
-  }
-]
+    name: "Ankit Sharma",
+    position: "Advisor to General Secretary + Operational Management",
+    img: ankit,
+  },
+];
 
-
-  const organizing_team = [{ name: "Rochit Jain", position: "Marketing Secretary", img: rochitjain },
-    { name: "Ansh Shah", position: "Marketing Secretary", img: anshshah },
-    { name: "Tanisha Godha", position: "Marketing Secretary", img: tanishagodha },
-    { name: "Giriraj", position: "Decor Secretary", img: giriraj },
-    { name: "Divyanshi Kushwah", position: "Decor Secretary", img: divyanshikushwah },{ name: "Vinay Bansal", position: "Logistics Secretary", img: vinaybansal },
-    { name: "Yashasvi Gautam", position: "Logistics Secretary", img: yashasvigautam },
-    { name: "Pravesh Nath", position: "Finance Secretary", img: praveshnath },
-    { name: "Rahul Bairwa", position: "Finance Secretary", img: rahulbairwa },
-    { name: "Anushka Agrahari", position: "Mass & Media Secretary", img: anushkaagrahari },
-    { name: "Raj Bilonia", position: "Mass & Media Secretary", img: rajbilonia },]
+const special_mention=[
+  {
+    name:"Vinay Tanwar",
+    position:"",
+    img:vinaytanwawr,
+  },
+  {
+    name:"Ashok Kumar Meena",
+    position:"",
+    img: ashokkumarmeena,
+  },
+  {
+    name:"Simi Chaudhary",
+    position:"",
+    img: simichaudhary,
     
-    // Import team data and images here (skipped for brevity)
+  },
+]
     
     const Team = () => {
       const [activeTab, setActiveTab] = useState("core");
@@ -164,12 +202,13 @@ const advisors_team = [
       };
     
       let teamData;
-      if (activeTab === "organizing") {
-        teamData = organizing_team;
-      } else if (activeTab === "advisors") {
+      if (activeTab === "advisors") {
         teamData = advisors_team;
-      } else {
-        teamData = core_team;
+      } else if( activeTab ==="special"){
+        teamData = special_mention;
+      }
+      else{
+        teamData = core_team; // Default to core team
       }
     
       return (
@@ -182,15 +221,15 @@ const advisors_team = [
     
           {/* Heading */}
           <h2
-            className="text-center tracking-wider mx-auto font-bold text-4xl md:text-5xl lg:text-6xl text-white mt-32 md:mt-20 z-20 mb-2 md:mb-8 drop-shadow-lg"
-            style={{ fontFamily: "'Metal Mania', cursive" }}
-          >
-            {activeTab === "organizing"
-              ? "Organizing Team"
-              : activeTab === "advisors"
-              ? "Advisors Team"
-              : "Team Avyukt"}
-          </h2>
+        className="text-center tracking-wider mx-auto mb-20 font-bold text-5xl text-white mt-24 z-20 mb-0 drop-shadow-lg"
+        style={{ fontFamily: "'Metal Mania', cursive" }}
+      >
+        { activeTab === "advisors"
+          ? "Advisors Team"
+          : activeTab === "special"
+          ? "Special Mention"
+          : "Core Team"}
+      </h2>
     
           {/* Horizontal Scrollable Content */}
           <div
@@ -228,6 +267,17 @@ const advisors_team = [
           {/* Tab Buttons */}
           <div className="flex justify-center items-center gap-4 md:gap-8 px-4  scrollbar-hide">
   
+
+  <button
+    className={`relative py-2 px-4 sm:px-6 md:py-3 md:px-8 border border-black text-sm sm:text-lg md:text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
+      activeTab === "special"
+        ? "bg-white/30 shadow-2xl"
+        : "hover:bg-white/40 hover:shadow-xl"
+    }`}
+    onClick={() => handleTabSwitch("special")}
+  >
+    Special Mention
+  </button>
   <button
     className={`relative py-2 px-4 sm:px-6 md:py-3 md:px-8 border border-black text-sm sm:text-sm md:text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
       activeTab === "organizing"
@@ -235,16 +285,6 @@ const advisors_team = [
         : "hover:bg-white/40 hover:shadow-xl"
     }`}
     onClick={() => handleTabSwitch("organizing")}
-  >
-    Organizing Team
-  </button>
-  <button
-    className={`relative py-2 px-4 sm:px-6 md:py-3 md:px-8 border border-black text-sm sm:text-lg md:text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${
-      activeTab === "core"
-        ? "bg-white/30 shadow-2xl"
-        : "hover:bg-white/40 hover:shadow-xl"
-    }`}
-    onClick={() => handleTabSwitch("core")}
   >
     Core Team
   </button>

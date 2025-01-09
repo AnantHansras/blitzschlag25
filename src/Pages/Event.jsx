@@ -107,6 +107,12 @@ const Events = () => {
     category3: "club",
     category4: "attraction",
   };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleJoinTeam();
+    }
+  };
+
 
   const getBackgroundImage = (key) => {
     const images = {
@@ -137,24 +143,35 @@ const Events = () => {
 
 {/* Event Handling Section */}
 <div className="flex flex-col sm:flex-row justify-center items-center my-8 gap-4">
-  <input
-    type="text"
-    value={teamCode}
-    onChange={(e) => setTeamCode(e.target.value)}
-    placeholder="Enter Team Code"
-    className="w-full sm:w-auto border-2 bg-opacity-80 border-white bg-black text-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
-  />
+   <input
+          type="text"
+          value={teamCode}
+          onChange={(e) => setTeamCode(e.target.value)}
+          onKeyDown={handleKeyPress}
+          name="text"
+          class="input"
+          placeholder="Type your text"
+        ></input>
   <button
-    onClick={handleJoinTeam}
-    disabled={loading}
-    className={`w-full sm:w-auto border-white bg-opacity-80 bg-black text-gray-300 px-4 py-3 rounded-lg hover:ring-2 hover:ring-indigo-500 hover:border-indigo-500 transition-all duration-300 border-2 ${
-      loading
-        ? "bg-black border-white text-white cursor-not-allowed"
-        : "bg-black border-indigo-500 text-white"
-    }`}
-  >
-    {loading ? "Joining..." : "Join Team"}
-  </button>
+          onClick={handleJoinTeam}
+          disabled={loading}
+          className={`w-full btn sm:w-auto border-white bg-opacity-80 bg-black text-gray-300 px-4 py-3 rounded-lg hover:ring-2 hover:ring-indigo-500 hover:border-indigo-500 transition-all duration-300 border-2 relative overflow-hidden ${
+            loading
+              ? "bg-black border-white text-white cursor-not-allowed"
+              : "bg-black border-indigo-500 text-white"
+          }`}
+        >
+          {/* Circles */}
+          <span className="circle1"></span>
+          <span className="circle2"></span>
+          <span className="circle3"></span>
+          <span className="circle4"></span>
+          <span className="circle5"></span>
+
+          {/* Text */}
+          <span className="text">{loading ? "Joining..." : "Join Team"}</span>
+        </button>
+
 </div>
 
 {/* Back to Categories Button */}
@@ -213,40 +230,6 @@ const Events = () => {
           </button>
         </div>
       ))}
-    </div>
-
-    {/* Horizontal Disc Portal */}
-    <div className="portal-container mt-16 relative flex justify-center items-center">
-      {/* Light Cone */}
-      <div
-        className="light-cone absolute"
-        style={{
-          width: "0",
-          height: "0",
-          borderLeft: "200px solid transparent",
-          borderRight: "200px solid transparent",
-          borderTop: "300px solid rgba(150, 200, 255, 0.3)", // Semi-transparent conical light
-          position: "absolute",
-          top: "-200px", // Adjust height under cards
-          zIndex: "0", // Ensure it's behind cards
-          filter: "blur(8px)",
-        }}
-      />
-      
-      {/* Portal Disc */}
-      <div
-        className="portal-disc"
-        style={{
-          width: "400px",
-          height: "50px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, #6a11cb, #2575fc, #1a2a6c)",
-          boxShadow:
-            "0 0 50px 15px rgba(100, 50, 200, 0.8), 0 0 70px 30px rgba(50, 200, 250, 0.6)",
-          position: "relative",
-          zIndex: "0",
-        }}
-      />
     </div>
   </div>
 )}
