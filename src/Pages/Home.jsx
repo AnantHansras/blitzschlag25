@@ -3,13 +3,13 @@ import homeImage from '../Assets/blitz_home.png';
 import insect from '../Assets/BlitzHome_insect.png';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
-import { FiPlayCircle } from "react-icons/fi";
+import PlayButton from '../Components/PlayButton';
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="h-screen w-full bg-transparent relative overflow-hidden">
       {/* Background Image */}
-      
       <div
         className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{
@@ -39,33 +39,24 @@ const Home = () => {
           />
         </div>
 
-        {/* Date */}
-        <p
-          className="text-xl md:text-3xl tracking-normal font-normal text-[#C0AA67] "
-          style={{
-            fontFamily: "'Metal Mania', cursive",
-            WebkitTextStroke: "0.5px #000000D1",
-            WebkitTextFillColor: "#C0AA67",
-            textShadow: "2px 2px 4px #000000",
-          }}
-        >
-          6th - 9th February, 2025
-        </p>
-
-        {/* Subtitle */}
-        <p className="mt-12 text-2xl md:text-4xl  font-medium text-white flex gap-x-4 ">
-          <span className="bg-clip-text text-transparent pt-2 bg-[linear-gradient(224.46deg,_#724E2C_36.57%,_#F6B168_51.94%,_#5F3F24_73.6%,_#E68E23_117.23%,_#453B2E_130.33%)]" 
-           style={{fontFamily: "'Aclonica', sans-serif"}}>
-            Enter The Dreamland</span>
-            <Link to="/model3d" className="text-[#C0AA67] text-5xl hover:scale-105 hover:text-[#f5db86] transition-all duration-200"><FiPlayCircle /></Link>
-        </p>
+        {/* Date and PlayButton */}
+        <div className="flex justify-center items-center w-full mt-5 gap-5">
+          <p
+            className="text-xl md:text-3xl tracking-normal font-normal text-[#C0AA67] date"
+            style={{
+              fontFamily: "'Metal Mania', cursive",
+              WebkitTextStroke: "0.5px #000000D1",
+              WebkitTextFillColor: "#C0AA67",
+              textShadow: "2px 2px 4px #000000",
+            }}
+          >
+            6th - 9th February, 2025
+          </p>
+          <p><PlayButton/></p>
+        </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Home
-
-
-
+export default Home;

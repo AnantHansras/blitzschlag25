@@ -203,7 +203,7 @@ const advisors_team = [
           {/* Horizontal Scrollable Content */}
           <div
             ref={scrollContainerRef}
-            className="z-10 flex space-x-8 -mt-32 mx-auto justify-center items-center"
+            className="z-10 flex space-x-8 -mt-42 mx-auto justify-center items-center"
             style={{
               whiteSpace: "nowrap",
               maxHeight: "100vh",
@@ -228,7 +228,7 @@ const advisors_team = [
           </div>
     
           {/* Tab Buttons */}
-          <div className="flex justify-center items-center gap-8 -mt-32">
+          <div className="flex justify-center items-center gap-8 mt-6">
             <button
               style={{ fontFamily: "cursive" }}
               className={`relative py-3 border border-black px-8 text-xl font-semibold uppercase text-white bg-transparent rounded-full shadow-lg backdrop-blur-sm transition-all duration-300 transform ${

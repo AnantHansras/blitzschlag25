@@ -178,7 +178,7 @@ const Profile = () => {
           alt="Profile"
           draggable="false"
           style={{ borderColor: 'rgba(130, 96, 89, 0.75)' }}
-          className="min-w-28 min-h-28 sm:w-32 sm:h-32 border-8 object-cover bg-black bg-opacity-75"
+          className="min-w-28 min-h-28 sm:w-32 sm:h-32 border-8 object-cover bg-black bg-opacity-40"
         />
       ) : (
         <div className="w-28 h-28 sm:w-24 sm:h-24 bg-gray-300 flex items-center justify-center">
