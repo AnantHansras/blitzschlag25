@@ -61,7 +61,7 @@ const Events = () => {
 
     setLoading(true);
     try {
-      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/jointeam', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/jointeam`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

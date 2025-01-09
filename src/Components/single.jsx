@@ -31,7 +31,7 @@ const SingleComponent = ({ event }) => {
     setLoading(true);
 
     try {
-      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/joinevent', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/joinevent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -28,7 +28,7 @@ const TeamComponent = ({ event }) => {
     setLoading(true);
   
     try {
-      const response = await fetch('${import.meta.env.VITE_API_BASE_URL}/createteam', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/createteam`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
