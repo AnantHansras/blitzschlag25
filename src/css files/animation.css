@@ -1,32 +1,18 @@
-.autoShow{
-    animation: autoShowAnimation both;
-    animation-timeline: view(70% 5%);
-}
-
-@keyframes autoShowAnimation{
-    from{
-        opacity: 0;
-        transform: translate(200px) scale(0.3);
-    }
-    to{
-        opacity: 100;
-        transform: translate(0) scale(1);
-    }
-}
-
-.boxAnimation{
-    animation: appear linear;
-    animation-timeline: view();
-    animation-range: entry 0% cover 40%;
-}
-
-@keyframes appear {
-    from{
-        opacity: 0;
-        scale: 0;
-    }
-    to{
-        opacity: 100;
-        scale: 1;
-    }
-}
+.fade-text {
+    font-size: 50px;
+    background: linear-gradient(45deg, #ff6a00, #ee0979, #ff00b9);
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    animation: glowAnimation 3s ease-in-out infinite;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  

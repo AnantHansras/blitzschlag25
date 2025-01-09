@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Home from "./Home";
-import Footer from "../Components/Footer";
+import Event from "./Event";
 import Team from "./Team";
-import Sponsor from "./Sponsor";
-import CampusEmbassador from "./CampusEmbassador";
 import EventImg from "../Assets/eventbg.jpg";
 import "../css files/animation.css";
 import Transition from "../transition";
-import Event from "./Event";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import mnitlogo from "../Assets/mnitlogo.png";
@@ -36,53 +33,53 @@ import {
 const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
 const FadeUp = batch(Fade(), Move(), Sticky());
 
-const Spin = (cycle) => ({
-  in: {
-    style: {
-      transform: (p) => `rotate(${p * 360 * cycle}deg)`,
-    },
-  },
-  out: {
-    style: {
-      transform: (p) => `rotate(${p * 360 * cycle}deg)`,
-    },
-  },
-});
+// Custom Hook to handle scroll progress
+const useScrollProgress = (threshold, onThresholdReached) => {
+  const observer = useRef();
 
-const EventL = () => {
-  return (
-    <Animator animation={FadeUp}>
-      <div
-        className="h-screen w-full bg-cover bg-center boxAnimation"
-        style={{
-          backgroundImage: `url(${EventImg})`,
-        }}
-      >
-        <div
-          style={{ fontFamily: '"Amarante", serif' }}
-          className="h-full w-full flex items-center justify-center bg-black bg-opacity-50 text-white text-center px-4"
-        >
-          <h1 className="text-lg md:text-8xl font-bold">Events</h1>
-        </div>
-      </div>
-    </Animator>
-  );
+  useEffect(() => {
+    const options = {
+      threshold,
+    };
+
+    observer.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          onThresholdReached(entry.target.id); // Pass the section ID when the threshold is reached
+        }
+      });
+    }, options);
+
+    const sections = document.querySelectorAll(".scroll-section");
+    sections.forEach((section) => observer.current.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.current.unobserve(section));
+    };
+  }, [threshold, onThresholdReached]);
 };
 
-// LandingPage Component
 const LandingPage = () => {
+ 
+  // useScrollProgress(0.3, handleScrollProgress); // Trigger at 30% threshold
+
   return (
     <ScrollContainer>
       {/* Home Section */}
-      <ScrollPage>
-        <Animator animation={batch(Fade(), Sticky(), MoveOut(0, -800))}>
-          <div className="h-screen w-screen">
+      {/* <ScrollPage>
+        <Animator animation={ZoomInScrollOut}>
+          <div
+            id="Home"
+            className="scroll-section h-screen w-screen"
+          > */}
             <Home />
-          </div>
+          {/* </div>
         </Animator>
-      </ScrollPage>
+      </ScrollPage> */}
       <ScrollPage>
-  <Animator animation={batch(Sticky(), Fade(), Spin(3))}>
+  <Animator animation={ZoomInScrollOut}>
+    <div className="w-screen h-screen flex justify-center items-center">
+      
     <h1
       style={{
         fontSize: "50px",
@@ -95,27 +92,26 @@ const LandingPage = () => {
         letterSpacing: "2px",
         animation: "glowAnimation 3s ease-in-out infinite",
       }}
-    >
-      Events
+      >
+      Event
     </h1>
+      </div>
   </Animator>
 </ScrollPage>
-
-
-
 
       {/* Event Section */}
       <ScrollPage>
         <Animator animation={ZoomInScrollOut}>
-          <div className="h-screen w-screen">
+          <div
+            id="Event"
+            className="scroll-section h-screen w-screen "
+          >
             <Event />
           </div>
         </Animator>
       </ScrollPage>
-
-      {/* Sponsor Section */}
       <ScrollPage>
-  <Animator animation={batch(Sticky(), Fade(), Spin(3))}>
+  <Animator animation={ZoomInScrollOut}>
     <h1
       style={{
         fontSize: "50px",
@@ -134,16 +130,17 @@ const LandingPage = () => {
   </Animator>
 </ScrollPage>
 
-      {/* Event Section */}
+      {/* Team Section */}
       <ScrollPage>
         <Animator animation={ZoomInScrollOut}>
-          <div className="h-screen w-screen">
+          <div
+            id="Team"
+            className="scroll-section h-screen w-screen"
+          >
             <Team />
           </div>
         </Animator>
       </ScrollPage>
-
-      {/* Team Section */}
       <ScrollPage>
         <Animator animation={batch(StickyIn(), FadeIn())}>
           <div
