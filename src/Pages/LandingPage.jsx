@@ -4,8 +4,13 @@ import Event from "./Event";
 import Team from "./Team";
 import EventImg from "../Assets/eventbg.jpg";
 import "../css files/animation.css";
+import Transition from "../transition";
+import Event from "./Event";
+import Login from "./Login";
+import SignUp from "./SignUp";
 import mnitlogo from "../Assets/mnitlogo.png";
 import clublogo from "../Assets/culturalclublogo.png";
+import "../css files/landing.css";
 
 import {
   Animator,
@@ -265,4 +270,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default Transition(LandingPage);

@@ -27,6 +27,7 @@ const Home = () => {
               fontFamily: "'Metal Mania', cursive",
               WebkitTextStroke: "3px #D4BF927D",
               WebkitTextFillColor: "#FFFBFB",
+              textShadow: "0 0 5px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(255, 255, 255, 0.4)"
             }}
           >
             BLITZSCHLAG' 25
@@ -38,7 +39,6 @@ const Home = () => {
             className="absolute -top-28 left-[50%] md:left-[93%] w-16 md:w-28"
           />
         </div>
-
         {/* Date and PlayButton */}
         <div className="flex justify-center items-center w-full mt-5 gap-5">
           <p

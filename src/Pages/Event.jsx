@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import eventData from "../data/eventData";
-import SingleComponent from "../Components/single";
-import TeamComponent from "../Components/team";
-import eventbg from "../Assets/loginbg.jpg";
-import { auth } from "../../firebase";
+import eventData from "../data/eventData"; 
+import SingleComponent from "../Components/single"; 
+import TeamComponent from "../Components/team"; 
+import eventbg from "../Assets/loginbg.jpg"; 
+import Transition from "../transition";
+import { auth } from "../../firebase"; 
 import "../css files/events.css";
-import Drawer from "react-modern-drawer"; // Import the Drawer component
+import Drawer from 'react-modern-drawer'; // Import the Drawer component
+import { CardBody, CardContainer, CardItem } from "../Components/3dcard";
 
 const Events = () => {
   const [uid, setUid] = useState(null); // State for storing the UID
@@ -138,9 +140,11 @@ const Events = () => {
         backgroundAttachment: "fixed",
       }}
     >
-      <h1 className="text-4xl sm:text-5xl font-bold mt-12 text-center text-white tracking-widest">
-        Event
-      </h1>
+=======
+<h1 style={{ fontFamily: '"Amarante", serif' }}
+      className="text-center text-7xl mb-8 font-normal bg-gradient-to-r from-[#071182] via-[#989898] to-[#50FFF0] bg-clip-text text-transparent">
+  Event
+</h1>
 
       {/* Event Handling Section */}
       <div className="flex flex-col sm:flex-row justify-center items-center my-8 gap-4">
@@ -235,7 +239,6 @@ const Events = () => {
           </div>
         </div>
       )}
-
       {/* Horizontal Disc Portal */}
       {!showEvents && (
         <div className="portal-container mt-16 relative flex justify-center items-center  ">
@@ -386,4 +389,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default Transition(Events);
