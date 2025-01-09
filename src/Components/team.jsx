@@ -50,6 +50,8 @@ const TeamComponent = ({ event }) => {
         }
       } else {
         toast.success("Team created successfully!");
+        // Abhinav
+        alert(data.code);
         setTeamName(''); // Clear the team name after success
       }
     } catch (error) {
