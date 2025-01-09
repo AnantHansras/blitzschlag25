@@ -6,8 +6,6 @@ import loginbg from '../Assets/loginbg.jpg'; // Import the background image
 import { toast, ToastContainer } from 'react-toastify'; // Import Toastify functions
 import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 
-const baseurl = "http://localhost:5000/blitzschlag-25/us-central1/api";
-
 const SignUp = () => {
   const [userName, setUserName] = useState('');
   const [pwd, setPwd] = useState('');
@@ -49,7 +47,7 @@ const SignUp = () => {
       };
 
       // Send user data to the backend for Firestore storage
-      const response = await fetch(`${baseurl}/signup`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
