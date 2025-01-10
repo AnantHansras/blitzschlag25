@@ -7,8 +7,46 @@ import "react-modern-drawer/dist/index.css";
 import logo from "../Assets/blitz_logo.png";
 import { auth } from "../../firebase"; // Assuming you have a firebase.js file where auth is initialized
 import "../css files/navbar.css";
-import { FaHome, FaInfoCircle, FaUser, FaCalendarAlt, FaUsers, FaHandHoldingHeart, FaSignInAlt, FaSignOutAlt, FaTicketAlt, FaCubes, FaMusic } from "react-icons/fa";
+import {
+  FaHome,
+  FaInfoCircle,
+  FaUser,
+  FaCalendarAlt,
+  FaUsers,
+  FaHandHoldingHeart,
+  FaSignInAlt,
+  FaSignOutAlt,
+  FaTicketAlt,
+  FaCubes,
+  FaMusic,
+} from "react-icons/fa";
+import styled from "styled-components";
+import { Check } from "lucide-react";
 
+const Checkbox = ({ isDrawerOpen, setIsDrawerOpen }) => {
+  const handleChange = () => {
+    setIsDrawerOpen(!isDrawerOpen); // Toggle drawer state
+  };
+
+  return (
+    <StyledWrapper>
+      <label className="hamburger">
+        <input
+          type="checkbox"
+          checked={isDrawerOpen}
+          onChange={handleChange} // Toggle state on change
+        />
+        <svg viewBox="0 0 32 32">
+          <path
+            className="line line-top-bottom"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+          />
+          <path className="line" d="M7 16 27 16" />
+        </svg>
+      </label>
+    </StyledWrapper>
+  );
+};
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -78,8 +116,7 @@ const Navbar = () => {
               Login
             </Link>
           ) : (
-            <>
-            </>
+            <></>
           )}
           {user && (
             <Link
@@ -98,129 +135,129 @@ const Navbar = () => {
         </div>
 
         {/* Drawer Icon */}
-        <div
-          onClick={toggleDrawer}
-          className="cursor-pointer text-2xl px-4"
-        >
-          <FaBars />
+        <div onClick={toggleDrawer} className="cursor-pointer text-2xl px-4">
+          <Checkbox
+            isDrawerOpen={isDrawerOpen}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
         </div>
       </div>
 
       {/* Drawer for Mobile Navigation */}
       <Drawer
-  open={isDrawerOpen}
-  onClose={toggleDrawer}
-  direction="right"
-  style={{
-    backgroundColor: "transparent", // Custom background color
-  }}
-  size={300}
->
-  <div className="flex flex-col items-left p-10 bg-black bg-opacity-100 h-full overflow-y-scroll">
-    <Link
-      to="/"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaHome className="mr-2" />
-      Home
-    </Link>
-    <Link
-      to="/about"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaInfoCircle className="mr-2" />
-      About
-    </Link>
-    <Link
-      to="/sponsor"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaHandHoldingHeart className="mr-2" />
-      Sponsor
-    </Link>
-    <Link
-      to="/our_team"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaUsers className="mr-2" />
-      Our Team
-    </Link>
-    <Link
-      to="/schedule"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaCalendarAlt className="mr-2" />
-      Schedule
-    </Link>
-    {user && (
-      <Link
-        to="/profile"
-        className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-        onClick={toggleDrawer}
+        open={isDrawerOpen}
+        onClose={toggleDrawer}
+        direction="right"
+        style={{
+          backgroundColor: "transparent", // Custom background color
+        }}
+        size={300}
       >
-        <FaUser className="mr-2" />
-        Profile
-      </Link>
-    )}
-    <Link
-      to="/campus_embassador"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaUsers className="mr-2"/>
-         Embassador
-    </Link>
-    <Link
-      to="/pronites"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaMusic className="mr-2" />
-      ProNites
-    </Link>
-    <Link
-      to="/pass"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaTicketAlt className="mr-2" />
-      Pass
-    </Link>
-    {!user ? (
-      <>
-        <Link
-          to="/signup"
-          className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-          onClick={toggleDrawer}
-        >
-          <FaSignOutAlt className="mr-2" />
-          Sign Up
-        </Link>
-        <Link
-          to="/login"
-          className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-          onClick={toggleDrawer}
-        >
-          <FaSignInAlt className="mr-2" />
-          Login
-        </Link>
-      </>
-    ) : null}
-    <Link
-      to="/event"
-      className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
-      onClick={toggleDrawer}
-    >
-      <FaCalendarAlt className="mr-2" />
-      Event
-    </Link>
-  </div>
-</Drawer>
+        <div className="flex flex-col items-left p-10 bg-black bg-opacity-100 h-full overflow-y-scroll">
+          <Link
+            to="/"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaHome className="mr-2" />
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaInfoCircle className="mr-2" />
+            About
+          </Link>
+          <Link
+            to="/sponsor"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaHandHoldingHeart className="mr-2" />
+            Sponsor
+          </Link>
+          <Link
+            to="/our_team"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaUsers className="mr-2" />
+            Our Team
+          </Link>
+          <Link
+            to="/schedule"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaCalendarAlt className="mr-2" />
+            Schedule
+          </Link>
+          {user && (
+            <Link
+              to="/profile"
+              className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+              onClick={toggleDrawer}
+            >
+              <FaUser className="mr-2" />
+              Profile
+            </Link>
+          )}
+          <Link
+            to="/campus_embassador"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaUsers className="mr-2" />
+            Embassador
+          </Link>
+          <Link
+            to="/pronites"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaMusic className="mr-2" />
+            ProNites
+          </Link>
+          <Link
+            to="/pass"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaTicketAlt className="mr-2" />
+            Pass
+          </Link>
+          {!user ? (
+            <>
+              <Link
+                to="/signup"
+                className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+                onClick={toggleDrawer}
+              >
+                <FaSignOutAlt className="mr-2" />
+                Sign Up
+              </Link>
+              <Link
+                to="/login"
+                className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+                onClick={toggleDrawer}
+              >
+                <FaSignInAlt className="mr-2" />
+                Login
+              </Link>
+            </>
+          ) : null}
+          <Link
+            to="/event"
+            className="flex items-center px-4 py-2 mb-4 text-xl hover:text-indigo-400"
+            onClick={toggleDrawer}
+          >
+            <FaCalendarAlt className="mr-2" />
+            Event
+          </Link>
+        </div>
+      </Drawer>
 
       {/* Logout Modal */}
       {showLogoutModal && (
@@ -248,5 +285,59 @@ const Navbar = () => {
     </div>
   );
 };
+
+const StyledWrapper = styled.div`
+  .hamburger {
+    cursor: pointer;
+    display: inline-block;
+    position: relative; /* Ensures proper stacking */
+    z-index: 9999; /* Ensures it's above the navbar or drawer */
+    width: 50px;
+    height: 50px;
+  }
+
+  .hamburger input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Hides the checkbox but keeps it clickable */
+    cursor: pointer;
+    z-index: 9999; /* Ensures it's clickable */
+  }
+
+  .hamburger svg {
+    width: 100%;
+    height: 100%;
+    z-index: 9999; /* Ensures the icon is visible above other elements */
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .line {
+    fill: none;
+    stroke: white;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .line-top-bottom {
+    stroke-dasharray: 12 63;
+  }
+
+  .hamburger input:checked + svg {
+    transform: rotate(-45deg); /* Cross effect */
+  }
+
+  .hamburger input:checked + svg .line-top-bottom {
+    stroke-dasharray: 20 300;
+    stroke-dashoffset: -32.42;
+  }
+`;
+
+
 
 export default Navbar;
