@@ -10,6 +10,7 @@ import SignUp from "./SignUp";
 import mnitlogo from "../Assets/mnitlogo.png";
 import clublogo from "../Assets/culturalclublogo.png";
 import "../css files/landing.css";
+import LandingEvent from "./LandingEvent";
 
 import {
   Animator,
@@ -91,6 +92,7 @@ const LandingPage = () => {
         textShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
         letterSpacing: "2px",
         animation: "glowAnimation 3s ease-in-out infinite",
+        fontFamily:"Amrante serif",
       }}
       >
       Event
@@ -123,6 +125,7 @@ const LandingPage = () => {
         textShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
         letterSpacing: "2px",
         animation: "glowAnimation 3s ease-in-out infinite",
+        fontFamily:"Amrante serif",
       }}
     >
       Team
