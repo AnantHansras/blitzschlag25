@@ -66,12 +66,7 @@ const AboutUs = () => {
           >
             <h2 className="text-4xl font-bold mb-4">About Blitzschlag</h2>
             <p className="text-gray-300 mb-6">
-              With immense pride, we present you BLITZSCHLAG 2025, the 2nd largest annual Cultural
-              Festival of Rajasthan and the pearl of the eyes of the Malaviya National Institute of
-              Technology Jaipur that ignites the spirit of the entire MNIT community! From February
-              6th to 8th, 2025, immerse yourselves in a whirlwind of captivating experiences.
-              Unleash your artistic talents across diverse platforms, witness breathtaking
-              performances, and be a part of an electrifying celebration of human expression.
+            Blitzschlag 2025, the much-awaited annual fest, is all set to take place from the 7th to the 9th of February 2025. This grand celebration of art, culture, and technology promises an unforgettable experience for everyone. With a perfect blend of electrifying performances, innovative competitions, and insightful workshops, Blitzschlag offers something for every enthusiast. It’s more than just an event; it’s a platform to showcase talent, ignite creativity, and connect with like-minded individuals. Get ready to immerse yourself in three days of excitement, inspiration, and endless memories.
             </p>
           </motion.div>
         </section>

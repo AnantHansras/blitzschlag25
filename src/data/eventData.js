@@ -235,7 +235,7 @@ const eventData = {
         "description": "PANACHE 2025 is a fashion show organized by Malaviya National Institute of Technology, aimed at redefining style, expressiveness, charisma, and glamour. It brings an opportunity to showcase the best trends, both past and present, with creativity, panache, and confidence.",
         "maxTeamSize": 15,
         "eventPath": "panache",
-        "imgUrl": "/Event_background.jpg",
+        "imgUrl": "src\Assets\panache.jpg",
         "club": "none",
         "type": "flagship"
     },
@@ -247,7 +247,7 @@ const eventData = {
         "description": "TAMASHA is a celebration of the raw, unfiltered power of storytelling and social commentary through Nukkad Natak. It blends laughter with social commentary, reminding you that sometimes the real show happens off the main stage.",
         "maxTeamSize": 15,
         "eventPath": "tamasha",
-        "imgUrl": "/Event_background.jpg",
+        "imgUrl": "src/Assets/panache.jpg",
         "club": "none",
         "type": "flagship"
     },
@@ -259,7 +259,7 @@ const eventData = {
         "description": "BATTLE OF BANDS is where amplified passion meets fierce competition. Watch local bands compete for the coveted title of 'Best Band on Campus,' showcasing their original compositions and captivating the audience with their musical mastery.",
         "maxTeamSize": 10,
         "eventPath": "battle-of-bands",
-        "imgUrl": "/Event_background.jpg",
+        "imgUrl": "src/Assets/panache.jpg",
         "club": "none",
         "type": "flagship"
     },
@@ -271,7 +271,7 @@ const eventData = {
         "description": "RAMBA SAMBA 2025 offers a captivating journey through diverse dance styles, blending traditional and contemporary movements. Teams will showcase their creativity through breathtaking choreographies, electrifying energy, and heart-throbbing performances, celebrating the magic of collective movement.",
         "maxTeamSize": 15,
         "eventPath": "ramba-samba",
-        "imgUrl": "/Event_background.jpg",
+        "imgUrl": "src/Assets/ramba_samba.jpg",
         "club": "none",
         "type": "flagship"
     }
