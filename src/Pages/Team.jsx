@@ -141,10 +141,77 @@ const advisors_team = [
     position: "Advisor to General Secretary + Operational Management",
     img: ankit,
   },
+  {
+    name: "Krithik Mohan",
+    position: "Advisor to VP + Cultural Secretary",
+    img: krithik,
+  },
+  {
+    name: "Jasneet Singh",
+    position: "Advisor to Logistics + Decor Secretary",
+    img: jassi,
+  },
+  {
+    name: "Vidit Awasthi",
+    position: "Advisor to President",
+    img: vidit,
+  },
+  {
+    name: "Madhvendra Singh",
+    position: "Advisor to Logistics + Decor Secretary",
+    img: mad,
+  },
+  {
+    name: "Rudra Purohit",
+    position: "Advisor to Marketing Secretary",
+    img: rudra,
+  },
+  {
+    name: "Ronak Gupta",
+    position: "Advisor to Technical Secretary",
+    img: ronak,
+  },
+  {
+    name: "Ankit Sharma",
+    position: "Advisor to General Secretary + Operational Management",
+    img: ankit,
+  },
   
 ];
 
 const special_mention=[
+  {
+    name:"Vinay Tanwar",
+    position:"",
+    img:vinaytanwawr,
+  },
+  {
+    name:"Ashok Kumar Meena",
+    position:"",
+    img: ashokkumarmeena,
+  },
+  {
+    name:"Simi Chaudhary",
+    position:"",
+    img: simichaudhary,
+    
+  },
+  {
+    name:"Vinay Tanwar",
+    position:"",
+    img:vinaytanwawr,
+  },
+  {
+    name:"Ashok Kumar Meena",
+    position:"",
+    img: ashokkumarmeena,
+  },
+  {
+    name:"Simi Chaudhary",
+    position:"",
+    img: simichaudhary,
+    
+  },
   {
     name:"Vinay Tanwar",
     position:"",
@@ -176,7 +243,7 @@ const Team = () => {
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
-    const scrollSpeed = 2; // Adjust the speed
+    const scrollSpeed = 8; // Adjust the speed
 
     const scroll = () => {
       if (scrollContainer) {
@@ -221,7 +288,7 @@ const Team = () => {
 
       {/* Heading */}
       <h2
-        className="text-center tracking-wider mx-auto mb-20 font-bold text-5xl text-white mt-24 z-20 mb-0 drop-shadow-lg"
+        className="text-center tracking-wider mx-auto mb-20 font-bold text-5xl text-white mt-24 z-20 drop-shadow-lg"
         style={{ fontFamily: "'Metal Mania', cursive" }}
       >
         {activeTab === "advisors"
@@ -290,7 +357,3 @@ const Team = () => {
 };
 
 export default Team;
-    
-    
-    
-    
