@@ -24,6 +24,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Tooltip } from 'react-tooltip';
 import SplashScreen from './Pages/SplashScreen';
+import LeaderBoard from './Pages/LeaderBoard';
 function App() {
   
   const location = useLocation();
@@ -159,6 +160,8 @@ function App() {
               <Routes>
                 <Route path="" element={<LandingPage />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/about" element={<LeaderBoard />} />
+
                 <Route path="/event" element={<Event />} />
                 <Route path="/sponsor" element={<Sponsor />} />
                 <Route path="/our_team" element={<Team />} />
