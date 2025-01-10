@@ -45,7 +45,7 @@ const Home = () => {
         {/* Date and PlayButton */}
         <div className=" w-full space-y-10 ">
           <p
-            className="text-xl md:text-3xl tracking-normal font-normal text-[#C0AA67] date"
+            className="text-xl mt-8 md:text-3xl tracking-normal font-normal text-[#C0AA67] date"
             style={{
               fontFamily: "'Metal Mania', cursive",
               WebkitTextStroke: "0.5px #000000D1",
